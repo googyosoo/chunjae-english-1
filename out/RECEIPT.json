@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-10-17T21:54:20.377747+00:00",
+  "files": {
+    "src/services/teacherService.ts": {
+      "sha256": "e0f2b2beee8a59c17fc838a8d423b4fbb8d8ebe597a120ad91c6a3abdd67f428",
+      "bytes": 16929
+    },
+    "src/services/teacherService.test.ts": {
+      "sha256": "c3c204de825c46e83ec063b7d9ccb01938d572d1af93e8d5534b0890f69ac20d",
+      "bytes": 9595
+    },
+    "src/types/teacher.ts": {
+      "sha256": "7871ad2e54ce94b105873c5d137d739402a93cc511e29aa84c2c251fe1ec4404",
+      "bytes": 2830
+    },
+    "src/components/teacher/TeacherDashboardModal.tsx": {
+      "sha256": "16606b8095e0c925666994050bf622fc91265b79919f792846fa3eea524ab7b7",
+      "bytes": 45048
+    },
+    "tests/teacher-studio.spec.ts": {
+      "sha256": "88f21db75552812276965201188ff84588e448be6d68f8c2849077cf673974ff",
+      "bytes": 8675
+    }
+  }
+}

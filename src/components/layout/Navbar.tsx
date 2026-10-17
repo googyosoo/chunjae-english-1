@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserProfile, SCHOOL_NAME } from '../../types/auth';
 import { TTSService } from '../../services/ttsService';
-import { BookOpen, Monitor, Smartphone, Volume2, Bookmark, LogOut } from 'lucide-react';
+import { BookOpen, Monitor, Smartphone, Volume2, Bookmark, LogOut, LayoutDashboard } from 'lucide-react';
 
 interface NavbarProps {
   user: UserProfile | null;
@@ -11,6 +11,7 @@ interface NavbarProps {
   onModeChange: (mode: 'student' | 'teacher') => void;
   onOpenVocab: () => void;
   onSelectLessonList?: () => void;
+  onOpenTeacherDashboard?: () => void;
   onLogout: () => void;
 }
 
@@ -22,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onModeChange,
   onOpenVocab,
   onSelectLessonList,
+  onOpenTeacherDashboard,
   onLogout,
 }) => {
   const [playbackRate, setPlaybackRate] = useState<number>(1.0);
@@ -90,29 +92,42 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </div>
 
-          {/* Teacher Only: Projector Mode Switcher (교사에게만 노출) */}
+          {/* Teacher Only: Projector Mode Switcher & Teacher Dashboard (교사에게만 노출) */}
           {isTeacher && (
-            <div className="flex items-center bg-slate-100 rounded-lg p-0.5 border border-slate-200">
-              <button
-                onClick={() => onModeChange('student')}
-                aria-label="학생 모드로 보기"
-                className={`px-2 py-1 rounded text-xs font-semibold transition-all ${
-                  currentMode === 'student' ? 'bg-indigo-600 text-white shadow-2xs' : 'text-slate-600'
-                }`}
-              >
-                <Smartphone className="w-3.5 h-3.5 sm:hidden" />
-                <span className="hidden sm:inline">학생 뷰</span>
-              </button>
-              <button
-                onClick={() => onModeChange('teacher')}
-                aria-label="교사용 수업 모드로 전환"
-                className={`px-2 py-1 rounded text-xs font-semibold transition-all ${
-                  currentMode === 'teacher' ? 'bg-emerald-600 text-white shadow-2xs' : 'text-slate-600'
-                }`}
-              >
-                <Monitor className="w-3.5 h-3.5 sm:hidden" />
-                <span className="hidden sm:inline">수업 모드</span>
-              </button>
+            <div className="flex items-center gap-1.5">
+              <div className="flex items-center bg-slate-100 rounded-lg p-0.5 border border-slate-200">
+                <button
+                  onClick={() => onModeChange('student')}
+                  aria-label="학생 모드로 보기"
+                  className={`px-2 py-1 rounded text-xs font-semibold transition-all ${
+                    currentMode === 'student' ? 'bg-indigo-600 text-white shadow-2xs' : 'text-slate-600'
+                  }`}
+                >
+                  <Smartphone className="w-3.5 h-3.5 sm:hidden" />
+                  <span className="hidden sm:inline">학생 뷰</span>
+                </button>
+                <button
+                  onClick={() => onModeChange('teacher')}
+                  aria-label="교사용 수업 모드로 전환"
+                  className={`px-2 py-1 rounded text-xs font-semibold transition-all ${
+                    currentMode === 'teacher' ? 'bg-emerald-600 text-white shadow-2xs' : 'text-slate-600'
+                  }`}
+                >
+                  <Monitor className="w-3.5 h-3.5 sm:hidden" />
+                  <span className="hidden sm:inline">수업 모드</span>
+                </button>
+              </div>
+
+              {onOpenTeacherDashboard && (
+                <button
+                  onClick={onOpenTeacherDashboard}
+                  aria-label="교사용 대시보드 열기"
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-2xs transition-all cursor-pointer"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">교사 대시보드</span>
+                </button>
+              )}
             </div>
           )}
 

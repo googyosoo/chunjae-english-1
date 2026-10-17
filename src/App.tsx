@@ -25,6 +25,10 @@ import { Loader2, AlertCircle, ShieldAlert } from 'lucide-react';
 import { LessonDataSchema } from './schemas/lessonSchema';
 import { LessonSelectHub, LessonSummaryInfo } from './components/layout/LessonSelectHub';
 import { WorkTogetherView } from './components/corners/WorkTogetherView';
+import { TeacherDashboardModal } from './components/teacher/TeacherDashboardModal';
+import { TeacherService } from './services/teacherService';
+import { CornerLockState } from './types/teacher';
+import { Lock } from 'lucide-react';
 
 const getInitialLessonId = (): string => {
   if (typeof window !== 'undefined') {
@@ -58,6 +62,8 @@ export const App: React.FC = () => {
   const [isVocabOpen, setIsVocabOpen] = useState<boolean>(false);
   const [showTeacherAnswers, setShowTeacherAnswers] = useState<boolean>(false);
   const [completedCorners, setCompletedCorners] = useState<string[]>([]);
+  const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState<boolean>(false);
+  const [cornerLocks, setCornerLocks] = useState<CornerLockState[]>([]);
 
   // 브라우저 뒤로가기/앞으로가기 시 URL의 ?lesson= 파라미터 동기화
   useEffect(() => {
@@ -145,12 +151,17 @@ export const App: React.FC = () => {
     fetchLesson();
   }, [user, selectedLessonId]);
 
-  // 3. 진도 데이터 로드 및 역할 분기
+  // 3. 진도 데이터 로드 및 역할/잠금 분기
   const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'special-lesson' ? 6 : selectedLessonId === 'lesson-05' ? 5 : selectedLessonId === 'lesson-04' ? 4 : selectedLessonId === 'lesson-03' ? 3 : selectedLessonId === 'lesson-02' ? 2 : 1);
   useEffect(() => {
     if (user) {
       StorageService.getProgressAsync(user, currentLessonNum).then((progress) => {
         setCompletedCorners(progress.completedCorners);
+      });
+
+      const classId = `g${user.grade || 1}_c${user.classNumber || 1}`;
+      TeacherService.getCornerLocksAsync(classId).then((locks) => {
+        setCornerLocks(locks);
       });
 
       if (user.role === 'teacher') {
@@ -310,6 +321,7 @@ export const App: React.FC = () => {
         }}
         onOpenVocab={() => setIsVocabOpen(true)}
         onSelectLessonList={() => setIsHubOpen(true)}
+        onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
         onLogout={handleLogout}
       />
 
@@ -339,6 +351,7 @@ export const App: React.FC = () => {
             onSelectCorner={setActiveCornerId}
             completedCorners={completedCorners}
             corners={lessonData?.corners}
+            lockedCornerIds={cornerLocks.filter(l => l.lessonNumber === currentLessonNum && l.isLocked).map(l => l.cornerId)}
           />
 
           {/* Main Learning Canvas */}
@@ -373,62 +386,80 @@ export const App: React.FC = () => {
               </div>
             )}
 
-            {/* 교과서 데이터 렌더링 (로그인 및 데이터 로드 완료 시) */}
-            {user && lessonData && !isLessonLoading && (
-              <>
-                {activeCornerId === 'introduction' && (
-                  <IntroView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-                )}
-                {activeCornerId === 'communicate' && (
-                  <CommunicateView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} />
-                )}
-                {activeCornerId === 'read' && (
-                  <ReadView
-                    lesson={lessonData}
-                    showTeacherAnswers={showTeacherAnswers}
-                    onSelectSentence={setSelectedSentence}
-                  />
-                )}
-                {activeCornerId === 'after_read' && (
-                  lessonData.lessonNumber === 6 ? (
+            {/* 코너 잠금 안내 화면 (학생 계정 및 현재 코너가 잠겨있을 때) */}
+            {user && user.role === 'student' && TeacherService.isCornerLocked(currentLessonNum, activeCornerId, cornerLocks) ? (
+              <div className="py-20 text-center max-w-md mx-auto space-y-4 bg-white rounded-3xl p-8 border border-rose-200 shadow-xl">
+                <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-200">
+                  <Lock className="w-8 h-8" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-base font-bold text-slate-900">선생님이 현재 이 코너를 잠가두었습니다</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    수업 진도 및 공정한 평가를 위해 교사가 일시적으로 접근을 통제하고 있습니다. 담당 선생님의 수업 지시에 따라주세요.
+                  </p>
+                </div>
+                <div className="p-3 bg-slate-50 rounded-xl text-[11px] font-mono text-slate-500">
+                  Lesson {currentLessonNum} · {activeCornerId} (Lock Enforced)
+                </div>
+              </div>
+            ) : (
+              /* 교과서 데이터 렌더링 (로그인 및 잠금 해제 상태일 때) */
+              user && lessonData && !isLessonLoading && (
+                <>
+                  {activeCornerId === 'introduction' && (
+                    <IntroView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  )}
+                  {activeCornerId === 'communicate' && (
+                    <CommunicateView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} />
+                  )}
+                  {activeCornerId === 'read' && (
                     <ReadView
-                      lesson={{
-                        ...lessonData,
-                        corners: [
-                          {
-                            ...lessonData.corners.find(c => c.id === 'after_read')!,
-                            id: 'read' as any,
-                          }
-                        ]
-                      }}
+                      lesson={lessonData}
                       showTeacherAnswers={showTeacherAnswers}
                       onSelectSentence={setSelectedSentence}
                     />
-                  ) : (
-                    <AfterReadView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-                  )
-                )}
-                {activeCornerId === 'share_thoughts' && (
-                  <ShareThoughtsView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-                )}
-                {activeCornerId === 'language_focus' && (
-                  <LanguageFocusView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-                )}
-                {activeCornerId === 'write_present' && (
-                  <WritingView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-                )}
-                {activeCornerId === 'go_global' && (
-                  <WrapUpView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-                )}
-                {activeCornerId === 'work_together' && (
-                  <WorkTogetherView
-                    activityData={lessonData.corners.find(c => c.id === 'work_together')?.activities?.[0]}
-                    showTeacherAnswers={showTeacherAnswers}
-                    lesson={lessonData}
-                    user={user}
-                  />
-                )}
-              </>
+                  )}
+                  {activeCornerId === 'after_read' && (
+                    lessonData.lessonNumber === 6 ? (
+                      <ReadView
+                        lesson={{
+                          ...lessonData,
+                          corners: [
+                            {
+                              ...lessonData.corners.find(c => c.id === 'after_read')!,
+                              id: 'read' as any,
+                            }
+                          ]
+                        }}
+                        showTeacherAnswers={showTeacherAnswers}
+                        onSelectSentence={setSelectedSentence}
+                      />
+                    ) : (
+                      <AfterReadView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                    )
+                  )}
+                  {activeCornerId === 'share_thoughts' && (
+                    <ShareThoughtsView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  )}
+                  {activeCornerId === 'language_focus' && (
+                    <LanguageFocusView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  )}
+                  {activeCornerId === 'write_present' && (
+                    <WritingView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  )}
+                  {activeCornerId === 'go_global' && (
+                    <WrapUpView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  )}
+                  {activeCornerId === 'work_together' && (
+                    <WorkTogetherView
+                      activityData={lessonData.corners.find(c => c.id === 'work_together')?.activities?.[0]}
+                      showTeacherAnswers={showTeacherAnswers}
+                      lesson={lessonData}
+                      user={user}
+                    />
+                  )}
+                </>
+              )
             )}
           </main>
         </>
@@ -447,6 +478,21 @@ export const App: React.FC = () => {
           sentence={selectedSentence}
           onClose={() => setSelectedSentence(null)}
           lessonContextText=""
+        />
+      )}
+
+      {/* Teacher Dashboard Modal (교사용 학급 운영 스튜디오) */}
+      {user && user.role === 'teacher' && (
+        <TeacherDashboardModal
+          isOpen={isTeacherDashboardOpen}
+          onClose={() => {
+            setIsTeacherDashboardOpen(false);
+            // 모달 닫힐 때 최신 잠금 상태 동기화
+            const classId = `g${user.grade || 1}_c${user.classNumber || 1}`;
+            TeacherService.getCornerLocksAsync(classId).then(setCornerLocks);
+          }}
+          user={user}
+          currentLessonNumber={currentLessonNum}
         />
       )}
     </div>

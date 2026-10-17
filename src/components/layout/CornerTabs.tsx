@@ -1,12 +1,13 @@
 import React from 'react';
 import { CornerId } from '../../types/lesson';
-import { Sparkles, MessageSquare, BookOpen, CheckSquare, Users, BookMarked, PenTool, Award, Check } from 'lucide-react';
+import { Sparkles, MessageSquare, BookOpen, CheckSquare, Users, BookMarked, PenTool, Award, Check, Lock } from 'lucide-react';
 
 interface CornerTabsProps {
   activeCornerId: CornerId;
   onSelectCorner: (id: CornerId) => void;
   completedCorners: string[];
   corners?: { id: CornerId; titleKo?: string; titleEn?: string; pageRange?: string }[];
+  lockedCornerIds?: string[];
 }
 
 const CORNER_ICONS: Record<string, React.ElementType> = {
@@ -37,6 +38,7 @@ export const CornerTabs: React.FC<CornerTabsProps> = ({
   onSelectCorner,
   completedCorners,
   corners,
+  lockedCornerIds = [],
 }) => {
   const tabs = corners && corners.length > 0
     ? corners.map((c, idx) => ({
@@ -53,27 +55,37 @@ export const CornerTabs: React.FC<CornerTabsProps> = ({
           const Icon = CORNER_ICONS[corner.id] || Sparkles;
           const isActive = activeCornerId === corner.id;
           const isDone = completedCorners.includes(corner.id);
+          const isLocked = lockedCornerIds.includes(corner.id);
 
           return (
             <button
               key={corner.id}
               data-testid={`corner-tab-${corner.id}`}
-              aria-label={`${corner.title} ${corner.subtitle}`}
+              aria-label={`${corner.title} ${corner.subtitle}${isLocked ? ' (교사 잠금)' : ''}`}
               onClick={() => onSelectCorner(corner.id)}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all select-none ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-100 ring-2 ring-indigo-600/20'
+                  : isLocked
+                  ? 'bg-rose-50 text-rose-700 border border-rose-200/80 hover:bg-rose-100'
                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200/60'
               }`}
             >
-              <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+              {isLocked ? (
+                <Lock className={`w-4 h-4 ${isActive ? 'text-white' : 'text-rose-600'}`} />
+              ) : (
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+              )}
               <div className="text-left">
-                <div className="leading-tight">{corner.title}</div>
+                <div className="leading-tight flex items-center gap-1">
+                  {corner.title}
+                  {isLocked && <span className="text-[10px] font-bold text-rose-500">(잠김)</span>}
+                </div>
                 <div className={`text-[10px] ${isActive ? 'text-indigo-100' : 'text-slate-400'}`}>
                   {corner.subtitle}
                 </div>
               </div>
-              {isDone && (
+              {isDone && !isLocked && (
                 <div className={`w-4 h-4 rounded-full flex items-center justify-center ml-1 ${
                   isActive ? 'bg-white text-indigo-700' : 'bg-emerald-100 text-emerald-700'
                 }`}>
