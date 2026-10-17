@@ -143,11 +143,11 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
             <div className="mt-2 text-xs font-semibold">
               {watchAnswer === watchData?.answer ? (
                 <span className="text-emerald-700 flex items-center gap-1">
-                  <CheckCircle2 className="w-4 h-4" /> 정답입니다! (impatient: 조급하고 안달하게 됨)
+                  <CheckCircle2 className="w-4 h-4" /> 정답입니다! ({watchData.answer})
                 </span>
               ) : (
                 <span className="text-rose-600 flex items-center gap-1">
-                  <XCircle className="w-4 h-4" /> 다시 생각해보세요. 스크립트 마지막 문장을 들어보세요.
+                  <XCircle className="w-4 h-4" /> 다시 생각해보세요.
                 </span>
               )}
             </div>
@@ -157,19 +157,19 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
         {/* Your Thoughts Reflection */}
         <div className="space-y-2">
           <label className="block text-xs font-bold text-slate-700">
-            💭 Your Thoughts: {watchData?.yourThoughtsPrompt}
+            💭 Your Thoughts: {watchData?.yourThoughtsPrompt || watchData?.yourThoughtsQuestion}
           </label>
           <input
             type="text"
             value={watchThoughts}
             onChange={e => setWatchThoughts(e.target.value)}
-            placeholder="예: Last Wednesday, I forgot to bring my phone to school. I felt nervous the whole day."
+            placeholder="자신의 경험이나 생각을 영어로 적어보세요..."
             aria-label="Your thoughts 입력"
             className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500"
           />
-          {showTeacherAnswers && (
+          {showTeacherAnswers && watchData?.yourThoughtsSample && (
             <div className="p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800">
-              <b>🔑 [교사용] 교과서 예시답안 (p.152):</b> {watchData?.yourThoughtsSample}
+              <b>🔑 [교사용] 교과서 예시답안 (p.152):</b> {watchData.yourThoughtsSample}
             </div>
           )}
         </div>
@@ -308,7 +308,7 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
 
           {showTeacherAnswers && (
             <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
-              🔑 [교사용 정답키 (p.152)]: <b>connections</b> (유대 형성), <b>information</b> (정보 학습), <b>positive</b> (긍정적 요소 집중)
+              🔑 [교사용 정답키 (p.152)]: {listenWriteData?.chartData?.filter(d => d.hasBlank || d.isBlank).map(d => d.correctWord).filter(Boolean).join(', ')}
             </div>
           )}
         </div>
@@ -365,7 +365,7 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
             type="text"
             value={talkReason}
             onChange={e => setTalkReason(e.target.value)}
-            placeholder="이유를 입력하세요 (예: helps me keep in touch with my friends)"
+            placeholder="자신의 의견에 대한 구체적인 이유를 영어로 입력하세요..."
             aria-label="의견에 대한 이유 입력"
             className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white"
           />

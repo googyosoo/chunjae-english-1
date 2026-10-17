@@ -7,15 +7,19 @@ import * as http from 'http';
 /**
  * 로컬 Firestore Emulator 실행 여부 확인 헬퍼
  */
-async function isFirestoreEmulatorAlive(host = '127.0.0.1', port = 8080): Promise<boolean> {
+async function isFirestoreEmulatorAlive(): Promise<{ alive: boolean; host: string; port: number }> {
+  if (process.env.FIRESTORE_EMULATOR_HOST) {
+    const [h, p] = process.env.FIRESTORE_EMULATOR_HOST.split(':');
+    return { alive: true, host: h || '127.0.0.1', port: parseInt(p, 10) || 8080 };
+  }
   return new Promise((resolve) => {
-    const req = http.get(`http://${host}:${port}/`, (res) => {
-      resolve(res.statusCode !== undefined);
+    const req = http.get('http://127.0.0.1:8080/', (res) => {
+      resolve({ alive: res.statusCode !== undefined, host: '127.0.0.1', port: 8080 });
     });
-    req.on('error', () => resolve(false));
+    req.on('error', () => resolve({ alive: false, host: '127.0.0.1', port: 8080 }));
     req.setTimeout(500, () => {
       req.destroy();
-      resolve(false);
+      resolve({ alive: false, host: '127.0.0.1', port: 8080 });
     });
   });
 }
@@ -27,15 +31,37 @@ describe('Firebase Emulator 기반 Firestore Security Rules 단위 테스트 (@f
   let emulatorRunning = false;
 
   beforeAll(async () => {
-    emulatorRunning = await isFirestoreEmulatorAlive();
+    const check = await isFirestoreEmulatorAlive();
+    emulatorRunning = check.alive;
     if (emulatorRunning) {
       testEnv = await initializeTestEnvironment({
         projectId: 'demo-simin-aidt',
         firestore: {
           rules,
-          host: '127.0.0.1',
-          port: 8080,
+          host: check.host,
+          port: check.port,
         },
+      });
+
+      // 에뮬레이터 검증에 필요한 기본 교사 문서 및 로스터 시드 데이터 등록
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        const adminDb = context.firestore();
+        // 1. 교사 계정 시드 (isTeacher() 조건 통과용)
+        await adminDb.collection('teachers').doc('teacher_1').set({
+          uid: 'teacher_1',
+          email: 'teacher@simin.hs.kr',
+          name: '김교사',
+          role: 'teacher',
+        });
+        // 2. 학생 학급 로스터 시드 (isStudentInRoster() 조건 통과용)
+        await adminDb.collection('classes').doc('g1_c1').collection('roster').doc('student_a@simin.hs.kr').set({
+          email: 'student_a@simin.hs.kr',
+          name: '학생A',
+          grade: 1,
+          classNumber: 1,
+          studentNumber: 1,
+          role: 'student',
+        });
       });
     }
   });

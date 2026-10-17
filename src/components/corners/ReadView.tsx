@@ -159,8 +159,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div>
               <span className="text-xs font-bold text-indigo-600 uppercase tracking-wide">Lesson 1 Main Text</span>
-              <h1 className="text-2xl font-black text-slate-900 tracking-tight">{readingData?.title}</h1>
-              <p className="text-xs text-slate-500 mt-0.5">{readingData?.subtitle}</p>
+              {readingData?.subtitle && (
+                <p className="text-xs text-slate-500 mt-0.5">{readingData.subtitle}</p>
+              )}
             </div>
             <div className="text-xs bg-indigo-50 text-indigo-700 font-semibold px-3 py-1.5 rounded-full border border-indigo-200">
               💡 문장을 탭하면 해석·어휘·AI 질문 창이 열립니다
@@ -226,10 +227,14 @@ export const ReadView: React.FC<ReadViewProps> = ({
             <div key={para.id} className="space-y-4">
               {/* Paragraph Heading & TTS */}
               <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <span className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-indigo-600" />
-                  {para.heading}
-                </span>
+                {para.heading ? (
+                  <span className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-indigo-600" />
+                    {para.heading}
+                  </span>
+                ) : (
+                  <span className="font-semibold text-xs text-slate-500">{para.part}</span>
+                )}
                 <button
                   onClick={() => handleSpeakParagraph(para.sentences)}
                   className="flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-lg transition-colors"

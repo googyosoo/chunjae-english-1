@@ -27,3 +27,5 @@ Thumbs.db
 test-results/
 playwright-report/
 __pycache__/
+tools/
+*-debug.log

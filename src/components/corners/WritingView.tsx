@@ -149,7 +149,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.clubInformation}
               onChange={e => setOutline(prev => ({ ...prev, clubInformation: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline?.example?.['clubInformation'] || 'a place where students learn...'}`}
+              placeholder={workspace?.step2Outline?.example?.['clubInformation'] ? `예: ${workspace.step2Outline.example['clubInformation']}` : '동아리 소개 입력'}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -160,7 +160,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.mainActivities}
               onChange={e => setOutline(prev => ({ ...prev, mainActivities: e.target.value }))}
-              placeholder="예: • performs at school events • community events"
+              placeholder={workspace?.step2Outline?.example?.['mainActivities'] ? `예: ${workspace.step2Outline.example['mainActivities']}` : '주요 활동 입력'}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -171,7 +171,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.requirements}
               onChange={e => setOutline(prev => ({ ...prev, requirements: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline?.example?.['requirements'] || 'willingness to interact with others'}`}
+              placeholder={workspace?.step2Outline?.example?.['requirements'] ? `예: ${workspace.step2Outline.example['requirements']}` : '가입 요건 입력'}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -182,7 +182,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.invitingRemarks}
               onChange={e => setOutline(prev => ({ ...prev, invitingRemarks: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline?.example?.['invitingRemarks'] || 'Come on and sign up now!'}`}
+              placeholder={workspace?.step2Outline?.example?.['invitingRemarks'] ? `예: ${workspace.step2Outline.example['invitingRemarks']}` : '초대의 말 입력'}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -193,7 +193,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.contactInformation}
               onChange={e => setOutline(prev => ({ ...prev, contactInformation: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline?.example?.['contactInformation'] || '6strings@◯◯◯.hs.kr'}`}
+              placeholder={workspace?.step2Outline?.example?.['contactInformation'] ? `예: ${workspace.step2Outline.example['contactInformation']}` : '연락처 입력'}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>

@@ -108,7 +108,7 @@ export const ReadingParagraphSchema = z.object({
   id: z.string(),
   part: z.string(),
   day: z.string().optional(),
-  heading: z.string(),
+  heading: z.string().optional(),
   sentences: z.array(SentenceItemSchema),
   marginalQuestions: z.array(MarginalQuestionSchema),
 });
@@ -116,7 +116,7 @@ export const ReadingParagraphSchema = z.object({
 export const ReadingViewerSchema = z.object({
   reading: z.object({
     title: z.string(),
-    subtitle: z.string(),
+    subtitle: z.string().optional(),
     readingTip: z.object({
       title: z.string(),
       desc: z.string(),

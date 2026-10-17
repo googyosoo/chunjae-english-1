@@ -113,7 +113,7 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
             <div className="text-xs font-semibold">
               {topicQuizAnswer === shareData?.step1?.quiz1?.answer ? (
                 <span className="text-emerald-700 flex items-center gap-1">
-                  <CheckCircle2 className="w-4 h-4" /> 정답입니다! (a. being a good digital citizen)
+                  <CheckCircle2 className="w-4 h-4" /> 정답입니다!
                 </span>
               ) : (
                 <span className="text-rose-600 flex items-center gap-1">
@@ -130,42 +130,30 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
             2. {shareData?.step1?.quiz2?.instruction}
           </p>
           <div className="p-3 bg-white rounded-lg border border-indigo-200 space-y-2 leading-loose text-slate-800">
-            <p>
-              Here are some things you can do to be a good{' '}
-              <input
-                type="text"
-                value={fillAnswers['blank_1'] || ''}
-                onChange={e => setFillAnswers(prev => ({ ...prev, blank_1: e.target.value.trim().toLowerCase() }))}
-                placeholder="digital citizen"
-                aria-label="빈칸 1"
-                className="px-2 py-0.5 border border-slate-300 rounded font-semibold text-indigo-700 w-28"
-              />
-              .
-            </p>
-            <p>
-              • Treat others as you’d like to be treated: You’re interacting with{' '}
-              <input
-                type="text"
-                value={fillAnswers['blank_2'] || ''}
-                onChange={e => setFillAnswers(prev => ({ ...prev, blank_2: e.target.value.trim().toLowerCase() }))}
-                placeholder="real people"
-                aria-label="빈칸 2"
-                className="px-2 py-0.5 border border-slate-300 rounded font-semibold text-indigo-700 w-28"
-              />
-              .
-            </p>
-            <p>
-              • Don’t feed the trolls, those who enjoy annoying or{' '}
-              <input
-                type="text"
-                value={fillAnswers['blank_3'] || ''}
-                onChange={e => setFillAnswers(prev => ({ ...prev, blank_3: e.target.value.trim().toLowerCase() }))}
-                placeholder="arguing"
-                aria-label="빈칸 3"
-                className="px-2 py-0.5 border border-slate-300 rounded font-semibold text-indigo-700 w-24"
-              />{' '}
-              with others online.
-            </p>
+            {[
+              { key: 'blank_1', text: shareData?.step1?.quiz2?.sentence1, label: '빈칸 1' },
+              { key: 'blank_2', text: shareData?.step1?.quiz2?.sentence2, label: '빈칸 2' },
+              { key: 'blank_3', text: shareData?.step1?.quiz2?.sentence3, label: '빈칸 3' }
+            ].map(({ key, text, label }) => {
+              if (!text) return null;
+              const parts = text.split(`[${key}]`);
+              return (
+                <p key={key}>
+                  {parts[0]}
+                  {parts.length > 1 && (
+                    <input
+                      type="text"
+                      value={fillAnswers[key] || ''}
+                      onChange={e => setFillAnswers(prev => ({ ...prev, [key]: e.target.value.trim().toLowerCase() }))}
+                      placeholder="단어 입력"
+                      aria-label={label}
+                      className="px-2 py-0.5 border border-slate-300 rounded font-semibold text-indigo-700 w-28"
+                    />
+                  )}
+                  {parts[1] || ''}
+                </p>
+              );
+            })}
           </div>
 
           {showTeacherAnswers && shareData?.step1?.quiz2?.answers && (
@@ -210,7 +198,7 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
           <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">2</span>
-          <h2 className="text-base font-bold text-slate-900">STEP 2. What are some other actions to become a better digital citizen?</h2>
+          <h2 className="text-base font-bold text-slate-900">STEP 2. {shareData?.step2?.prompt || 'Actions to become a better digital citizen'}</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
