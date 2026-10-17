@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import fs from 'fs';
+import path from 'path';
 import lesson1DataRaw from '../../content/lesson-01.json';
 
 const lesson1 = lesson1DataRaw as any;
@@ -115,5 +117,57 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
     expect(gg.exercises[1].answer).toBe('Let me know');
     expect(gg.exercises[2].answer).toBe('before tonight');
     expect(gg.exercises[3].answer).toBe('I’m really hungry, too.');
+  });
+
+  describe('Lesson 2 교과서 PDF 원문 무결성 테스트', () => {
+    const l2 = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../content/lesson-02.json'), 'utf-8'));
+
+    it('1. Lesson 2 기본 정보 및 토픽 질문이 원문과 일치해야 한다', () => {
+      expect(l2.lessonNumber).toBe(2);
+      expect(l2.title).toBe('Spark Your Creativity');
+      expect(l2.topicQuestion).toBe('How can you come up with creative ideas?');
+      expect(l2.hashtags).toContain('#creativity_in_life');
+    });
+
+    it('2. Watch and Think(p.34) 대본이 Scripts pp.143-144 원문과 일치해야 한다', () => {
+      const commCorner = l2.corners.find((c: any) => c.id === 'communicate');
+      const wt = commCorner.activities.find((a: any) => a.activityId === 'l2_comm_watch_think').data;
+      expect(wt.script[0].en).toContain('Imagine you are hungry and all you have at home is a coconut');
+      expect(wt.sentence).toContain('Your brain can connect / distinguish the dots');
+      expect(wt.answer).toBe('connect');
+    });
+
+    it('3. Listen and Answer(p.34) Dialogue 1과 2가 Scripts p.144 원문과 일치해야 한다', () => {
+      const commCorner = l2.corners.find((c: any) => c.id === 'communicate');
+      const la = commCorner.activities.find((a: any) => a.activityId === 'l2_comm_listen_answer').data;
+      expect(la.dialogues[0].script[0].en).toContain('Mr. Oxman, thank you for joining our show.');
+      expect(la.dialogues[0].answer).toBe('c');
+      expect(la.dialogues[1].questions[0].answer).toBe('T');
+      expect(la.dialogues[1].questions[1].answer).toBe('F');
+    });
+
+    it('4. 본문(pp.37-42)에 3명의 예술가(Robin Yayla, Rob Gonsalves, Vincent Bal)가 포함되어야 한다', () => {
+      const readCorner = l2.corners.find((c: any) => c.id === 'read');
+      const passage = readCorner.activities.find((a: any) => a.activityId === 'l2_read_passage').data;
+      expect(passage.sections).toHaveLength(5);
+      expect(passage.sections[1].title).toContain('Robin Yayla');
+      expect(passage.sections[2].title).toContain('Rob Gonsalves');
+      expect(passage.sections[3].title).toContain('Vincent Bal');
+    });
+
+    it('5. Read Further(p.45)에 Su Blackwell 본문 및 질문이 포함되어야 한다', () => {
+      const readCorner = l2.corners.find((c: any) => c.id === 'read');
+      const rf = readCorner.activities.find((a: any) => a.activityId === 'l2_read_further').data;
+      expect(rf.author).toBe('Su Blackwell');
+      expect(rf.sentences[0].en).toBe('I became a book artist almost by accident.');
+    });
+
+    it('6. Work Together(p.53) 코너가 정상 구성되어야 한다', () => {
+      const wtCorner = l2.corners.find((c: any) => c.id === 'work_together');
+      expect(wtCorner).toBeDefined();
+      const project = wtCorner.activities[0].data;
+      expect(project.steps).toHaveLength(4);
+      expect(project.steps[1].dialogue[2].en).toContain('patbingsu');
+    });
   });
 });

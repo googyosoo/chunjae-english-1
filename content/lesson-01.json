@@ -67,7 +67,8 @@
                 "pageRange": "pp. 29-31"
               }
             ]
-          }
+          },
+          "page": 8
         }
       ]
     },
@@ -119,7 +120,9 @@
               "yourThoughtsPrompt": "When was the last time you felt separation anxiety because of your phone?",
               "yourThoughtsSample": "Last Wednesday, I forgot to bring my phone to school. I felt nervous the whole day."
             }
-          }
+          },
+          "page": 10,
+          "sourceRef": "교과서 p.170 Sources (CGFGlobal, Being a good digital citizen)"
         },
         {
           "activityId": "comm_listen_answer",
@@ -278,7 +281,8 @@
                 }
               ]
             }
-          }
+          },
+          "page": 10
         },
         {
           "activityId": "comm_listen_write",
@@ -350,7 +354,8 @@
                 "positive"
               ]
             }
-          }
+          },
+          "page": 11
         },
         {
           "activityId": "comm_write_talk",
@@ -378,7 +383,8 @@
                 }
               ]
             }
-          }
+          },
+          "page": 11
         }
       ]
     },
@@ -497,7 +503,8 @@
                 "answer": "swayed"
               }
             ]
-          }
+          },
+          "page": 12
         },
         {
           "activityId": "read_interactive_viewer",
@@ -949,7 +956,8 @@
                 }
               ]
             }
-          }
+          },
+          "page": 14
         },
         {
           "activityId": "read_further",
@@ -976,7 +984,8 @@
               "question": "Among the three ways of volunteering online, which would you like to try and why?",
               "sampleAnswer": "I would like to become a phone friend for senior citizens because I like chatting with others and meeting new people."
             }
-          }
+          },
+          "page": 21
         }
       ]
     },
@@ -1138,7 +1147,8 @@
                 }
               ]
             }
-          }
+          },
+          "page": 19
         }
       ]
     },
@@ -1240,7 +1250,9 @@
                 "3. I listened to others carefully."
               ]
             }
-          }
+          },
+          "page": 22,
+          "sourceRef": "교과서 p.169 Sources (GCFGlobal, 2023)"
         }
       ]
     },
@@ -1378,7 +1390,8 @@
                 ]
               }
             }
-          }
+          },
+          "page": 24
         }
       ]
     },
@@ -1510,7 +1523,8 @@
                 }
               }
             }
-          }
+          },
+          "page": 26
         }
       ]
     },
@@ -1651,7 +1665,8 @@
                 }
               ]
             }
-          }
+          },
+          "page": 29
         },
         {
           "activityId": "wrap_up_activities",
@@ -1714,7 +1729,8 @@
                 "sampleAnswer": "I can’t imagine such a situation. Maybe I will get by for a few days without using a computer, but I don’t think I can last more than a few hours without using my cell phone."
               }
             }
-          }
+          },
+          "page": 30
         },
         {
           "activityId": "lesson_summary",
@@ -1756,7 +1772,8 @@
               "q2": "How can we promote our digital well-being?",
               "topicSampleAnswer": "We can promote our digital well-being by being mindful of others and being cautious not to get carried away while engaging in online activities."
             }
-          }
+          },
+          "page": 31
         }
       ]
     }

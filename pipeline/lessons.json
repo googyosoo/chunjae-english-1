@@ -1,0 +1,24 @@
+{
+  "lesson-01": {
+    "lessonNumber": 1,
+    "title": "Digital Well-being",
+    "pdfPath": "C:/Users/user/Desktop/고등_영어1(강상구)_교과서.pdf",
+    "pages": {
+      "main": [8, 31],
+      "scripts": [142, 143],
+      "answers": [152, 154],
+      "sources": [168, 171]
+    }
+  },
+  "lesson-02": {
+    "lessonNumber": 2,
+    "title": "Spark Your Creativity",
+    "pdfPath": "C:/Users/user/Desktop/고등_영어1(강상구)_교과서.pdf",
+    "pages": {
+      "main": [32, 55],
+      "scripts": [143, 145],
+      "answers": [154, 156],
+      "sources": [168, 171]
+    }
+  }
+}

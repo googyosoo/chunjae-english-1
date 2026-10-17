@@ -23,11 +23,26 @@ import { WrapUpView } from './components/corners/WrapUpView';
 import { Loader2, AlertCircle, ShieldAlert } from 'lucide-react';
 
 import { LessonDataSchema } from './schemas/lessonSchema';
+import { LessonSelectHub, LessonSummaryInfo } from './components/layout/LessonSelectHub';
+import { WorkTogetherView } from './components/corners/WorkTogetherView';
+
+const getInitialLessonId = (): string => {
+  if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    const l = params.get('lesson');
+    if (l === '02' || l === 'lesson-02' || l === '2') return 'lesson-02';
+    if (l === '01' || l === 'lesson-01' || l === '1') return 'lesson-01';
+  }
+  return 'lesson-01';
+};
 
 export const App: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [authChecked, setAuthChecked] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
+
+  const [selectedLessonId, setSelectedLessonId] = useState<string>(getInitialLessonId());
+  const [isHubOpen, setIsHubOpen] = useState<boolean>(false);
 
   const [lessonData, setLessonData] = useState<LessonData | null>(null);
   const [isLessonLoading, setIsLessonLoading] = useState<boolean>(false);
@@ -39,6 +54,15 @@ export const App: React.FC = () => {
   const [isVocabOpen, setIsVocabOpen] = useState<boolean>(false);
   const [showTeacherAnswers, setShowTeacherAnswers] = useState<boolean>(false);
   const [completedCorners, setCompletedCorners] = useState<string[]>([]);
+
+  // 브라우저 뒤로가기/앞으로가기 시 URL의 ?lesson= 파라미터 동기화
+  useEffect(() => {
+    const handlePopState = () => {
+      setSelectedLessonId(getInitialLessonId());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // 1. Firebase 실시간 세션 구독 (onAuthStateChanged)
   useEffect(() => {
@@ -76,8 +100,7 @@ export const App: React.FC = () => {
     };
   }, []);
 
-  // 2. 로그인된 사용자에게만 교과서 데이터 비동기 Fetch (/api/lesson?id=lesson-01)
-  // JS 번들에서 교과서 JSON을 완전히 분리하여 비로그인 상태의 저작권 유출 차단
+  // 2. 로그인된 사용자에게 선택된 단원의 교과서 데이터 비동기 Fetch (/api/lesson?id=lesson-XX)
   useEffect(() => {
     if (!user) {
       setLessonData(null);
@@ -94,13 +117,13 @@ export const App: React.FC = () => {
           headers['Authorization'] = `Bearer ${token}`;
         }
 
-        const res = await fetch('/api/lesson?id=lesson-01', { headers });
+        const res = await fetch(`/api/lesson?id=${selectedLessonId}`, { headers });
         if (!res.ok) {
           throw new Error(`교과서 로드 실패 (${res.status})`);
         }
         const rawJson = await res.json();
         
-        // Zod 스키마 런타임 데이터 검증 (데이터 형식 불일치 시 차단)
+        // Zod 스키마 런타임 데이터 검증
         const validated = LessonDataSchema.safeParse(rawJson);
         if (!validated.success) {
           console.error('교과서 데이터 Zod 검증 오류:', validated.error.issues);
@@ -116,12 +139,13 @@ export const App: React.FC = () => {
     };
 
     fetchLesson();
-  }, [user]);
+  }, [user, selectedLessonId]);
 
   // 3. 진도 데이터 로드 및 역할 분기
+  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'lesson-02' ? 2 : 1);
   useEffect(() => {
     if (user) {
-      StorageService.getProgressAsync(user, 1).then((progress) => {
+      StorageService.getProgressAsync(user, currentLessonNum).then((progress) => {
         setCompletedCorners(progress.completedCorners);
       });
 
@@ -136,12 +160,24 @@ export const App: React.FC = () => {
       setCurrentMode('student');
       setShowTeacherAnswers(false);
     }
-  }, [user]);
+  }, [user, currentLessonNum]);
 
   const handleCornerComplete = async (cornerId: CornerId) => {
-    await StorageService.markCornerComplete(user, 1, cornerId);
-    const progress = StorageService.getProgress(1);
+    await StorageService.markCornerComplete(user, currentLessonNum, cornerId);
+    const progress = StorageService.getProgress(currentLessonNum);
     setCompletedCorners(progress.completedCorners);
+  };
+
+  const handleSelectLesson = (lessonId: string, lessonNumber: number) => {
+    setSelectedLessonId(lessonId);
+    setIsHubOpen(false);
+    setActiveCornerId('introduction');
+    const numStr = lessonNumber < 10 ? `0${lessonNumber}` : `${lessonNumber}`;
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lesson', numStr);
+      window.history.pushState(null, '', url.toString());
+    }
   };
 
   const handleLogout = async () => {
@@ -190,6 +226,29 @@ export const App: React.FC = () => {
     );
   }
 
+  const LESSONS_METADATA: LessonSummaryInfo[] = [
+    {
+      id: 'lesson-01',
+      lessonNumber: 1,
+      title: 'Digital Well-being',
+      topic: 'Social Media and Digital Detox',
+      pageRange: 'pp. 8-31',
+      description: '디지털 기기와 SNS 과몰입을 점검하고, JOMO(Joy of Missing Out)를 실천하며 건강한 디지털 시민의식을 형성합니다.',
+      completedCornersCount: selectedLessonId === 'lesson-01' ? completedCorners.length : 0,
+      totalCornersCount: 8,
+    },
+    {
+      id: 'lesson-02',
+      lessonNumber: 2,
+      title: 'Spark Your Creativity',
+      topic: 'Ideas for the Common Good',
+      pageRange: 'pp. 32-55',
+      description: '공공의 이익을 위한 일상 속 기발한 예술과 디자인 아이디어를 탐구하고, Su Blackwell의 페이퍼 아트 및 3인 모둠 협동 작품을 완성합니다.',
+      completedCornersCount: selectedLessonId === 'lesson-02' ? completedCorners.length : 0,
+      totalCornersCount: 8,
+    },
+  ];
+
   return (
     <div className={`min-h-screen bg-slate-100 flex flex-col font-sans overflow-x-hidden ${currentMode === 'teacher' ? 'projector-mode' : ''}`}>
       {/* Login Guard Modal: 비로그인 상태일 때 전면 차단 */}
@@ -199,11 +258,14 @@ export const App: React.FC = () => {
       <Navbar
         user={user}
         currentMode={currentMode}
+        lessonNumber={currentLessonNum}
+        lessonTitle={lessonData?.title}
         onModeChange={(m) => {
           setCurrentMode(m);
           setShowTeacherAnswers(m === 'teacher');
         }}
         onOpenVocab={() => setIsVocabOpen(true)}
+        onSelectLessonList={() => setIsHubOpen(true)}
         onLogout={handleLogout}
       />
 
@@ -212,84 +274,103 @@ export const App: React.FC = () => {
         <ProjectorToolbar
           showAnswers={showTeacherAnswers}
           onToggleShowAnswers={() => setShowTeacherAnswers(!showTeacherAnswers)}
-          lessonNumber={1}
+          lessonNumber={currentLessonNum}
           user={user}
         />
       )}
 
-      {/* Corner Navigation Tabs */}
-      <CornerTabs
-        activeCornerId={activeCornerId}
-        onSelectCorner={setActiveCornerId}
-        completedCorners={completedCorners}
-      />
+      {/* 단원 선택 대시보드 허브 모달/화면 */}
+      {isHubOpen ? (
+        <main className="flex-1 max-w-7xl mx-auto w-full">
+          <LessonSelectHub
+            lessons={LESSONS_METADATA}
+            onSelectLesson={handleSelectLesson}
+          />
+        </main>
+      ) : (
+        <>
+          {/* Corner Navigation Tabs */}
+          <CornerTabs
+            activeCornerId={activeCornerId}
+            onSelectCorner={setActiveCornerId}
+            completedCorners={completedCorners}
+            corners={lessonData?.corners}
+          />
 
-      {/* Main Learning Canvas */}
-      <main className="flex-1 p-3 sm:p-6 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
-        {/* 교과서 데이터 로딩 인디케이터 */}
-        {isLessonLoading && (
-          <div className="py-24 flex flex-col items-center justify-center gap-3">
-            <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
-            <span className="text-xs font-bold text-slate-600">인증된 교과서 데이터를 안전하게 불러오는 중입니다...</span>
-          </div>
-        )}
+          {/* Main Learning Canvas */}
+          <main className="flex-1 p-3 sm:p-6 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
+            {/* 교과서 데이터 로딩 인디케이터 */}
+            {isLessonLoading && (
+              <div className="py-24 flex flex-col items-center justify-center gap-3">
+                <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+                <span className="text-xs font-bold text-slate-600">인증된 교과서 데이터를 안전하게 불러오는 중입니다...</span>
+              </div>
+            )}
 
-        {/* 교과서 데이터 로드 에러 */}
-        {lessonLoadError && (
-          <div className="p-6 bg-rose-50 rounded-2xl border border-rose-200 text-center space-y-2 max-w-lg mx-auto my-12">
-            <AlertCircle className="w-8 h-8 text-rose-600 mx-auto" />
-            <h3 className="text-sm font-bold text-rose-900">교과서 콘텐츠 불러오기 실패</h3>
-            <p className="text-xs text-rose-700">{lessonLoadError}</p>
-          </div>
-        )}
+            {/* 교과서 데이터 로드 에러 */}
+            {lessonLoadError && (
+              <div className="p-6 bg-rose-50 rounded-2xl border border-rose-200 text-center space-y-2 max-w-lg mx-auto my-12">
+                <AlertCircle className="w-8 h-8 text-rose-600 mx-auto" />
+                <h3 className="text-sm font-bold text-rose-900">교과서 콘텐츠 불러오기 실패</h3>
+                <p className="text-xs text-rose-700">{lessonLoadError}</p>
+              </div>
+            )}
 
-        {/* 비로그인 안내 화면 (저작권 보호: 번들에 본문 없음) */}
-        {!user && !isLessonLoading && (
-          <div className="py-20 text-center max-w-md mx-auto space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
-              <AlertCircle className="w-7 h-7" />
-            </div>
-            <h2 className="text-base font-bold text-slate-800">심인고등학교 계정 로그인이 필요합니다</h2>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              본 교과서는 저작권 보호 규정에 따라 학교 구글 계정(@simin.hs.kr)으로 로그인한 재학생 및 교직원만 열람할 수 있습니다.
-            </p>
-          </div>
-        )}
+            {/* 비로그인 안내 화면 (저작권 보호: 번들에 본문 없음) */}
+            {!user && !isLessonLoading && (
+              <div className="py-20 text-center max-w-md mx-auto space-y-3">
+                <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+                  <AlertCircle className="w-7 h-7" />
+                </div>
+                <h2 className="text-base font-bold text-slate-800">심인고등학교 계정 로그인이 필요합니다</h2>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  본 교과서는 저작권 보호 규정에 따라 학교 구글 계정(@simin.hs.kr)으로 로그인한 재학생 및 교직원만 열람할 수 있습니다.
+                </p>
+              </div>
+            )}
 
-        {/* 교과서 데이터 렌더링 (로그인 및 데이터 로드 완료 시) */}
-        {user && lessonData && !isLessonLoading && (
-          <>
-            {activeCornerId === 'introduction' && (
-              <IntroView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+            {/* 교과서 데이터 렌더링 (로그인 및 데이터 로드 완료 시) */}
+            {user && lessonData && !isLessonLoading && (
+              <>
+                {activeCornerId === 'introduction' && (
+                  <IntroView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                )}
+                {activeCornerId === 'communicate' && (
+                  <CommunicateView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} />
+                )}
+                {activeCornerId === 'read' && (
+                  <ReadView
+                    lesson={lessonData}
+                    showTeacherAnswers={showTeacherAnswers}
+                    onSelectSentence={setSelectedSentence}
+                  />
+                )}
+                {activeCornerId === 'after_read' && (
+                  <AfterReadView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                )}
+                {activeCornerId === 'share_thoughts' && (
+                  <ShareThoughtsView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                )}
+                {activeCornerId === 'language_focus' && (
+                  <LanguageFocusView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                )}
+                {activeCornerId === 'write_present' && (
+                  <WritingView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                )}
+                {activeCornerId === 'go_global' && (
+                  <WrapUpView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                )}
+                {activeCornerId === 'work_together' && (
+                  <WorkTogetherView
+                    activityData={lessonData.corners.find(c => c.id === 'work_together')?.activities?.[0]}
+                    showTeacherAnswers={showTeacherAnswers}
+                  />
+                )}
+              </>
             )}
-            {activeCornerId === 'communicate' && (
-              <CommunicateView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} />
-            )}
-            {activeCornerId === 'read' && (
-              <ReadView
-                lesson={lessonData}
-                showTeacherAnswers={showTeacherAnswers}
-                onSelectSentence={setSelectedSentence}
-              />
-            )}
-            {activeCornerId === 'after_read' && (
-              <AfterReadView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-            )}
-            {activeCornerId === 'share_thoughts' && (
-              <ShareThoughtsView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-            )}
-            {activeCornerId === 'language_focus' && (
-              <LanguageFocusView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-            )}
-            {activeCornerId === 'write_present' && (
-              <WritingView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-            )}
-            {activeCornerId === 'go_global' && (
-              <WrapUpView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
-            )}
-          </>
-        )}
-      </main>
+          </main>
+        </>
+      )}
 
       {/* Vocabulary Drawer */}
       <VocabularyDrawer

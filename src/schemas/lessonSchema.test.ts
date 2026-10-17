@@ -82,4 +82,34 @@ describe('Lesson Data Zod Schema Validation', () => {
     const result = LessonDataSchema.safeParse(invalidData);
     expect(result.success).toBe(false);
   });
+
+  describe('Lesson 2 Zod Schema Validation', () => {
+    const l2Path = path.resolve(__dirname, '../../content/lesson-02.json');
+    const l2Raw = fs.readFileSync(l2Path, 'utf-8');
+    const l2Data = JSON.parse(l2Raw);
+
+    it('validates content/lesson-02.json against LessonDataSchema with 100% success', () => {
+      const parseResult = LessonDataSchema.safeParse(l2Data);
+      if (!parseResult.success) {
+        console.error('L2 Validation errors:', JSON.stringify(parseResult.error.issues, null, 2));
+      }
+      expect(parseResult.success).toBe(true);
+    });
+
+    it('validates Lesson 2 has 8 corners and vocabulary list', () => {
+      expect(l2Data.corners).toHaveLength(8);
+      expect(l2Data.vocabulary.length).toBeGreaterThanOrEqual(10);
+      for (const corner of l2Data.corners) {
+        const cornerResult = CornerItemSchema.safeParse(corner);
+        expect(cornerResult.success).toBe(true);
+        expect(corner.activities.length).toBeGreaterThan(0);
+      }
+    });
+
+    it('validates Lesson 2 corner 8 is work_together', () => {
+      const workCorner = l2Data.corners.find((c: any) => c.id === 'work_together');
+      expect(workCorner).toBeDefined();
+      expect(workCorner.cornerNumber).toBe(8);
+    });
+  });
 });

@@ -13,8 +13,16 @@ interface WritingViewProps {
 
 export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAnswers, user = null }) => {
   const writingCorner = lesson.corners.find(c => c.id === 'write_present');
-  const activityData = writingCorner?.activities[0]?.data;
-  const workspace = activityData?.writingWorkspace;
+  const activities = writingCorner?.activities || [];
+
+  const modelAct = activities.find(a => a.type === 'model_writing' || a.activityId.includes('model'));
+  const modelData = modelAct?.data as any;
+
+  const processAct = activities.find(a => a.type === 'writing_process' || a.activityId.includes('steps') || a.activityId.includes('workspace') || a.type.includes('workspace') || a.data?.writingWorkspace);
+  const workspace = (processAct?.data?.writingWorkspace || processAct?.data) as any;
+
+  const editingAct = activities.find(a => a.type === 'editing_practice' || a.activityId.includes('editing'));
+  const editingData = editingAct?.data as any;
 
   // Step 1 Analyze 라벨 선택 상태
   const [step1Labels, setStep1Labels] = useState<{ [key: string]: string }>({});
@@ -48,8 +56,14 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
     try {
       const result = await GeminiService.evaluateWriting(
         draftText,
-        'School Club Promotion Post (동아리 홍보 온라인 게시글)',
-        workspace?.step3Draft.rubric || [],
+        lesson.lessonNumber === 1
+          ? 'School Club Promotion Post (동아리 홍보 온라인 게시글)'
+          : 'My Favorite Work of Art (좋아하는 예술 작품 소개문)',
+        workspace?.step3Draft?.rubric || [
+          { criterion: '주제 적합성', description: '소개하고자 하는 대상과 그 특징이 명확하게 서술되었는가?' },
+          { criterion: '구성 완성도', description: '도입, 세부 내용, 결론이 논리적으로 구성되었는가?' },
+          { criterion: '어휘 및 문법', description: '단원의 핵심 표현과 문법이 올바르게 활용되었는가?' }
+        ],
         `lesson-0${lesson.lessonNumber}`
       );
       setAiFeedback(result);
@@ -68,248 +82,171 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      {/* Model Writing: Six Strings (p. 26) */}
+      {/* Model Writing */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
         <div className="flex items-center gap-2 mb-3">
           <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">M</span>
-          <h2 className="text-base font-bold text-slate-900">Model Writing: {workspace?.modelWriting.title} (p. 26)</h2>
+          <h2 className="text-base font-bold text-slate-900">
+            Model Writing: {workspace?.modelWriting?.title || modelData?.item || 'Writing Model'}
+          </h2>
         </div>
-        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-          <h3 className="font-bold text-indigo-900 text-sm">{workspace?.modelWriting.title}</h3>
-          <p className="text-xs sm:text-sm text-slate-800 leading-relaxed italic bg-white p-3.5 rounded-lg border border-slate-200">
-            "{workspace?.modelWriting.text}"
-          </p>
 
-          <div className="pt-2 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            {workspace?.modelWriting.sections?.map((sec, idx) => (
-              <div key={idx} className="bg-white p-2.5 rounded-lg border border-slate-200/80">
-                <span className="font-bold text-indigo-600 block mb-0.5">{sec.label || sec.name}</span>
-                <span className="text-slate-600 leading-snug">{sec.text}</span>
-              </div>
-            ))}
+        {/* L1 Model Writing */}
+        {workspace?.modelWriting && (
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+            <h3 className="font-bold text-indigo-900 text-sm">{workspace.modelWriting.title}</h3>
+            <p className="text-xs sm:text-sm text-slate-800 leading-relaxed italic bg-white p-3.5 rounded-lg border border-slate-200">
+              "{workspace.modelWriting.text}"
+            </p>
+            <div className="pt-2 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              {workspace.modelWriting.sections?.map((sec: any, idx: number) => (
+                <div key={idx} className="bg-white p-2.5 rounded-lg border border-slate-200/80">
+                  <span className="font-bold text-indigo-600 block mb-0.5">{sec.label || sec.name}</span>
+                  <span className="text-slate-600 leading-snug">{sec.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* L2 Model Writing */}
+        {modelData && (
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-indigo-900 text-sm">{modelData.item} ({modelData.topic})</h3>
+            </div>
+            {modelData.asset && (
+              <div className="max-w-md mx-auto rounded-xl overflow-hidden shadow-sm border border-slate-200 my-2">
+                <img src={modelData.asset} alt={modelData.item} className="w-full h-auto object-cover" />
+              </div>
+            )}
+            <div className="space-y-2 pt-2">
+              {modelData.structure?.map((sec: any, idx: number) => (
+                <div key={idx} className="bg-white p-3 rounded-lg border border-slate-200 space-y-1 text-xs">
+                  <span className="font-bold text-indigo-700 block text-[11px] uppercase">{sec.section}</span>
+                  <p className="text-slate-800 leading-relaxed italic">{sec.content}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* STEP 1. Analyze (p. 26) */}
-      {workspace?.step1Analyze && (
-        <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">1</span>
-            <h2 className="text-base font-bold text-slate-900">STEP 1. Analyze (글의 구성 요소 라벨링, p. 26)</h2>
-          </div>
-          <p className="text-xs text-slate-600 mb-4">{workspace.step1Analyze.instruction}</p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-            {['A', 'B', 'C'].map(part => (
-              <div key={part} className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                <span className="font-bold text-slate-800">단락 ({part})의 역할:</span>
-                <select
-                  value={step1Labels[part] || ''}
-                  onChange={e => setStep1Labels(prev => ({ ...prev, [part]: e.target.value }))}
-                  aria-label={`Step 1 Part ${part} Label`}
-                  className="w-full px-2.5 py-1.5 border border-slate-300 bg-white rounded-lg font-medium text-indigo-700"
-                >
-                  <option value="">선택</option>
-                  {workspace.modelWriting.headingsBox?.map(h => (
-                    <option key={h} value={h}>{h}</option>
-                  ))}
-                </select>
-                {showTeacherAnswers && (
-                  <p className="text-[11px] text-emerald-700 font-bold">
-                    🔑 정답: {workspace.step1Analyze.answers?.[part]}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* STEP 2. Outlining (p. 27) */}
+      {/* STEP 1 & 2 Outlining */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
         <div className="flex items-center gap-2 mb-3">
           <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">2</span>
-          <h2 className="text-base font-bold text-slate-900">STEP 2. Outlining (나만의 동아리 홍보 개요 작성, p. 27)</h2>
-        </div>
-        <p className="text-xs text-slate-500 mb-4">
-          홍보할 동아리의 핵심 정보를 입력하세요. 교과서 모범 예시를 참고하여 작성할 수 있습니다.
-        </p>
-
-        {workspace?.step2Outline?.writingTip && (
-          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 mb-4">
-            💡 <span className="font-bold">Writing Tip:</span> {workspace.step2Outline.writingTip}
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div className="space-y-1">
-            <label className="block font-bold text-slate-700">1. 동아리 소개 (Club Information)</label>
-            <input
-              type="text"
-              value={outline.clubInformation}
-              onChange={e => setOutline(prev => ({ ...prev, clubInformation: e.target.value }))}
-              placeholder={workspace?.step2Outline?.example?.['clubInformation'] ? `예: ${workspace.step2Outline.example['clubInformation']}` : '동아리 소개 입력'}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="block font-bold text-slate-700">2. 주요 활동 (Main Activities)</label>
-            <input
-              type="text"
-              value={outline.mainActivities}
-              onChange={e => setOutline(prev => ({ ...prev, mainActivities: e.target.value }))}
-              placeholder={workspace?.step2Outline?.example?.['mainActivities'] ? `예: ${workspace.step2Outline.example['mainActivities']}` : '주요 활동 입력'}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="block font-bold text-slate-700">3. 가입 요건 (Requirements)</label>
-            <input
-              type="text"
-              value={outline.requirements}
-              onChange={e => setOutline(prev => ({ ...prev, requirements: e.target.value }))}
-              placeholder={workspace?.step2Outline?.example?.['requirements'] ? `예: ${workspace.step2Outline.example['requirements']}` : '가입 요건 입력'}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="block font-bold text-slate-700">4. 초대의 말 (Inviting Remarks)</label>
-            <input
-              type="text"
-              value={outline.invitingRemarks}
-              onChange={e => setOutline(prev => ({ ...prev, invitingRemarks: e.target.value }))}
-              placeholder={workspace?.step2Outline?.example?.['invitingRemarks'] ? `예: ${workspace.step2Outline.example['invitingRemarks']}` : '초대의 말 입력'}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <div className="space-y-1 sm:col-span-2">
-            <label className="block font-bold text-slate-700">5. 연락처 (Contact Information)</label>
-            <input
-              type="text"
-              value={outline.contactInformation}
-              onChange={e => setOutline(prev => ({ ...prev, contactInformation: e.target.value }))}
-              placeholder={workspace?.step2Outline?.example?.['contactInformation'] ? `예: ${workspace.step2Outline.example['contactInformation']}` : '연락처 입력'}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* STEP 3. Drafting with AI Rubric (p. 27) */}
-      <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">3</span>
-          <h2 className="text-base font-bold text-slate-900">STEP 3. Drafting (초안 작성 & AI 루브릭 첨삭, p. 27)</h2>
+          <h2 className="text-base font-bold text-slate-900">Outlining & Drafting (나만의 영작 개요 및 초안 작성)</h2>
         </div>
 
-        {workspace?.step3Draft.template && (
-          <div className="mb-4 p-3.5 bg-indigo-50/50 rounded-xl border border-indigo-200 text-xs text-indigo-950 space-y-1">
-            <span className="font-bold block">📝 문장 템플릿:</span>
-            <p className="font-mono text-[11px] leading-relaxed text-indigo-900">{workspace.step3Draft.template}</p>
-          </div>
-        )}
-
-        <textarea
-          value={draftText}
-          onChange={e => setDraftText(e.target.value)}
-          placeholder="Step 2의 개요를 바탕으로 60~100단어의 완전한 영어 문단을 작성해보세요..."
-          rows={6}
-          className="w-full p-4 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 font-mono mb-4 leading-relaxed"
-        />
-
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-slate-500">
-            단어 수: {draftText.trim().split(/\s+/).filter(Boolean).length} words
-          </span>
-          <button
-            onClick={handleRequestAiFeedback}
-            disabled={isAiEvaluating || !draftText.trim()}
-            aria-label="Request AI Rubric Feedback"
-            className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white text-xs font-bold rounded-xl shadow-md shadow-indigo-100 disabled:opacity-50 transition-all flex items-center gap-2"
-          >
-            {isAiEvaluating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            <span>Gemini AI 루브릭 첨삭 받기</span>
-          </button>
-        </div>
-
-        {/* AI Error Display */}
-        {aiError && (
-          <div className="mt-4 p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 space-y-1">
-            <div className="font-bold flex items-center gap-1.5">
-              <AlertCircle className="w-4 h-4 text-rose-600" />
-              <span>AI 첨삭 오류 발생</span>
-            </div>
-            <p>{aiError}</p>
-          </div>
-        )}
-
-        {/* AI Feedback Display */}
-        {aiFeedback && (
-          <div className="mt-5 p-5 bg-indigo-50/60 rounded-2xl border border-indigo-200/80 space-y-4">
-            <div className="flex items-center gap-2 text-indigo-900 font-bold text-sm">
-              <Sparkles className="w-4 h-4 text-indigo-600" />
-              <span>AI 루브릭 정밀 분석 결과</span>
-            </div>
-
-            <div className="p-3 bg-white rounded-xl border border-indigo-100 text-xs text-slate-800 leading-relaxed">
-              <span className="font-bold text-indigo-950 block mb-1">총평:</span>
-              {aiFeedback.feedbackKo}
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {aiFeedback.rubricScores.map((score, idx) => (
-                <div key={idx} className="bg-white p-3 rounded-xl border border-indigo-100 text-xs space-y-1">
-                  <span className="font-bold text-indigo-700 block">{score.criterion}</span>
-                  <p className="text-slate-600 leading-snug">{score.comment}</p>
-                </div>
+        {/* L2 Outlining guide */}
+        {workspace?.step2_outlining && (
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 mb-4">
+            <span className="font-bold text-indigo-950 block">💡 Outlining Guide & Sample:</span>
+            <p className="text-slate-800 font-semibold">• 소개: {workspace.step2_outlining.introduction}</p>
+            <div className="space-y-1 pl-2">
+              {workspace.step2_outlining.detailedInfo?.map((info: string, idx: number) => (
+                <p key={idx} className="text-slate-600">• {info}</p>
               ))}
             </div>
+            <p className="text-slate-800 font-semibold">• 결론: {workspace.step2_outlining.closing}</p>
           </div>
         )}
+
+        {/* Writing input */}
+        <div className="space-y-3 pt-2">
+          <label className="block text-xs font-bold text-slate-700">✍️ 나의 영어 초안 작성 (Draft):</label>
+          <textarea
+            rows={5}
+            value={draftText}
+            onChange={e => setDraftText(e.target.value)}
+            placeholder="교과서 예시와 개요를 참고하여 나만의 영작 초안을 작성해보세요..."
+            className="w-full p-3.5 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 leading-relaxed"
+          />
+
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-slate-500 font-mono">{draftText.length} 자 작성됨</span>
+            <button
+              onClick={handleRequestAiFeedback}
+              disabled={isAiEvaluating || !draftText.trim()}
+              className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all disabled:opacity-50"
+            >
+              {isAiEvaluating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+              <span>AI 실시간 루브릭 첨삭 받기</span>
+            </button>
+          </div>
+
+          {/* AI Feedback View */}
+          {aiFeedback && (
+            <div className="p-4 bg-purple-50/70 border border-purple-200 rounded-xl space-y-3 text-xs">
+              <span className="font-bold text-purple-950 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-purple-600" />
+                AI 루브릭 정밀 분석 결과:
+              </span>
+              <p className="text-purple-900 leading-relaxed bg-white p-3 rounded-lg border border-purple-100">
+                {aiFeedback.feedbackKo}
+              </p>
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* STEP 4. Revising & Editing Practice (p. 28) */}
+      {/* STEP 4. Revising - Editing Practice */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
         <div className="flex items-center gap-2 mb-3">
           <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">4</span>
-          <h2 className="text-base font-bold text-slate-900">STEP 4. Revising: Editing Practice (Kobe Bryant, p. 28)</h2>
+          <h2 className="text-base font-bold text-slate-900">STEP 4. Revising: Editing Practice (오류 수정 연습)</h2>
         </div>
 
-        <p className="text-xs text-slate-500 mb-3">
-          문장의 첫 글자와 고유명사(인명, 지명, 구단명 등)의 대문자 표기 오류를 찾아 바르게 고쳐보세요.
-        </p>
-
-        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs leading-relaxed text-slate-800 font-mono">
-          <p>{workspace?.step4Revise?.editingPractice?.textWithErrors}</p>
-        </div>
-
-        <div className="mt-4 flex justify-between items-center">
-          <button
-            onClick={() => setShowEditingAnswer(!showEditingAnswer)}
-            aria-label="Toggle Editing Practice Answers"
-            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl border border-slate-300 transition-colors"
-          >
-            {showEditingAnswer ? '정답 접기' : '🔑 교과서 수정 정답 확인 (6개 오류)'}
-          </button>
-        </div>
-
-        {showEditingAnswer && (
-          <div className="mt-3 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 space-y-2">
-            <span className="font-bold block">교과서 오류 정정 내역 (p. 28):</span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {workspace?.step4Revise?.editingPractice?.corrections.map((c, idx) => (
-                <div key={idx} className="bg-white p-2 rounded-lg border border-emerald-100 flex items-center justify-between">
-                  <span className="text-rose-600 line-through font-mono">{c.original}</span>
-                  <span className="text-slate-400">➔</span>
-                  <span className="text-emerald-700 font-bold font-mono">{c.corrected}</span>
-                  <span className="text-[11px] text-slate-500">({c.explanation})</span>
+        {/* L1 Editing Practice */}
+        {workspace?.step4Revise?.editingPractice && (
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs">
+            <p className="text-slate-800 leading-relaxed bg-white p-3.5 rounded-lg border border-slate-200">
+              {workspace.step4Revise.editingPractice.textWithErrors}
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => setShowEditingAnswer(!showEditingAnswer)}
+                className="px-3 py-1.5 bg-indigo-50 text-indigo-700 font-bold rounded-lg border border-indigo-200 text-xs"
+              >
+                {showEditingAnswer ? '정답 숨기기' : '교과서 정답 확인'}
+              </button>
+              {showEditingAnswer && (
+                <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-emerald-900 space-y-1">
+                  {workspace.step4Revise.editingPractice.corrections?.map((c: any, idx: number) => (
+                    <p key={idx}>• <span className="line-through text-rose-600">{c.original}</span> → <span className="font-bold text-emerald-700">{c.corrected}</span> ({c.reason})</p>
+                  ))}
                 </div>
-              ))}
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* L2 Editing Practice */}
+        {editingData && (
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs">
+            {editingData.tip && (
+              <div className="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 font-medium">
+                💡 <span className="font-bold">Editing Tip:</span> {editingData.tip}
+              </div>
+            )}
+            <p className="text-slate-800 leading-relaxed bg-white p-3.5 rounded-lg border border-slate-200">
+              {editingData.passage}
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => setShowEditingAnswer(!showEditingAnswer)}
+                className="px-3 py-1.5 bg-indigo-50 text-indigo-700 font-bold rounded-lg border border-indigo-200 text-xs"
+              >
+                {showEditingAnswer ? '정답 숨기기' : '교과서 정답 확인'}
+              </button>
+              {showEditingAnswer && editingData.corrections && (
+                <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-emerald-900 space-y-1">
+                  {editingData.corrections.map((c: any, idx: number) => (
+                    <p key={idx}>• <span className="line-through text-rose-600">{c.original}</span> → <span className="font-bold text-emerald-700">{c.corrected}</span> ({c.reason})</p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

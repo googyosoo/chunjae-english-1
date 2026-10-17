@@ -4,13 +4,12 @@ import sys
 import json
 import re
 
-# 1. content/lesson-01.json 에서 6단어 이상의 모든 영어 문장 추출
-lesson_file = os.path.join(os.path.dirname(__file__), '..', 'content', 'lesson-01.json')
-if not os.path.exists(lesson_file):
-    lesson_file = 'content/lesson-01.json'
+# 1. content/lesson-*.json (L1, L2) 에서 6단어 이상의 모든 영어 문장 추출
+content_dir = os.path.join(os.path.dirname(__file__), '..', 'content')
+if not os.path.exists(content_dir):
+    content_dir = 'content'
 
-with open(lesson_file, 'r', encoding='utf-8') as f:
-    lesson_data = json.load(f)
+lesson_files = sorted(glob.glob(os.path.join(content_dir, 'lesson-*.json')))
 
 def extract_strings(data):
     if isinstance(data, str):
@@ -26,31 +25,35 @@ def extract_strings(data):
 textbook_sentences = []
 seen_phrases = set()
 
-for raw_str in extract_strings(lesson_data):
-    # URL 및 파일명 제외
-    if raw_str.startswith('http://') or raw_str.startswith('https://') or raw_str.endswith('.mp3'):
-        continue
-    
-    # [blank], [blank_1] 등을 공백 처리
-    cleaned = re.sub(r'\[blank[^\]]*\]', ' ', raw_str)
-    
-    # 문장 단위 분리 (. ! ? \n)
-    parts = re.split(r'[\n.!?]+', cleaned)
-    for part in parts:
-        words = re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?", part)
-        if len(words) >= 6:
-            phrase = ' '.join(words)
-            phrase_lower = phrase.lower()
-            if phrase_lower not in seen_phrases:
-                seen_phrases.add(phrase_lower)
-                textbook_sentences.append(phrase)
+for lf in lesson_files:
+    with open(lf, 'r', encoding='utf-8') as f:
+        lesson_data = json.load(f)
+    for raw_str in extract_strings(lesson_data):
+        # URL 및 파일명 제외
+        if raw_str.startswith('http://') or raw_str.startswith('https://') or raw_str.endswith('.mp3') or raw_str.endswith('.png'):
+            continue
+        
+        # [blank], [blank_1] 등을 공백 처리
+        cleaned = re.sub(r'\[blank[^\]]*\]', ' ', raw_str)
+        
+        # 문장 단위 분리 (. ! ? \n)
+        parts = re.split(r'[\n.!?]+', cleaned)
+        for part in parts:
+            words = re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?", part)
+            if len(words) >= 6:
+                phrase = ' '.join(words)
+                phrase_lower = phrase.lower()
+                if phrase_lower not in seen_phrases:
+                    seen_phrases.add(phrase_lower)
+                    textbook_sentences.append(phrase)
 
-print(f'Extracted {len(textbook_sentences)} unique English textbook sentences (>= 6 words) from {lesson_file}.')
+print(f'Extracted {len(textbook_sentences)} unique English textbook sentences (>= 6 words) across {len(lesson_files)} lesson files.')
 
 # 2. 보안 및 테스트 뒷문 제거 검증 문자열 (배포용 코드에서 0건이어야 함)
 forbidden_code_phrases = [
     '__E2E_USER__',
     '/content/lesson-01.json',
+    '/content/lesson-02.json',
 ]
 
 dist_files = glob.glob('dist/**/*', recursive=True)

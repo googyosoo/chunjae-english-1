@@ -6,29 +6,51 @@ interface CornerTabsProps {
   activeCornerId: CornerId;
   onSelectCorner: (id: CornerId) => void;
   completedCorners: string[];
+  corners?: { id: CornerId; titleKo?: string; titleEn?: string; pageRange?: string }[];
 }
 
-const CORNERS: { id: CornerId; title: string; subtitle: string; icon: React.ElementType }[] = [
-  { id: 'introduction', title: '1. 도입', subtitle: 'Topic Question', icon: Sparkles },
-  { id: 'communicate', title: '2. 듣기·말하기', subtitle: 'Communicate', icon: MessageSquare },
-  { id: 'read', title: '3. 본문 리더', subtitle: 'Read', icon: BookOpen },
-  { id: 'after_read', title: '4. 읽기 후', subtitle: 'After You Read', icon: CheckSquare },
-  { id: 'share_thoughts', title: '5. 생각 나누기', subtitle: 'Share Thoughts', icon: Users },
-  { id: 'language_focus', title: '6. 언어 탐구', subtitle: 'Language Focus', icon: BookMarked },
-  { id: 'write_present', title: '7. 쓰기 스튜디오', subtitle: 'Write & Present', icon: PenTool },
-  { id: 'go_global', title: '8. 총괄 평가', subtitle: 'Wrap Up', icon: Award },
+const CORNER_ICONS: Record<string, React.ElementType> = {
+  introduction: Sparkles,
+  communicate: MessageSquare,
+  read: BookOpen,
+  after_read: CheckSquare,
+  share_thoughts: Users,
+  language_focus: BookMarked,
+  write_present: PenTool,
+  go_global: Award,
+  work_together: Users,
+};
+
+const DEFAULT_CORNERS: { id: CornerId; title: string; subtitle: string }[] = [
+  { id: 'introduction', title: '1. 도입', subtitle: 'Topic Question' },
+  { id: 'communicate', title: '2. 듣기·말하기', subtitle: 'Communicate' },
+  { id: 'read', title: '3. 본문 리더', subtitle: 'Read' },
+  { id: 'after_read', title: '4. 읽기 후', subtitle: 'After You Read' },
+  { id: 'share_thoughts', title: '5. 생각 나누기', subtitle: 'Share Thoughts' },
+  { id: 'language_focus', title: '6. 언어 탐구', subtitle: 'Language Focus' },
+  { id: 'write_present', title: '7. 쓰기 스튜디오', subtitle: 'Write & Present' },
+  { id: 'go_global', title: '8. 총괄 평가', subtitle: 'Wrap Up' },
 ];
 
 export const CornerTabs: React.FC<CornerTabsProps> = ({
   activeCornerId,
   onSelectCorner,
   completedCorners,
+  corners,
 }) => {
+  const tabs = corners && corners.length > 0
+    ? corners.map((c, idx) => ({
+        id: c.id,
+        title: `${idx + 1}. ${c.titleKo || c.id}`,
+        subtitle: c.titleEn || c.pageRange || '',
+      }))
+    : DEFAULT_CORNERS;
+
   return (
     <div className="bg-white border-b border-slate-200 overflow-x-auto scrollbar-none px-4 py-2">
       <div className="max-w-7xl mx-auto flex items-center gap-1.5 min-w-max">
-        {CORNERS.map((corner) => {
-          const Icon = corner.icon;
+        {tabs.map((corner) => {
+          const Icon = CORNER_ICONS[corner.id] || Sparkles;
           const isActive = activeCornerId === corner.id;
           const isDone = completedCorners.includes(corner.id);
 

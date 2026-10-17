@@ -1,0 +1,1060 @@
+import json
+import os
+import fitz # PyMuPDF
+
+def crop_lesson_02_assets():
+    raw_dir = "pipeline/raw/lesson-02"
+    asset_dir = "content/assets/lesson-02"
+    os.makedirs(asset_dir, exist_ok=True)
+    
+    crops = [
+        {"page_img": "p38.png", "crop_box": (0.05, 0.45, 0.95, 0.92), "filename": "robin_yayla_canal_volley.png"},
+        {"page_img": "p40.png", "crop_box": (0.05, 0.05, 0.95, 0.55), "filename": "rob_gonsalves_magic_realism.png"},
+        {"page_img": "p41.png", "crop_box": (0.05, 0.50, 0.95, 0.95), "filename": "vincent_bal_shadowology.png"},
+        {"page_img": "p45.png", "crop_box": (0.05, 0.48, 0.95, 0.95), "filename": "su_blackwell_paper_art.png"},
+        {"page_img": "p50.png", "crop_box": (0.05, 0.48, 0.95, 0.95), "filename": "the_dancing_house_prague.png"}
+    ]
+    
+    for c in crops:
+        img_path = os.path.join(raw_dir, c["page_img"])
+        out_path = os.path.join(asset_dir, c["filename"])
+        if os.path.exists(img_path):
+            doc = fitz.open(img_path)
+            page = doc[0]
+            rect = page.rect
+            crop_rect = fitz.Rect(
+                rect.width * c["crop_box"][0],
+                rect.height * c["crop_box"][1],
+                rect.width * c["crop_box"][2],
+                rect.height * c["crop_box"][3]
+            )
+            pix = page.get_pixmap(clip=crop_rect)
+            pix.save(out_path)
+            print(f"Created asset: {c['filename']} ({pix.width}, {pix.height})")
+            doc.close()
+
+def build_lesson_02_json():
+    lesson_data = {
+        "lessonNumber": 2,
+        "title": "Spark Your Creativity",
+        "topic": "Art & Creativity",
+        "topicQuestion": "How can you come up with creative ideas?",
+        "hashtags": [
+            "#creativity_in_life",
+            "#imaginative_artworks",
+            "#creative_people",
+            "#my_favorite_artwork"
+        ],
+        "pageRange": "pp. 32-55",
+        "school": "심인고등학교",
+        "corners": [
+            {
+                "id": "introduction",
+                "cornerNumber": 1,
+                "titleKo": "단원 도입 & 토픽 질문",
+                "titleEn": "Introduction",
+                "pageRange": "pp. 32-33",
+                "priority": "P1",
+                "activities": [
+                    {
+                        "activityId": "l2_intro_topic_question",
+                        "type": "topic_reflection",
+                        "title": "Topic Question 사전·사후 성찰",
+                        "page": 32,
+                        "sourceRef": "Textbook p. 32 & p. 55",
+                        "data": {
+                            "topicQuestion": "How can you come up with creative ideas?",
+                            "topicSampleAnswer": "We can come up with creative ideas by looking at things differently.",
+                            "hashtags": [
+                                "#creativity_in_life",
+                                "#imaginative_artworks",
+                                "#creative_people",
+                                "#my_favorite_artwork"
+                            ],
+                            "lessonFlow": [
+                                {"step": 1, "title": "Communicate on Topic: Creativity in Everyday Life", "pageRange": "pp. 34-35"},
+                                {"step": 2, "title": "Before You Read: Background & Vocabulary Check", "pageRange": "p. 36"},
+                                {"step": 3, "title": "Read: Beyond the Scene & Read Further", "pageRange": "pp. 37-42, 45"},
+                                {"step": 4, "title": "After You Read: Summary & Details", "pageRange": "pp. 43-44"},
+                                {"step": 5, "title": "Share Your Thoughts: Creative People and Their Works", "pageRange": "pp. 46-47"},
+                                {"step": 6, "title": "Language Focus: Word Uses, Phrases & Grammar", "pageRange": "pp. 48-49"},
+                                {"step": 7, "title": "Write & Present: My Favorite Work of Art", "pageRange": "pp. 50-52"},
+                                {"step": 8, "title": "Work Together: Making an Artwork with a Scenic Photo", "pageRange": "p. 53"}
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "communicate",
+                "cornerNumber": 2,
+                "titleKo": "듣기 & 말하기 의사소통",
+                "titleEn": "Communicate on Topic",
+                "pageRange": "pp. 34-35",
+                "priority": "P1",
+                "activities": [
+                    {
+                        "activityId": "l2_comm_watch_think",
+                        "type": "watch_and_think",
+                        "title": "A. Watch and Think - 점 연결하기 (Connect the Dots)",
+                        "page": 34,
+                        "sourceRef": "Textbook p. 34, Scripts pp. 143-144, Sources p. 170",
+                        "data": {
+                            "videoTitle": "Connect the Dots",
+                            "youtubeUrl": "https://www.youtube.com/watch?v=0hX0_8e64cE",
+                            "sourceCitation": "sproutsschools.com / Pew Research & Textbook p. 170",
+                            "script": [
+                                {
+                                    "id": "s1",
+                                    "speaker": "M",
+                                    "en": "Imagine you are hungry and all you have at home is a coconut, some rice, and an egg.",
+                                    "ko": "여러분이 배가 고픈데 집에 코코넛, 쌀 조금, 달걀 하나밖에 없다고 상상해 보세요."
+                                },
+                                {
+                                    "id": "s2",
+                                    "speaker": "M",
+                                    "en": "If you have no clue and zero creative thoughts, you’d probably eat the raw egg with unboiled hard rice while staring at the coconut.",
+                                    "ko": "만약 아무런 단서도 없고 창의적인 생각이 전혀 없다면, 아마 코코넛을 빤히 쳐다보면서 익히지 않은 딱딱한 쌀과 날달걀을 먹을 것입니다."
+                                },
+                                {
+                                    "id": "s3",
+                                    "speaker": "M",
+                                    "en": "If, however, you have memories of your dad cracking the coconut, and your mom boiling the rice, your brain can connect the dots and form a new creative idea.",
+                                    "ko": "하지만 아빠가 코코넛을 쪼개던 기억과 엄마가 밥을 짓던 기억이 있다면, 여러분의 뇌는 점들을 연결하여 새로운 창의적인 아이디어를 만들어낼 수 있습니다."
+                                },
+                                {
+                                    "id": "s4",
+                                    "speaker": "M",
+                                    "en": "You boil the rice in coconut water, then fry it with the egg and add coconut flakes.",
+                                    "ko": "코코넛 워터에 쌀을 안쳐 밥을 짓고, 달걀과 함께 볶은 뒤 코코넛 플레이크를 얹습니다."
+                                },
+                                {
+                                    "id": "s5",
+                                    "speaker": "M",
+                                    "en": "Voilà! Enjoy your meal!",
+                                    "ko": "짜잔! 식사를 맛있게 즐기세요!"
+                                }
+                            ],
+                            "checkQuestion": "Watch the video and choose the right word.",
+                            "sentence": "Your brain can connect / distinguish the dots and form a new creative idea.",
+                            "options": ["connect", "distinguish"],
+                            "answer": "connect",
+                            "yourThoughtsQuestion": "Have you ever used creativity in your life?",
+                            "yourThoughtsSample": "Yes, I have. When I had to plan a school festival, I came up with some ideas for special performances that combined history and music, and they made the festival more exciting."
+                        }
+                    },
+                    {
+                        "activityId": "l2_comm_listen_answer",
+                        "type": "listen_and_answer",
+                        "title": "B. Listen and Answer - 일상 속 창의성",
+                        "page": 34,
+                        "sourceRef": "Textbook p. 34, Scripts p. 144, Answers p. 154",
+                        "data": {
+                            "dialogues": [
+                                {
+                                    "id": "d1",
+                                    "title": "Dialogue 1: Unique Composition",
+                                    "script": [
+                                        {"id": "d1_1", "speaker": "W", "en": "Mr. Oxman, thank you for joining our show.", "ko": "Oxman 씨, 쇼에 출연해 주셔서 감사합니다."},
+                                        {"id": "d1_2", "speaker": "M", "en": "It’s my pleasure. I feel honored to be here.", "ko": "천만에요. 여기에 오게 되어 영광입니다."},
+                                        {"id": "d1_3", "speaker": "W", "en": "I actually watched a video clip of one of your musical compositions, and the composition that resembled a cat was very impressive.", "ko": "선생님의 악곡 영상 중 하나를 보았는데 고양이를 닮은 곡이 정말 인상적이었습니다."},
+                                        {"id": "d1_4", "speaker": "M", "en": "Oh, did you? I’m glad to hear that.", "ko": "아, 그러셨나요? 기쁩니다."},
+                                        {"id": "d1_5", "speaker": "W", "en": "Yeah, the music was amazing. How did you come up with such a unique idea?", "ko": "네, 음악이 훌륭했어요. 그런 독특한 아이디어를 어떻게 떠올리셨나요?"},
+                                        {"id": "d1_6", "speaker": "M", "en": "After graduating from music school, I wanted to find a way to combine my love for animals, music, and drawing into something special.", "ko": "음악 학교를 졸업한 후, 저는 동물과 음악, 그림에 대한 제 사랑을 특별한 무언가로 결합할 방법을 찾고 싶었습니다."},
+                                        {"id": "d1_7", "speaker": "W", "en": "That’s cool. Has anyone ever inspired you?", "ko": "멋지네요. 누군가에게 영감을 받으셨나요?"},
+                                        {"id": "d1_8", "speaker": "M", "en": "I got my idea from the famous classical composer, Bach. His writing looked a lot like drawings. So, I decided to turn musical notes into graphic shapes, which ended up resembling my cat, and it turned out to be a unique composition.", "ko": "저는 유명한 고전 작곡가 바흐에게서 아이디어를 얻었습니다. 그의 필체는 그림과 아주 비슷해 보였죠. 그래서 저는 음표를 그래픽 도형으로 바꾸기로 했고, 그것이 결국 제 고양이를 닮게 되어 독특한 곡이 되었습니다."},
+                                        {"id": "d1_9", "speaker": "W", "en": "That’s so creative! I heard you are also running a charity project. Could you tell us about it?", "ko": "정말 창의적이네요! 자선 프로젝트도 운영하고 계신다고 들었습니다. 말씀해 주실 수 있나요?"},
+                                        {"id": "d1_10", "speaker": "M", "en": "Absolutely! In our city, we have over 100 homeless cats, and 20% of the profits from my musical compositions go toward taking care of them.", "ko": "물론입니다! 우리 도시에는 100마리가 넘는 유기묘가 있는데, 제 악곡 수익의 20%가 그 고양이들을 돌보는 데 쓰입니다."},
+                                        {"id": "d1_11", "speaker": "W", "en": "That’s incredible. Now, your fans would love to hear your music. Would you mind playing a piece for them, please?", "ko": "믿기지 않을 정도로 훌륭하네요. 자, 팬들이 선생님의 음악을 듣고 싶어 할 텐데요. 그들을 위해 한 곡 연주해 주시겠어요?"},
+                                        {"id": "d1_12", "speaker": "M", "en": "Of course not. I’d be delighted to play for them.", "ko": "물론이죠. 기꺼이 그들을 위해 연주해 드리겠습니다."}
+                                    ],
+                                    "question": "Which work was mentioned by the speakers?",
+                                    "options": [
+                                        "a",
+                                        "b",
+                                        "c"
+                                    ],
+                                    "answer": "c"
+                                },
+                                {
+                                    "id": "d2",
+                                    "title": "Dialogue 2: René Magritte Exhibition",
+                                    "script": [
+                                        {"id": "d2_1", "speaker": "B", "en": "What are you going to do this Saturday? Do you have any special plans?", "ko": "이번 주 토요일에 뭐 할 거야? 특별한 계획 있어?"},
+                                        {"id": "d2_2", "speaker": "G", "en": "Well, I’m going to visit the City Art Gallery with Jina. Do you know who René Magritte was?", "ko": "글쎄, 진아와 함께 시립 미술관에 갈 거야. 르네 마그리트가 누구인지 알아?"},
+                                        {"id": "d2_3", "speaker": "B", "en": "I’ve heard the name before, but I don’t know much about him.", "ko": "이름은 들어봤는데 그에 대해 잘 몰라."},
+                                        {"id": "d2_4", "speaker": "G", "en": "Oh, he is one of my favorite artists. He’s famous for combining unrelated objects to create a new meaning. I actually borrowed an art book about him from the school library. Look at these pictures.", "ko": "아, 그는 내가 가장 좋아하는 화가 중 한 명이야. 무관한 사물들을 결합해 새로운 의미를 창조하는 것으로 유명해. 학교 도서관에서 그에 관한 미술책을 빌렸어. 이 그림들 봐."},
+                                        {"id": "d2_5", "speaker": "B", "en": "Oh, his paintings are very unique.", "ko": "오, 그의 그림들은 정말 독특하네."},
+                                        {"id": "d2_6", "speaker": "G", "en": "Yes. This painting called The Son of Man really appeals to me. I want to see this in person at the art gallery.", "ko": "응. ‘사람의 아들’이라는 이 그림이 정말 마음에 들어. 미술관에서 직접 보고 싶어."},
+                                        {"id": "d2_7", "speaker": "B", "en": "That’s cool.", "ko": "멋지다."},
+                                        {"id": "d2_8", "speaker": "G", "en": "Actually, I happen to have an extra ticket. You’re more than welcome to join us if you’re interested.", "ko": "사실 표가 한 장 더 있어. 관심 있으면 같이 가도 좋아."},
+                                        {"id": "d2_9", "speaker": "B", "en": "Seriously? I’d love to!", "ko": "정말? 꼭 가고 싶어!"},
+                                        {"id": "d2_10", "speaker": "G", "en": "That’s great. The art gallery opens at 10 a.m. on Saturdays, so let’s meet up at the subway station near the school at 9:30 a.m. How does that sound?", "ko": "좋아. 미술관은 토요일 오전 10시에 여니까, 오전 9시 30분에 학교 근처 지하철역에서 만나자. 어때?"},
+                                        {"id": "d2_11", "speaker": "B", "en": "That’s perfect! I’ll be there.", "ko": "완벽해! 갈게."}
+                                    ],
+                                    "questions": [
+                                        {
+                                            "id": "q1",
+                                            "question": "René Magritte is known for combining unrelated objects to create a new meaning.",
+                                            "answer": "T"
+                                        },
+                                        {
+                                            "id": "q2",
+                                            "question": "The boy and the girl are going to meet at 10 a.m. this Saturday.",
+                                            "answer": "F"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_comm_listen_write",
+                        "type": "listen_and_write",
+                        "title": "C. Listen and Write - 펭귄 광고와 상상력",
+                        "page": 35,
+                        "sourceRef": "Textbook p. 35, Scripts p. 145, Answers p. 154",
+                        "data": {
+                            "script": [
+                                {"id": "lw1", "speaker": "W", "en": "Hello, everyone. Today, I’ll talk about the importance of imagination in producing effective advertisements.", "ko": "안녕하세요, 여러분. 오늘은 효과적인 광고를 제작하는 데 있어 상상력의 중요성에 대해 이야기하겠습니다."},
+                                {"id": "lw2", "speaker": "W", "en": "The advertisement shown in this poster is an excellent illustration of how imagination can be used to raise awareness of critical issues.", "ko": "이 포스터에 제시된 광고는 중대한 문제에 대한 인식을 높이기 위해 상상력이 어떻게 활용될 수 있는지 보여주는 훌륭한 예입니다."},
+                                {"id": "lw3", "speaker": "W", "en": "A striking pattern of black and white penguins creates a powerful visual presentation of the rapidly declining African penguin population, and most of all, the use of a clever visual trick highlights the problem.", "ko": "흑백 펭귄의 눈에 띄는 패턴은 급격히 감소하는 아프리카 펭귄 개체수를 시각적으로 강렬하게 보여주며, 무엇보다 영리한 시각적 트릭이 이 문제를 부각합니다."},
+                                {"id": "lw4", "speaker": "W", "en": "So, this advertisement successfully captures people’s attention and helps them understand the problem the African penguins are facing.", "ko": "따라서 이 광고는 사람들의 시선을 성공적으로 사로잡고 아프리카 펭귄이 직면한 문제를 이해하도록 돕습니다."},
+                                {"id": "lw5", "speaker": "W", "en": "Please keep in mind that using your imagination is essential in creating great advertisements.", "ko": "상상력을 사용하는 것이 훌륭한 광고를 만드는 데 필수적이라는 점을 명심하세요."}
+                            ],
+                            "wordBox": ["declining", "imagination", "visual"],
+                            "text": "This advertisement is made effective with the help of [blank]. Through a striking pattern of black and white penguins and a clever [blank] trick, it captures people’s attention and helps them understand the problem of the [blank] African penguin population.",
+                            "answers": ["imagination", "visual", "declining"]
+                        }
+                    },
+                    {
+                        "activityId": "l2_comm_match_talk",
+                        "type": "match_and_talk",
+                        "title": "D. Match and Talk - 기발한 아이디어 상품",
+                        "page": 35,
+                        "sourceRef": "Textbook p. 35, Answers p. 154",
+                        "data": {
+                            "items": [
+                                {
+                                    "id": "item1",
+                                    "product": "banana warning signs",
+                                    "desc": "They are designed to warn people of wet floors in a humorous way.",
+                                    "letter": "ⓒ"
+                                },
+                                {
+                                    "id": "item2",
+                                    "product": "reverse umbrellas",
+                                    "desc": "They close in reverse and keep water away from you.",
+                                    "letter": "ⓐ"
+                                },
+                                {
+                                    "id": "item3",
+                                    "product": "pizza scissors with a server",
+                                    "desc": "They help us cut and serve pizza easily without losing toppings.",
+                                    "letter": "ⓑ"
+                                }
+                            ],
+                            "modelDialogue": {
+                                "speakerA": "Do you know what banana warning signs are?",
+                                "speakerB": "No, what is special about them?",
+                                "speakerA_reply": "They are designed to warn people of wet floors in a humorous way.",
+                                "speakerB_reply": "What a clever idea!"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "read",
+                "cornerNumber": 3,
+                "titleKo": "본문 읽기 & 심화 독해",
+                "titleEn": "Read: Beyond the Scene",
+                "pageRange": "pp. 36-42, 45",
+                "priority": "P1",
+                "activities": [
+                    {
+                        "activityId": "l2_read_before",
+                        "type": "before_you_read",
+                        "title": "Before You Read: Background Check & Vocabulary Check",
+                        "page": 36,
+                        "sourceRef": "Textbook p. 36, Answers p. 154",
+                        "data": {
+                            "backgroundCheck": {
+                                "prompt": "Look at the artworks below, and discuss the most interesting one with a classmate.",
+                                "sampleAnswer": "I think the second one is the most interesting because it changed a familiar object into art."
+                            },
+                            "vocabularyCheck": {
+                                "wordBox": ["depicts", "illustration", "construct", "landscape"],
+                                "questions": [
+                                    {
+                                        "id": "v1",
+                                        "sentence": "His [blank] was so creative that he received the grand prize at the art contest.",
+                                        "answer": "illustration"
+                                    },
+                                    {
+                                        "id": "v2",
+                                        "sentence": "The painting [blank] the beautiful view of the sea seen from the village.",
+                                        "answer": "depicts"
+                                    },
+                                    {
+                                        "id": "v3",
+                                        "sentence": "Here are a few practical tips on how to take pictures of a [blank].",
+                                        "answer": "landscape"
+                                    },
+                                    {
+                                        "id": "v4",
+                                        "sentence": "It was difficult to [blank] a new bridge across the river because of the budget.",
+                                        "answer": "construct"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "activityId": "l2_read_passage",
+                        "type": "passage",
+                        "title": "Main Passage: Beyond the Scene",
+                        "page": 37,
+                        "sourceRef": "Textbook pp. 37-42",
+                        "data": {
+                            "sections": [
+                                {
+                                    "sectionId": "sec1",
+                                    "title": "Connecting Separate Things",
+                                    "page": 37,
+                                    "sentences": [
+                                        {"id": "r1", "en": "How do we open ourselves up to new possibilities?", "ko": "우리는 어떻게 새로운 가능성에 마음을 열 수 있을까요?"},
+                                        {"id": "r2", "en": "One of the ways to do this is to connect things that look separate.", "ko": "이를 위한 한 가지 방법은 별개로 보이는 것들을 연결하는 것입니다."},
+                                        {"id": "r3", "en": "This can be incredibly pleasing as it helps us to see the world in a different light and gain a greater appreciation for the interrelation of all things.", "ko": "이것은 우리가 세상을 다른 시각으로 보고 모든 것의 상호 연관성에 대해 더 큰 이해와 감상을 얻도록 돕기 때문에 믿을 수 없을 정도로 즐거울 수 있습니다."},
+                                        {"id": "r4", "en": "Here are three artists who are willing to experiment with this approach.", "ko": "여기 이러한 접근법을 기꺼이 시도하는 세 명의 예술가가 있습니다."}
+                                    ],
+                                    "questions": [
+                                        {
+                                            "id": "q1",
+                                            "question": "Why can connecting things that look separate be incredibly pleasing?",
+                                            "answer": "It is because it helps us to see the world in a different light and gain a greater appreciation for the interrelation of all things."
+                                        }
+                                    ]
+                                },
+                                {
+                                    "sectionId": "sec2",
+                                    "title": "Robin Yayla: Digital Storyteller",
+                                    "page": 38,
+                                    "asset": "/api/asset?lesson=02&name=robin_yayla_canal_volley.png",
+                                    "sentences": [
+                                        {"id": "r5", "en": "Meet Robin Yayla, a visual storyteller living in Milan, Italy, who has been delighting his viewers with his unique artworks on social media.", "ko": "소셜 미디어에서 독특한 작품들로 보는 사람들을 즐겁게 해 오고 있는 이탈리아 밀라노에 사는 시각적 이야기꾼 Robin Yayla를 만나보세요."},
+                                        {"id": "r6", "en": "He draws illustrations on top of photos of landmarks or buildings and offers whole new ways to see them.", "ko": "그는 랜드마크나 건물의 사진 위에 삽화를 그려 그것들을 바라보는 완전히 새로운 방식을 제시합니다."},
+                                        {"id": "r7", "en": "To breathe life into well-known structures around the world, he often uses iconic pop culture characters.", "ko": "전 세계의 잘 알려진 건축물에 생명을 불어넣기 위해, 그는 종종 상징적인 대중문화 캐릭터를 활용합니다."},
+                                        {"id": "r8", "en": "His unique twists sometimes turn what we consider dull and boring into something delightful.", "ko": "그의 독특한 전환은 우리가 따분하고 지루하다고 여기는 것을 때때로 유쾌한 것으로 바꾸어 놓습니다."},
+                                        {"id": "r9", "en": "To him, a bridge is a net, and a road is a bowling lane.", "ko": "그에게 다리는 네트이고, 도로는 볼링 레인입니다."},
+                                        {"id": "r10", "en": "After finding whatever is common in two unrelated things, he connects them smoothly in his digital drawing.", "ko": "무관한 두 사물에서 공통된 것이 무엇이든 찾아낸 뒤, 그는 디지털 드로잉으로 그것들을 부드럽게 연결합니다."},
+                                        {"id": "r11", "en": "His work combines his passion for traveling and drawing.", "ko": "그의 작품은 여행과 그림 그리기에 대한 그의 열정을 결합합니다."},
+                                        {"id": "r12", "en": "Exploring new places and learning about new cultures inspire his artistic mind to come up with new ideas for his art.", "ko": "새로운 장소를 탐험하고 새로운 문화를 배우는 것은 그의 예술적 마음에 영감을 주어 작품을 위한 새로운 아이디어를 떠올리게 합니다."},
+                                        {"id": "r13", "en": "Many of his digital illustrations transform the most historic buildings of the world into new objects that you would like to see again.", "ko": "그의 디지털 삽화 중 상당수는 세계에서 가장 역사적인 건물들을 여러분이 다시 보고 싶어 할 새로운 사물로 변형시킵니다."},
+                                        {"id": "r14", "en": "For example, he added images of ice cream cones onto the scenic photo of St. Basil’s Cathedral in Moscow, the capital of Russia.", "ko": "예를 들어, 그는 러시아 수도 모스크바의 성 바실리 대성당의 풍경 사진 위에 아이스크림 콘 이미지를 추가했습니다."},
+                                        {"id": "r15", "en": "The Leaning Tower of Pisa, one of the most remarkable architectural structures in Italy, appeared to be a camera lens to him.", "ko": "이탈리아의 가장 놀라운 건축물 중 하나인 피사의 사탑은 그에게 카메라 렌즈처럼 보였습니다."}
+                                    ],
+                                    "questions": [
+                                        {
+                                            "id": "q2",
+                                            "question": "How does Robin Yayla create his unique artworks?",
+                                            "answer": "He creates his unique artworks by drawing illustrations on top of photos of landmarks or buildings."
+                                        },
+                                        {
+                                            "id": "q3",
+                                            "question": "What did Robin Yayla view the Leaning Tower of Pisa as?",
+                                            "answer": "He viewed it as a camera lens."
+                                        },
+                                        {
+                                            "id": "q4",
+                                            "question": "If you could draw an illustration on a photo like Yayla, which landmark would you choose to draw on?",
+                                            "answer": "I’d choose a pyramid in Egypt."
+                                        }
+                                    ]
+                                },
+                                {
+                                    "sectionId": "sec3",
+                                    "title": "Rob Gonsalves: Magic Realism",
+                                    "page": 39,
+                                    "asset": "/api/asset?lesson=02&name=rob_gonsalves_magic_realism.png",
+                                    "sentences": [
+                                        {"id": "r16", "en": "Paintings of Rob Gonsalves, a Canadian magic realist artist, combine two different points of view.", "ko": "캐나다의 마술적 사실주의 화가 Rob Gonsalves의 그림들은 두 가지 서로 다른 관점을 결합합니다."},
+                                        {"id": "r17", "en": "They give the viewer the visual illusion that they are looking at two unrelated realities flawlessly fused in one painting.", "ko": "그의 그림들은 보는 이로 하여금 하나의 그림 속에 흠 없이 융합된 두 개의 무관한 현실을 보고 있다는 시각적 착각을 줍니다."},
+                                        {"id": "r18", "en": "They usually depict landscapes and objects that seem to change from one thing to another.", "ko": "그림들은 대개 한 사물에서 다른 사물로 변하는 것처럼 보이는 풍경과 사물들을 묘사합니다."},
+                                        {"id": "r19", "en": "When you look at the top right corner of the painting above, you can see a kid jumping on his bed.", "ko": "위 그림의 오른쪽 위 구석을 보면, 침대 위에서 뛰고 있는 아이를 볼 수 있습니다."},
+                                        {"id": "r20", "en": "However, as you move your eyes across, the bedcovers change into fields, which a girl now appears to be flying over.", "ko": "하지만 시선을 가로질러 옮겨감에 따라, 침대 덮개는 들판으로 변하고, 이제 한 소녀가 그 위를 날아가고 있는 것처럼 보입니다."},
+                                        {"id": "r21", "en": "This is how the visual illusion is created: an object is gradually changed through a series of similar shapes into something entirely different in a single scene.", "ko": "이것이 시각적 착각이 만들어지는 방식입니다. 한 장면 안에서 사물이 일련의 유사한 형태를 거쳐 완전히 다른 무언가로 점차 변화합니다."},
+                                        {"id": "r22", "en": "At the same time, two different parts of the same scene are constructed at different scales.", "ko": "동시에, 동일한 장면의 서로 다른 두 부분이 서로 다른 축척으로 구성됩니다."},
+                                        {"id": "r23", "en": "The result is an unexpected and seemingly impossible whole.", "ko": "그 결과는 예상치 못했고 겉보기에는 불가능해 보이는 전체가 됩니다."},
+                                        {"id": "r24", "en": "This kind of illusion has a fun way of twisting your perception.", "ko": "이러한 종류의 착시는 여러분의 인식을 유쾌하게 비트는 방식을 지니고 있습니다."},
+                                        {"id": "r25", "en": "It makes you question what is real.", "ko": "그것은 여러분에게 무엇이 진짜인지 의문을 품게 만듭니다."},
+                                        {"id": "r26", "en": "Most of his incredible paintings have an unclear boundary between the multiple stories they tell, which forces the viewer to jump back and forth between them.", "ko": "그의 놀라운 그림들 대부분은 그림이 전하는 여러 이야기 사이에 불분명한 경계를 지니고 있어, 보는 이로 하여금 그 사이를 이리저리 오가게 만듭니다."},
+                                        {"id": "r27", "en": "Tracing the transitions, you get that delightful “Ah-ha!” feeling as you try to decide exactly where one world transforms into another.", "ko": "그 변화를 따라가면서, 여러분은 한 세계가 다른 세계로 정확히 어디에서 변형되는지 판단하려 애쓰며 유쾌한 ‘아하!’ 하는 기분을 느끼게 됩니다."}
+                                    ],
+                                    "questions": [
+                                        {
+                                            "id": "q5",
+                                            "question": "What do Rob Gonsalves’ paintings usually depict?",
+                                            "answer": "They usually depict landscapes and objects that seem to change from one thing to another."
+                                        },
+                                        {
+                                            "id": "q6",
+                                            "question": "In Rob Gonsalves’ painting above, what do the bedcovers change into?",
+                                            "answer": "The bedcovers change into fields."
+                                        },
+                                        {
+                                            "id": "q7",
+                                            "question": "How is the visual illusion created in Rob Gonsalves’ painting above?",
+                                            "answer": "An object is gradually changed through a series of similar shapes into something entirely different in a single scene."
+                                        }
+                                    ]
+                                },
+                                {
+                                    "sectionId": "sec4",
+                                    "title": "Vincent Bal: Shadowology",
+                                    "page": 41,
+                                    "asset": "/api/asset?lesson=02&name=vincent_bal_shadowology.png",
+                                    "sentences": [
+                                        {"id": "r28", "en": "When we look at shadows of objects in real life, most of us think nothing of them.", "ko": "우리가 실생활에서 사물의 그림자를 볼 때, 대다수는 그림자를 대수롭지 않게 여깁니다."},
+                                        {"id": "r29", "en": "Belgian artist and film-maker Vincent Bal, however, turns them into art forms.", "ko": "하지만 벨기에의 예술가이자 영화 제작자인 Vincent Bal은 그림자를 예술 형태로 바꿉니다."},
+                                        {"id": "r30", "en": "He lets his creativity flow to make beautiful and meaningful scenes with shadows.", "ko": "그는 자신의 창의력을 마음껏 발휘하여 그림자로 아름답고 의미 있는 장면들을 만들어냅니다."},
+                                        {"id": "r31", "en": "His playful shadow art illustrations are made by adding his own doodles to shadows cast from everyday objects, like a flower or a glass.", "ko": "그의 재미있는 그림자 예술 삽화는 꽃이나 유리잔 같은 일상적인 사물에서 드리워진 그림자에 자신만의 낙서를 더함으로써 만들어집니다."},
+                                        {"id": "r32", "en": "In one image, the shadow from a key is reinterpreted as a DJ wearing headphones.", "ko": "한 이미지에서는 열쇠의 그림자가 헤드폰을 쓴 DJ로 재해석됩니다."},
+                                        {"id": "r33", "en": "In another, a potato peeler creates the perfectly shaped frame for a piano.", "ko": "또 다른 이미지에서는 감자 깎는 칼이 피아노의 완벽한 모양의 프레임을 만들어냅니다."},
+                                        {"id": "r34", "en": "In his art, the shadow from a glass becomes a pool.", "ko": "그의 예술에서 유리잔의 그림자는 수영장이 됩니다."},
+                                        {"id": "r35", "en": "He uses a very simple process to draw his pictures.", "ko": "그는 그림을 그리기 위해 매우 간단한 과정을 사용합니다."},
+                                        {"id": "r36", "en": "To start the process, all he needs to do is prepare a plain object, a piece of paper, and a light.", "ko": "작업 과정을 시작하기 위해, 그가 해야 할 일이라고는 평범한 물건 하나, 종이 한 장, 그리고 조명 하나를 준비하는 것뿐입니다."},
+                                        {"id": "r37", "en": "Then he puts the object on the paper and turns on the light.", "ko": "그런 다음 그는 물건을 종이 위에 올려놓고 조명을 켭니다."},
+                                        {"id": "r38", "en": "He just starts moving the light around and places the object in different positions.", "ko": "그는 조명을 이리저리 움직이기 시작하고 물건을 여러 위치에 놓아봅니다."},
+                                        {"id": "r39", "en": "He keeps a very open mind and tries not to have an idea in advance about what the result should be.", "ko": "그는 마음을 활짝 열어두고 결과가 어떠해야 한다는 생각을 미리 갖지 않으려고 노력합니다."},
+                                        {"id": "r40", "en": "“If I try to shape a shadow into a certain form, it always feels a bit forced. If nothing comes, I take another object, and then I just start playing around with it until suddenly I see something. In this way, I can create whatever I want,” he says.", "ko": "\"만약 그림자를 특정한 형태로 억지로 만들려고 하면 항상 부자연스럽게 느껴집니다. 아무것도 떠오르지 않으면 다른 물건을 집어 들고, 무언가가 문득 보일 때까지 가지고 놀기 시작합니다. 이런 방식으로 저는 제가 원하는 무엇이든 만들 수 있습니다.\"라고 그는 말합니다."},
+                                        {"id": "r41", "en": "His free artistic interpretation of shadows means that the possibilities for creating new doodles are endless.", "ko": "그림자에 대한 그의 자유로운 예술적 해석은 새로운 낙서를 창작할 가능성이 무궁무진함을 뜻합니다."},
+                                        {"id": "r42", "en": "In fact, it was by accident that he started making his art pieces.", "ko": "사실, 그가 이러한 예술 작품을 만들기 시작한 것은 우연이었습니다."},
+                                        {"id": "r43", "en": "While he was working on a new script, he suddenly noticed how the shadow of a cup on his desk looked like a little elephant.", "ko": "새 대본을 작업하던 중, 그는 책상 위의 컵 그림자가 작은 코끼리처럼 보인다는 것을 문득 알아차렸습니다."},
+                                        {"id": "r44", "en": "He completed the image with a few lines, took a picture and shared it on the Internet.", "ko": "그는 몇 개의 선으로 이미지를 완성하고 사진을 찍어 인터넷에 공유했습니다."},
+                                        {"id": "r45", "en": "The reactions were so positive that he challenged himself to make one shadow image every day.", "ko": "반응이 너무나 긍정적이어서 그는 매일 그림자 이미지 하나씩을 만들기로 스스로 도전했습니다."}
+                                    ],
+                                    "questions": [
+                                        {
+                                            "id": "q8",
+                                            "question": "How are Vincent Bal’s shadow art illustrations made?",
+                                            "answer": "They are made by adding doodles to shadows cast from everyday objects."
+                                        },
+                                        {
+                                            "id": "q9",
+                                            "question": "What does a potato peeler create in his work?",
+                                            "answer": "It creates the perfectly shaped frame for a piano."
+                                        },
+                                        {
+                                            "id": "q10",
+                                            "question": "What does Vincent Bal need to do to start the drawing process?",
+                                            "answer": "He needs to prepare a plain object, a piece of paper, and a light."
+                                        },
+                                        {
+                                            "id": "q11",
+                                            "question": "Find some other artworks of Vincent Bal. Which do you find the most impressive?",
+                                            "answer": "I find the one with a flower whose shadow becomes the roots of a tree the most impressive."
+                                        }
+                                    ]
+                                },
+                                {
+                                    "sectionId": "sec5",
+                                    "title": "Conclusion: The Power of Imagination",
+                                    "page": 42,
+                                    "sentences": [
+                                        {"id": "r46", "en": "Art can inspire you to see the world from a new angle.", "ko": "예술은 여러분이 세상을 새로운 각도에서 바라보도록 영감을 줄 수 있습니다."},
+                                        {"id": "r47", "en": "Connecting ideas that at first glance appear unrelated is a powerful tool for exploring the beauty of the world around us.", "ko": "얼핏 보기에 무관해 보이는 아이디어들을 연결하는 것은 우리 주변 세계의 아름다움을 탐구하는 강력한 도구입니다."},
+                                        {"id": "r48", "en": "To make such connections, all you need is your imaginative power.", "ko": "그러한 연결을 만들어 내기 위해, 여러분에게 필요한 것은 오직 여러분의 상상력뿐입니다."}
+                                    ],
+                                    "questions": [
+                                        {
+                                            "id": "q12",
+                                            "question": "What do we need to connect ideas that seem unrelated at first glance?",
+                                            "answer": "All we need is our imaginative power."
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_read_further",
+                        "type": "read_further",
+                        "title": "Read Further: Marvelous Book Sculptures",
+                        "page": 45,
+                        "sourceRef": "Textbook p. 45, Answers p. 155",
+                        "data": {
+                            "author": "Su Blackwell",
+                            "articleTitle": "Not Reading Books but Looking at Them",
+                            "asset": "/api/asset?lesson=02&name=su_blackwell_paper_art.png",
+                            "sentences": [
+                                {"id": "rf1", "en": "I became a book artist almost by accident.", "ko": "저는 거의 우연히 북 아티스트가 되었습니다."},
+                                {"id": "rf2", "en": "After graduating in 2003, I traveled to Thailand.", "ko": "2003년에 졸업한 후 태국으로 여행을 떠났습니다."},
+                                {"id": "rf3", "en": "At that time, I didn’t think about working with books.", "ko": "그 당시에는 책으로 작업하겠다는 생각을 하지 않았습니다."},
+                                {"id": "rf4", "en": "Shopping in Bangkok, I came across a used book with beautiful notes written in it.", "ko": "방콕에서 쇼핑하던 중 아름다운 메모가 적힌 헌책을 우연히 발견했습니다."},
+                                {"id": "rf5", "en": "That got me interested in the way paper was used in art.", "ko": "그것이 계기가 되어 종이가 예술에 어떻게 쓰이는지에 관심을 갖게 되었습니다."},
+                                {"id": "rf6", "en": "Soon after I returned to the UK, my father passed away.", "ko": "영국으로 돌아온 지 얼마 지나지 않아 아버지가 세상을 떠나셨습니다."},
+                                {"id": "rf7", "en": "Feeling sad, I found myself picking up the Graham Greene classic I had brought back from my trip and cutting paper moths out of the pages.", "ko": "슬픔에 잠겨 저는 여행에서 가져온 그레이엄 그린의 고전을 집어 들고 책 페이지에서 종이 나방을 오려내고 있는 자신을 발견했습니다."},
+                                {"id": "rf8", "en": "I then hung them over the open book.", "ko": "그런 다음 펼쳐진 책 위에 그것들을 매달았습니다."},
+                                {"id": "rf9", "en": "Since then, I have created sculptures out of books.", "ko": "그 이후로 저는 책으로 조각품을 만들어 오고 있습니다."},
+                                {"id": "rf10", "en": "I always read the story first to get inspiration, and everything for the sculpture is made from the pages within that book; some don’t have illustrations, so I take inspiration from the title and the text.", "ko": "저는 영감을 얻기 위해 항상 이야기를 먼저 읽으며, 조각품의 모든 것은 그 책 안의 페이지로 만들어집니다. 어떤 책에는 삽화가 없어서 제목과 본문에서 영감을 얻기도 합니다."},
+                                {"id": "rf11", "en": "I am also drawn toward fairy tales, especially Hans Christian Andersen’s; his tales are quite magical, but there’s also a sadness as they don’t always have a happy ending.", "ko": "저는 또한 동화, 특히 한스 크리스티안 안데르센의 동화에 끌립니다. 그의 이야기들은 매우 마법 같지만, 항상 행복한 결말로 끝나지 않기 때문에 슬픔도 담겨 있습니다."},
+                                {"id": "rf12", "en": "For me, books are not only sources of ideas and associations, but also objects of great beauty to be cut up and rearranged.", "ko": "저에게 책은 아이디어와 연상의 원천일 뿐만 아니라 잘라내고 재배열할 수 있는 위대한 아름다움을 지닌 대상입니다."},
+                                {"id": "rf13", "en": "I use very simple tools: a sharp knife, a bit of glue, and some wire.", "ko": "저는 아주 단순한 도구를 사용합니다. 날카로운 칼, 풀 약간, 그리고 철사 조금입니다."},
+                                {"id": "rf14", "en": "Utilizing the open book as my base, I cut its pages, glue them, gently pull them up, and support them with wire.", "ko": "펼쳐진 책을 밑받침으로 삼아, 페이지를 자르고 풀로 붙인 뒤 부드럽게 위로 당겨 철사로 받칩니다."},
+                                {"id": "rf15", "en": "Through these processes, I construct physical representations of the narratives and the characters.", "ko": "이러한 과정을 통해 저는 서사와 등장인물의 물리적 표현을 구축합니다."}
+                            ],
+                            "question": "Which scene of which book would you like to build a paper sculpture from? Why did you choose that scene?",
+                            "sampleAnswer": "I would like to choose the book called The Girl Who Leapt Through Time. I would like to build a paper sculpture about the scene where the girl time traveled to the past successfully to fix her mistakes because I want to do so myself."
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "after_read",
+                "cornerNumber": 4,
+                "titleKo": "읽기 후 활동 & 요약",
+                "titleEn": "After You Read",
+                "pageRange": "pp. 43-44",
+                "priority": "P1",
+                "activities": [
+                    {
+                        "activityId": "l2_after_summary",
+                        "type": "summary",
+                        "title": "A. Summary - 본문 구조 요약",
+                        "page": 43,
+                        "sourceRef": "Textbook p. 43, Answers p. 155",
+                        "data": {
+                            "wordBox": ["illustrations", "photos", "illusions", "shadows", "doodles"],
+                            "artists": [
+                                {
+                                    "artist": "Robin Yayla",
+                                    "text": "draws digital [blank] on top of scenic [blank] of landmarks or buildings",
+                                    "blanks": ["illustrations", "photos"]
+                                },
+                                {
+                                    "artist": "Rob Gonsalves",
+                                    "text": "shows two different but related points of view and uses visual [blank] to twist the viewers’ perception",
+                                    "blanks": ["illusions"]
+                                },
+                                {
+                                    "artist": "Vincent Bal",
+                                    "text": "combines [blank] of everyday objects with [blank]",
+                                    "blanks": ["shadows", "doodles"]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_after_details",
+                        "type": "details_choice",
+                        "title": "B. Details - 내용 이해 선택",
+                        "page": 43,
+                        "sourceRef": "Textbook p. 43, Answers p. 155",
+                        "data": {
+                            "questions": [
+                                {
+                                    "id": "det1",
+                                    "sentence": "Robin Yayla creates his art by transforming / imitating historic buildings of the world.",
+                                    "options": ["transforming", "imitating"],
+                                    "answer": "transforming"
+                                },
+                                {
+                                    "id": "det2",
+                                    "sentence": "There are clear / unclear boundaries between two different views in Rob Gonsalves’ artworks.",
+                                    "options": ["clear", "unclear"],
+                                    "answer": "unclear"
+                                },
+                                {
+                                    "id": "det3",
+                                    "sentence": "Vincent Bal plays around with objects, without forcing / inspiring himself to shape a shadow into a certain form to create whatever he wants.",
+                                    "options": ["forcing", "inspiring"],
+                                    "answer": "forcing"
+                                },
+                                {
+                                    "id": "det4",
+                                    "sentence": "Vincent Bal started making his art pieces when he suddenly noticed how the shadow of a cup on his desk looked like a little elephant / rabbit.",
+                                    "options": ["elephant", "rabbit"],
+                                    "answer": "elephant"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_after_reading_skill",
+                        "type": "reading_skill",
+                        "title": "C. Reading Skill - 문맥을 통한 단어 의미 추론",
+                        "page": 44,
+                        "sourceRef": "Textbook p. 44, Answers p. 155",
+                        "data": {
+                            "skillTitle": "Inferring the meanings of words",
+                            "passageA": "This kind of illusion has a fun way of twisting your perception. It makes you question what is real. Most of his incredible paintings have an unclear boundary between the multiple stories they tell, which forces the viewer to jump back and forth between them. Tracing the transitions, you get that delightful “Ah-ha!” feeling as you try to decide exactly where one world transforms into another.",
+                            "wordA": "transitions",
+                            "optionsA": ["a. interpretations", "b. shifts", "c. combinations"],
+                            "answerA": "b",
+                            "passageB": "The root of all creative ideas is taking something that already exists and combining it with something else. Creative people are aware of their surroundings; they notice what is happening around them and what is not there. They can recognize (A) alterations and point out in what ways certain things have changed. They are open to change, and see things in reverse order and in different contexts. They entertain themselves with the question, “What if?” to promote their creativity. They are also fueled by their emotions. They often make decisions based on their (B) intuition and don’t make logical choices.",
+                            "questionA": {
+                                "word": "(A) alterations",
+                                "options": ["a. similarities", "b. differences", "c. ideas"],
+                                "answer": "b"
+                            },
+                            "questionB": {
+                                "word": "(B) intuition",
+                                "options": ["a. conscious judgment", "b. assumptions with proof", "c. knowing without reasoning"],
+                                "answer": "c"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "share_thoughts",
+                "cornerNumber": 5,
+                "titleKo": "생각 공유 & 탐구 발표",
+                "titleEn": "Share Your Thoughts",
+                "pageRange": "pp. 46-47",
+                "priority": "P2",
+                "activities": [
+                    {
+                        "activityId": "l2_share_step1",
+                        "type": "video_discussion",
+                        "title": "Step 1: Street Artist Tom Bob",
+                        "page": 46,
+                        "sourceRef": "Textbook p. 46, Scripts p. 145, Sources p. 170, Answers p. 155",
+                        "data": {
+                            "videoUrl": "https://www.youtube.com/watch?v=bEp3KTbGu08",
+                            "sourceCitation": "Boston 25 News (Textbook p. 170)",
+                            "script": [
+                                {"id": "tb1", "speaker": "M", "en": "This street artist is transforming some of the most mundane corners of Massachusetts, into lively works of art.", "ko": "이 거리 예술가는 매사추세츠의 가장 일상적인 구석들을 생기 넘치는 예술 작품으로 바꾸고 있습니다."},
+                                {"id": "tb2", "speaker": "M", "en": "Seeing ordinary objects like an electrical outlet in New Bedford and reimagining it as a man brushing his teeth or concrete poles in Westport as Ringo Starr with his drums.", "ko": "뉴베드퍼드의 전기 콘센트 같은 평범한 물건을 보고 이를 양치질하는 남자로 재해석하거나, 웨스트포트의 콘크리트 기둥을 드럼을 든 링고 스타로 상상하는 것처럼요."},
+                                {"id": "tb3", "speaker": "M", "en": "Or how about metal basement doors as a mouse and his cheese?", "ko": "아니면 금속 지하실 문을 쥐와 치즈로 바꾸는 것은 어떨까요?"},
+                                {"id": "tb4", "speaker": "Tom Bob", "en": "The thing which I try to create as an artist is the emotion of happiness.", "ko": "제가 예술가로서 창조하고자 노력하는 것은 바로 행복이라는 감정입니다."},
+                                {"id": "tb5", "speaker": "M", "en": "This is a mind of New Bedford native Tom Bob, who started his unique brand of street art seven years ago and has now taken him all over the world.", "ko": "이것이 7년 전 독특한 스트리트 아트를 시작해 이제 전 세계로 뻗어나간 뉴베드퍼드 출신 톰 밥의 생각입니다."},
+                                {"id": "tb6", "speaker": "M", "en": "Check out this manhole cover in Taiwan, which is now eggs over easy.", "ko": "대만의 이 맨홀 뚜껑을 보세요, 이제 반숙 계란후라이가 되었습니다."},
+                                {"id": "tb7", "speaker": "Tom Bob", "en": "I love the fact that the kind of art that I create has a wide range and a really big audience.", "ko": "저는 제가 만드는 예술이 폭넓은 영역과 매우 많은 관객을 만난다는 사실이 정말 좋습니다."}
+                            ],
+                            "q1": {
+                                "question": "What is the purpose of the video?",
+                                "options": [
+                                    "a. to explain what art is",
+                                    "b. to share information about tourist spots",
+                                    "c. to introduce a street artist and his works"
+                                ],
+                                "answer": "c"
+                            },
+                            "q2": {
+                                "wordBox": ["teeth", "lively", "transforming"],
+                                "text": "Tom Bob, a street artist, is [blank] ordinary objects into [blank] works of art. For instance, he reimagined an electrical outlet as a man playfully brushing his [blank].",
+                                "answers": ["transforming", "lively", "teeth"]
+                            },
+                            "talkAboutVideo": {
+                                "prompt": "Think of a way to make a space in your school more lively with a touch of art.",
+                                "example": "I could decorate the school cafeteria walls with my favorite animation characters.",
+                                "sampleAnswer": "I could decorate the school library with artistic displays that include famous book covers and imaginative illustrations."
+                            }
+                        }
+                    },
+                    {
+                        "activityId": "l2_share_step2_3",
+                        "type": "creative_people_dialogue",
+                        "title": "Step 2 & 3: Creative People and Their Works",
+                        "page": 47,
+                        "sourceRef": "Textbook p. 47",
+                        "data": {
+                            "people": [
+                                {
+                                    "who": "the writer, Suzanne Collins",
+                                    "work": "The Hunger Games",
+                                    "creativePoint": "It pictures a future world full of challenges, but it also offers a light of hope."
+                                },
+                                {
+                                    "who": "the director, Peter Sohn",
+                                    "work": "Elemental",
+                                    "creativePoint": "It shows a visually fascinating world with unique characters made of elements like fire and water."
+                                }
+                            ],
+                            "modelDialogue": [
+                                {"speaker": "A", "en": "Creative people and their works can inspire many people.", "ko": "창의적인 사람들과 그들의 작품은 많은 사람들에게 영감을 줄 수 있어."},
+                                {"speaker": "B", "en": "Right. In my opinion, the writer, Suzanne Collins, is one of the most creative people in the world.", "ko": "맞아. 내 생각에 작가 수잔 콜린스는 세상에서 가장 창의적인 사람 중 한 명이야."},
+                                {"speaker": "A", "en": "Oh, I’ve heard of her. Can you name one of her works?", "ko": "아, 들어본 적 있어. 그녀의 작품 하나만 말해 줄래?"},
+                                {"speaker": "B", "en": "She wrote the novel, The Hunger Games.", "ko": "그녀는 소설 <헝거 게임>을 썼어."},
+                                {"speaker": "A", "en": "What is creative about it?", "ko": "그 작품의 어떤 점이 창의적인데?"},
+                                {"speaker": "B", "en": "It pictures a future world full of challenges, but it also offers a light of hope.", "ko": "도전으로 가득 찬 미래 세계를 그리지만 한 줄기 희망의 빛도 제시하거든."},
+                                {"speaker": "A", "en": "Sounds unique! I’d like to check it out.", "ko": "독특하다! 한번 확인해 보고 싶네."}
+                            ],
+                            "checkPoint": [
+                                "I can talk about creative people and what makes their works creative.",
+                                "I expressed my ideas clearly.",
+                                "I listened to others carefully."
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "language_focus",
+                "cornerNumber": 6,
+                "titleKo": "어휘 & 문법 집중 탐구",
+                "titleEn": "Language Focus",
+                "pageRange": "pp. 48-49",
+                "priority": "P1",
+                "activities": [
+                    {
+                        "activityId": "l2_lang_word_uses",
+                        "type": "word_uses",
+                        "title": "A. Word Uses: draw",
+                        "page": 48,
+                        "sourceRef": "Textbook p. 48, Answers p. 155",
+                        "data": {
+                            "word": "draw",
+                            "meanings": [
+                                {
+                                    "label": "a",
+                                    "pos": "v.",
+                                    "enDef": "to create a picture or an image with tools like pens or pencils",
+                                    "example": "She likes to draw pictures in her free time."
+                                },
+                                {
+                                    "label": "b",
+                                    "pos": "v.",
+                                    "enDef": "to make someone notice or get someone’s interest",
+                                    "example": "The news drew a lot of attention in the city."
+                                },
+                                {
+                                    "label": "c",
+                                    "pos": "v.",
+                                    "enDef": "to make a decision or select by choosing a piece of paper",
+                                    "example": "They drew lots to decide who would go first in the contest."
+                                }
+                            ],
+                            "questions": [
+                                {
+                                    "id": "wu1",
+                                    "sentence": "If you want to sell more products, it is important to draw as much attention to them as possible.",
+                                    "answer": "b"
+                                },
+                                {
+                                    "id": "wu2",
+                                    "sentence": "He drew the winning ticket, and the other candidates looked disappointed at the result.",
+                                    "answer": "c"
+                                },
+                                {
+                                    "id": "wu3",
+                                    "sentence": "Last vacation, my classmates and I participated in drawing pictures on the wall of the village.",
+                                    "answer": "a"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_lang_common_phrases",
+                        "type": "common_phrases",
+                        "title": "B. Common Phrases: be willing to, come up with, transform ... into",
+                        "page": 48,
+                        "sourceRef": "Textbook p. 48, Answers p. 155",
+                        "data": {
+                            "phrases": [
+                                {
+                                    "phrase": "be willing to",
+                                    "meaning": "기꺼이 ~하다",
+                                    "example": "Here are three artists who are willing to experiment with this approach."
+                                },
+                                {
+                                    "phrase": "come up with",
+                                    "meaning": "~을 생각해내다",
+                                    "example": "Exploring new places and learning about new cultures inspire his artistic mind to come up with new ideas for his art."
+                                },
+                                {
+                                    "phrase": "transform ... into",
+                                    "meaning": "~을 ...으로 변형시키다",
+                                    "example": "Many of his digital illustrations transform the most historic buildings of the world into new objects that you would like to see again."
+                                }
+                            ],
+                            "questions": [
+                                {
+                                    "id": "cp1",
+                                    "sentence": "She couldn’t [blank] any creative ideas because she was suffering from a headache.",
+                                    "blank": "come up with"
+                                },
+                                {
+                                    "id": "cp2",
+                                    "sentence": "He [blank] help others while he was busy working at a local hospital.",
+                                    "blank": "was willing to"
+                                },
+                                {
+                                    "id": "cp3",
+                                    "sentence": "It was not easy to [blank] the farming area [blank] a resort because of the environmental guidelines.",
+                                    "blank": "transform, into"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_lang_grammar_1",
+                        "type": "grammar_point",
+                        "title": "C. Grammar 1: 복합관계대명사 (whatever / whoever)",
+                        "page": 49,
+                        "sourceRef": "Textbook p. 49, Answers p. 155",
+                        "data": {
+                            "ruleName": "복합관계대명사 (whatever, whoever/whomever)",
+                            "ruleExplanation": "whatever는 '무엇이든지(anything that)', whoever는 '누구든지(anyone who)'의 의미로 명사절이나 양보의 부사절을 이끕니다.",
+                            "quotes": [
+                                {"quote": "Whatever is begun in anger ends in shame.", "author": "Benjamin Franklin"},
+                                {"quote": "Whoever is careless with the truth in small matters cannot be trusted in important affairs.", "author": "Albert Einstein"}
+                            ],
+                            "questions": [
+                                {
+                                    "id": "g1_1",
+                                    "original": "He will accept his responsibility for anything that happens because he is the chief of the department.",
+                                    "target": "He will accept his responsibility for whatever happens because he is the chief of the department.",
+                                    "answer": "whatever happens"
+                                },
+                                {
+                                    "id": "g1_2",
+                                    "original": "Students can get advice from anyone they want while taking part in the project.",
+                                    "target": "Students can get advice from whomever[whoever] they want while taking part in the project.",
+                                    "answer": "whomever they want"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_lang_grammar_2",
+                        "type": "grammar_point",
+                        "title": "C. Grammar 2: All + 관계사절 + be (강조 표현)",
+                        "page": 49,
+                        "sourceRef": "Textbook p. 49, Answers p. 155",
+                        "data": {
+                            "ruleName": "All + 관계사절 + be",
+                            "ruleExplanation": "'~하기만 하면 된다', '~하는 것은 오직 ...뿐이다'라는 의미로 특정 행동이나 조건을 강조할 때 사용됩니다.",
+                            "dialogue": [
+                                {"speaker": "A", "en": "I have too much to study. All I’m thinking about is the test day."},
+                                {"speaker": "B", "en": "I understand how you feel. How about making a list of things to do first?"},
+                                {"speaker": "A", "en": "That’s a good idea. But I’m afraid I won’t be able to finish everything."},
+                                {"speaker": "B", "en": "You can’t do everything at once. All you need to do is focus on one thing at a time."},
+                                {"speaker": "A", "en": "I’ll keep that in mind and do my best."}
+                            ],
+                            "questions": [
+                                {
+                                    "id": "g2_1",
+                                    "prompt": "To reduce our stress, all we need is a little help, not a big change in our lives. ( need / all / we / is )",
+                                    "answer": "all we need is"
+                                },
+                                {
+                                    "id": "g2_2",
+                                    "prompt": "For a healthy life, all we have to do is eat fresh vegetables and work out regularly. ( to / do / all / we / have / is )",
+                                    "answer": "all we have to do is"
+                                },
+                                {
+                                    "id": "g2_3",
+                                    "prompt": "To increase profits, all you need to do is cut down on your expenses. ( need / to / all / you / is / do )",
+                                    "answer": "all you need to do is"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "write_present",
+                "cornerNumber": 7,
+                "titleKo": "과정 중심 작문 & 발표",
+                "titleEn": "Write & Present",
+                "pageRange": "pp. 50-52",
+                "priority": "P1",
+                "activities": [
+                    {
+                        "activityId": "l2_write_model",
+                        "type": "model_writing",
+                        "title": "Model Writing: The Dancing House",
+                        "page": 50,
+                        "sourceRef": "Textbook p. 50, Answers p. 156",
+                        "data": {
+                            "topic": "My Favorite Work of Art",
+                            "item": "The Dancing House",
+                            "asset": "/api/asset?lesson=02&name=the_dancing_house_prague.png",
+                            "structure": [
+                                {
+                                    "section": "(A) Introduction of the item",
+                                    "content": "My favorite piece of architecture is the Dancing House in Prague, Czech Republic. Here is some interesting information about it."
+                                },
+                                {
+                                    "section": "(B) Detailed information",
+                                    "content": "First, the Dancing House, which was completed in 1996, was a collaboration between Canadian American architect Frank Gehry and Croatian Czech architect Vlado Milunić. Furthermore, it is a complex structure constructed of various materials such as concrete, steel, and glass, and the majority of the structure is made up of two towers. Lastly, its unusual shape reminds us of Ginger and Fred, the famous dance partners from Hollywood movies. It looks like a woman and a man holding hands and dancing together."
+                                },
+                                {
+                                    "section": "(C) Closing",
+                                    "content": "Someday, I would like to visit the Dancing House to fully appreciate the architects’ innovative designs."
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "activityId": "l2_write_steps",
+                        "type": "writing_process",
+                        "title": "Writing on Your Own: Sky Above Clouds IV",
+                        "page": 51,
+                        "sourceRef": "Textbook p. 51, Answers p. 156",
+                        "data": {
+                            "step1_brainstorming": "Think of one of your favorite paintings, songs, movies, buildings, etc.",
+                            "step2_outlining": {
+                                "introduction": "my favorite artwork, Sky Above Clouds IV by Georgia O’Keeffe",
+                                "detailedInfo": [
+                                    "an impressive description of the sky seen from a plane",
+                                    "reveals the emotions that come from observing the sky from high above the earth’s surface",
+                                    "a lot of people love this painting because it is not like other art"
+                                ],
+                                "closing": "highly recommend exploring this fine piece of art further"
+                            },
+                            "step3_drafting_sample": "My favorite artwork is Sky Above Clouds IV by Georgia O’Keeffe. Here is some interesting information about it. First, Sky Above Clouds IV, painted in 1965, offers an impressive description of the sky seen from a plane. The painting captures the painter’s unique perspective of flying high above the earth. O’Keeffe used gentle blue and white colors to convey the peaceful atmosphere. Furthermore, Sky Above Clouds IV isn’t just a representation of what O’Keeffe saw. The artwork reveals the emotions that come from observing the sky from high above the earth’s surface, so it is full of sense of wonder and calmness. Lastly, a lot of people love this painting because it is not like other art. Through the painting, O’Keeffe not only captures the elements of nature, but also invites viewers to appreciate its beauty in an innovative way. I hope you found this information fascinating, and I highly recommend exploring this fine piece of art further if you have the opportunity!"
+                        }
+                    },
+                    {
+                        "activityId": "l2_write_editing",
+                        "type": "editing_practice",
+                        "title": "Step 4: Revising - Editing Practice (대명사 일치)",
+                        "page": 52,
+                        "sourceRef": "Textbook p. 52, Answers p. 156",
+                        "data": {
+                            "tip": "대명사를 사용할 때에, 지칭하는 명사가 앞에 분명하게 드러나 있는지 확인합니다. 또한 대명사의 성, 수, 인칭은 대명사가 지칭하는 명사와 일치해야 합니다.",
+                            "passage": "The debate contest was approaching. The team of three students gathered in the library to prepare for them together. They brought their own notebook computers. Sarah and Jessie did his best to search for news articles, while Mike worked on organizing the arguments. Ms. Reed, the school librarian, helped her all to get the necessary materials. The students worked hard and shared ideas with one another. Finally, he felt confident about the contest.",
+                            "corrections": [
+                                {"original": "them", "corrected": "it", "reason": "앞의 the debate contest를 지칭하므로 단수 대명사 it이 알맞음"},
+                                {"original": "his", "corrected": "their", "reason": "Sarah and Jessie 두 사람을 지칭하므로 복수 소유격 their가 알맞음"},
+                                {"original": "her all", "corrected": "them all", "reason": "The students 전체를 지칭하므로 목적격 복수 대명사 them이 알맞음"},
+                                {"original": "he", "corrected": "they", "reason": "학생들 전체를 지칭하므로 주격 복수 대명사 they가 알맞음"}
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "work_together",
+                "cornerNumber": 8,
+                "titleKo": "모둠 협동 프로젝트",
+                "titleEn": "Work Together",
+                "pageRange": "p. 53",
+                "priority": "P2",
+                "activities": [
+                    {
+                        "activityId": "l2_work_together_project",
+                        "type": "group_project",
+                        "title": "Making an Artwork with a Scenic Photo",
+                        "page": 53,
+                        "sourceRef": "Textbook p. 53",
+                        "data": {
+                            "projectTitle": "Making an Artwork with a Scenic Photo",
+                            "steps": [
+                                {
+                                    "step": 1,
+                                    "title": "풍경 사진 탐색",
+                                    "desc": "Find some scenic photos out of which you could make an artwork.",
+                                    "example": "e.g. I think a photo of Mt. Everest would be good for our project."
+                                },
+                                {
+                                    "step": 2,
+                                    "title": "모둠 토의",
+                                    "desc": "As a group of three, discuss which photo would be best for making an artwork.",
+                                    "dialogue": [
+                                        {"speaker": "A", "en": "Which photo would be best for our project?", "ko": "우리 프로젝트에 어떤 사진이 가장 좋을까?"},
+                                        {"speaker": "B", "en": "How about this mountain covered with snow?", "ko": "눈으로 뒤덮인 이 산은 어때?"},
+                                        {"speaker": "C", "en": "Good! It reminds me of patbingsu, a bowl of shaved ice with red beans.", "ko": "좋아! 팥빙수가 떠오르네, 팥을 얹은 빙수 한 그릇 말이야."},
+                                        {"speaker": "A", "en": "I agree with you. What can we add to this photo?", "ko": "동의해. 이 사진에 무엇을 추가할 수 있을까?"},
+                                        {"speaker": "B", "en": "Let’s draw a bowl, red beans, and other toppings.", "ko": "그릇, 팥, 그리고 다른 토핑들을 그리자."}
+                                    ]
+                                },
+                                {
+                                    "step": 3,
+                                    "title": "삽화 추가 및 작품 완성",
+                                    "desc": "Add an illustration to the scenic photo that you chose.",
+                                    "presentationSample": "My group changed Mount Everest into patbingsu, a bowl of shaved ice with red beans. We thought the snow on Mount Everest looked similar to shaved ice in a bowl. This reminded us of patbingsu. Thank you."
+                                },
+                                {
+                                    "step": 4,
+                                    "title": "학급 공유 및 피드백",
+                                    "desc": "Share your group’s work on the class website and give feedback on other groups’ works."
+                                }
+                            ],
+                            "checkPoint": [
+                                "My group worked cooperatively to make creative artwork.",
+                                "I participated in the project actively.",
+                                "I listened to my classmates’ ideas carefully."
+                            ]
+                        }
+                    }
+                ]
+            }
+        ],
+        "vocabulary": [
+            {"word": "possibility", "meaning": "가능성", "page": 37},
+            {"word": "separate", "meaning": "별개의, 분리된", "page": 37},
+            {"word": "incredibly", "meaning": "믿을 수 없을 정도로", "page": 37},
+            {"word": "pleasing", "meaning": "즐거운, 기분 좋은", "page": 37},
+            {"word": "appreciation", "meaning": "이해, 감상, 감사", "page": 37},
+            {"word": "interrelation", "meaning": "상호 연관성", "page": 37},
+            {"word": "be willing to", "meaning": "기꺼이 ~하다", "page": 37},
+            {"word": "experiment", "meaning": "실험하다", "page": 37},
+            {"word": "approach", "meaning": "접근법", "page": 37},
+            {"word": "storyteller", "meaning": "이야기꾼", "page": 38},
+            {"word": "delight", "meaning": "기쁨을 주다", "page": 38},
+            {"word": "unique", "meaning": "독특한", "page": 38},
+            {"word": "illustration", "meaning": "삽화", "page": 38},
+            {"word": "landmark", "meaning": "주요 지형지물, 랜드마크", "page": 38},
+            {"word": "iconic", "meaning": "상징적인", "page": 38},
+            {"word": "twist", "meaning": "전환, 비틀기", "page": 38},
+            {"word": "turn into", "meaning": "~을 ...으로 바꾸다", "page": 38},
+            {"word": "dull", "meaning": "따분한, 흐릿한", "page": 38},
+            {"word": "delightful", "meaning": "즐거운, 유쾌한", "page": 38},
+            {"word": "unrelated", "meaning": "관련 없는", "page": 38},
+            {"word": "combine", "meaning": "결합하다", "page": 38},
+            {"word": "explore", "meaning": "탐험하다", "page": 38},
+            {"word": "artistic", "meaning": "예술적인", "page": 39},
+            {"word": "come up with", "meaning": "~을 생각해내다", "page": 39},
+            {"word": "transform into", "meaning": "~을 ...으로 변형시키다", "page": 39},
+            {"word": "cathedral", "meaning": "대성당", "page": 39},
+            {"word": "remarkable", "meaning": "놀랄 만한, 주목할 만한", "page": 39},
+            {"word": "architectural", "meaning": "건축의", "page": 39},
+            {"word": "realist", "meaning": "사실주의자", "page": 39},
+            {"word": "point of view", "meaning": "관점", "page": 39},
+            {"word": "illusion", "meaning": "착각, 환영", "page": 39},
+            {"word": "flawlessly", "meaning": "흠없이, 완벽하게", "page": 39},
+            {"word": "fuse", "meaning": "융합되다, 결합하다", "page": 39},
+            {"word": "depict", "meaning": "묘사하다", "page": 39},
+            {"word": "landscape", "meaning": "풍경", "page": 39},
+            {"word": "aviation", "meaning": "비행", "page": 40},
+            {"word": "bedcover", "meaning": "침대 덮개", "page": 40},
+            {"word": "gradually", "meaning": "점차", "page": 40},
+            {"word": "entirely", "meaning": "완전히", "page": 40},
+            {"word": "construct", "meaning": "구성하다, 건설하다", "page": 40},
+            {"word": "unexpected", "meaning": "예상치 못한", "page": 40},
+            {"word": "seemingly", "meaning": "겉보기에", "page": 40},
+            {"word": "perception", "meaning": "인식, 지각", "page": 40},
+            {"word": "incredible", "meaning": "놀라운", "page": 40},
+            {"word": "boundary", "meaning": "경계", "page": 40},
+            {"word": "trace", "meaning": "추적하다", "page": 40},
+            {"word": "transition", "meaning": "전이, 변화", "page": 40},
+            {"word": "shadow", "meaning": "그림자", "page": 41},
+            {"word": "think nothing of", "meaning": "~을 아무렇지 않게 여기다", "page": 41},
+            {"word": "doodle", "meaning": "낙서", "page": 41},
+            {"word": "cast", "meaning": "드리우다", "page": 41},
+            {"word": "reinterpret", "meaning": "재해석하다", "page": 41},
+            {"word": "peeler", "meaning": "껍질 벗기는 칼", "page": 41},
+            {"word": "frame", "meaning": "틀, 프레임", "page": 41},
+            {"word": "plain", "meaning": "평범한, 단순한", "page": 41},
+            {"word": "in advance", "meaning": "미리, 사전에", "page": 41},
+            {"word": "forced", "meaning": "부자연스러운, 억지스러운", "page": 42},
+            {"word": "interpretation", "meaning": "해석", "page": 42},
+            {"word": "by accident", "meaning": "우연히", "page": 42},
+            {"word": "reaction", "meaning": "반응", "page": 42},
+            {"word": "imaginative", "meaning": "상상력이 풍부한", "page": 42}
+        ]
+    }
+    
+    out_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "content", "lesson-02.json"))
+    with open(out_file, "w", encoding="utf-8") as f:
+        json.dump(lesson_data, f, ensure_ascii=False, indent=2)
+    print(f"Successfully generated {out_file} with 8 corners and vocabulary!")
+
+if __name__ == "__main__":
+    crop_lesson_02_assets()
+    build_lesson_02_json()

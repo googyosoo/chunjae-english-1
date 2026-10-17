@@ -44,6 +44,8 @@ export interface RubricItem {
 }
 
 export interface ActivityPayload {
+  [key: string]: any;
+
   // 1. Introduction
   topicQuestion?: string;
   topicSampleAnswer?: string;

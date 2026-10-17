@@ -6,16 +6,22 @@ import { BookOpen, Monitor, Smartphone, Volume2, Bookmark, LogOut } from 'lucide
 interface NavbarProps {
   user: UserProfile | null;
   currentMode: 'student' | 'teacher';
+  lessonNumber?: number;
+  lessonTitle?: string;
   onModeChange: (mode: 'student' | 'teacher') => void;
   onOpenVocab: () => void;
+  onSelectLessonList?: () => void;
   onLogout: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   user,
   currentMode,
+  lessonNumber = 1,
+  lessonTitle = 'Digital Well-being',
   onModeChange,
   onOpenVocab,
+  onSelectLessonList,
   onLogout,
 }) => {
   const [playbackRate, setPlaybackRate] = useState<number>(1.0);
@@ -32,18 +38,31 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
         {/* Logo & School Badge */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-100 shrink-0">
+          <button
+            onClick={onSelectLessonList}
+            aria-label="단원 선택 화면으로 이동"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-100 shrink-0 hover:opacity-90 transition-opacity cursor-pointer"
+          >
             <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-          </div>
+          </button>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className="font-bold text-slate-900 text-sm sm:text-base tracking-tight truncate">영어I AI 교과서</span>
               <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">
                 {SCHOOL_NAME}
               </span>
+              {onSelectLessonList && (
+                <button
+                  onClick={onSelectLessonList}
+                  aria-label="다른 단원 선택하기"
+                  className="px-1.5 py-0.5 text-[10px] font-semibold rounded bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200 transition-colors"
+                >
+                  단원 변경
+                </button>
+              )}
             </div>
             <p className="text-[10px] sm:text-xs text-slate-500 hidden sm:block truncate">
-              2022 개정 고등 영어I (강상구) · Lesson 1 Digital Well-being
+              2022 개정 고등 영어I (강상구) · Lesson {lessonNumber} {lessonTitle}
             </p>
           </div>
         </div>

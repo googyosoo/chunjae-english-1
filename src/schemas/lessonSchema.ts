@@ -25,6 +25,7 @@ export const CornerIdSchema = z.enum([
   'language_focus',
   'write_present',
   'go_global',
+  'work_together',
 ]);
 
 // 1. Introduction Activity Schema
