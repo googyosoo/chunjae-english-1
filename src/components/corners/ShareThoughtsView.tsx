@@ -21,17 +21,17 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
   const readFurtherAct = activities.find(a => a.type.includes('further') || a.activityId.includes('further'));
   const rfData = (readFurtherAct?.data?.readFurther || readFurtherAct?.data) as any;
 
-  const step1Act = activities.find(a => a.activityId.includes('step1') || a.type.includes('video') || a.activityId === 'share_digital_citizen');
+  const step1Act = activities.find(a => a.activityId.includes('step1') || a.type.includes('video') || a.activityId === 'share_digital_citizen' || a.activityId.includes('expressions'));
   const actData = (step1Act?.data || {}) as any;
-  const step1Nested = (actData.step1 || {}) as any;
-  const videoObj = (step1Nested.video || actData.video || actData) as any;
+  const step1Nested = (actData.step1Video || actData.step1 || {}) as any;
+  const videoObj = (step1Nested.video || step1Nested || actData.video || actData) as any;
   const videoTitle = videoObj.title || actData.videoTitle || step1Act?.title || '';
   const videoUrl = videoObj.youtubeUrl || videoObj.videoUrl || actData.youtubeUrl || actData.videoUrl || actData.sourceUrl || '';
   const sourceCitation = videoObj.sourceCitation || actData.sourceCitation || '';
 
   const quiz1 = step1Nested.quiz1 || step1Nested.quiz || actData.quiz1 || actData.quiz || actData.q1;
   const quiz2 = step1Nested.quiz2 || actData.quiz2 || actData.q2;
-  const reviewFillIn = step1Nested.reviewFillIn || actData.reviewFillIn;
+  const reviewFillIn = step1Nested.reviewFillIn || step1Nested.fillInBlanks || actData.reviewFillIn;
   const talkAboutVideo = step1Nested.talkAboutVideo || actData.talkAboutVideo;
 
   const step23Act = activities.find(a => a.activityId.includes('step2') || a.activityId.includes('step2_3') || a.type.includes('people') || a.type.includes('group') || a.type.includes('idea') || a.activityId === 'share_digital_citizen');
@@ -91,12 +91,18 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
               출처: {rfData.sourceCitation}
             </p>
           )}
-          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line">
-            {typeof rfData.text === 'string' ? rfData.text : Array.isArray(rfData.text) ? rfData.text.map((t: any) => t.en || t).join('\n\n') : ''}
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line space-y-2">
+            {typeof rfData.text === 'string'
+              ? rfData.text
+              : Array.isArray(rfData.paragraphs)
+                ? rfData.paragraphs.join('\n\n')
+                : Array.isArray(rfData.text)
+                  ? rfData.text.map((t: any) => t.en || t).join('\n\n')
+                  : ''}
           </div>
-          {rfData.question && (
+          {(rfData.question || rfData.discussionQuestion) && (
             <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-200/80 space-y-2 text-xs">
-              <p className="font-bold text-indigo-950">Q. {rfData.question}</p>
+              <p className="font-bold text-indigo-950">Q. {rfData.question || rfData.discussionQuestion}</p>
               {showTeacherAnswers && (rfData.sampleAnswer || rfData.answer) && (
                 <div className="p-2.5 bg-emerald-50 rounded text-emerald-800 text-[11px] font-medium">
                   🔑 [교과서 예시답안]: {rfData.sampleAnswer || rfData.answer}
@@ -127,6 +133,22 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
+            </div>
+          )}
+
+          {/* Textbook Page Reference Note (if any) */}
+          {(videoObj.pageRef || videoObj.figureNote) && (
+            <div className="p-3 my-2 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+              <span>📖</span>
+              <span>{videoObj.figureNote || `교과서 p.${videoObj.pageRef}의 영상을 시청하세요`}</span>
+            </div>
+          )}
+
+          {/* Video Script (if any) */}
+          {step1Nested.script && (
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed">
+              <span className="font-bold text-slate-900 block mb-1">🎧 영상 스크립트 (Scripts p.151):</span>
+              <p>{typeof step1Nested.script === 'string' ? step1Nested.script : step1Nested.script.map((s: any) => s.en || s).join('\n')}</p>
             </div>
           )}
 
@@ -191,6 +213,37 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
             </div>
           )}
 
+          {/* Fill-in-Blanks (L5 Expressions) */}
+          {step1Nested.fillInBlanks && (
+            <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-3 text-xs">
+              <p className="font-bold text-indigo-950">2. 빈칸 완성하기 (Fill in the blanks):</p>
+              {step1Nested.fillInBlanks.wordsBox && (
+                <div className="flex flex-wrap gap-2 p-2 bg-white rounded-lg border border-indigo-200">
+                  <span className="font-bold text-indigo-800">단어 보관함:</span>
+                  {step1Nested.fillInBlanks.wordsBox.map((w: string) => (
+                    <span key={w} className="px-2 py-0.5 bg-indigo-50 rounded text-indigo-900 font-semibold">{w}</span>
+                  ))}
+                </div>
+              )}
+              <div className="space-y-2 bg-white p-3 rounded-lg border border-indigo-200">
+                {step1Nested.fillInBlanks.originatedFrom && (
+                  <p><span className="font-semibold text-slate-700">유래:</span> {step1Nested.fillInBlanks.originatedFrom}</p>
+                )}
+                {step1Nested.fillInBlanks.meaning && (
+                  <p><span className="font-semibold text-slate-700">의미:</span> {step1Nested.fillInBlanks.meaning}</p>
+                )}
+                {step1Nested.fillInBlanks.example && (
+                  <p><span className="font-semibold text-slate-700">예문:</span> {step1Nested.fillInBlanks.example}</p>
+                )}
+              </div>
+              {showTeacherAnswers && step1Nested.fillInBlanks.answers && (
+                <div className="p-2.5 bg-emerald-50 rounded text-emerald-800 text-xs font-medium">
+                  🔑 [교사용 정답]: {step1Nested.fillInBlanks.answers.join(', ')}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Review Fill-In (L3) */}
           {reviewFillIn && (
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs">
@@ -241,12 +294,35 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
       )}
 
       {/* Step 2 & 3: Discussion & People */}
-      {(step2Data || step3Data) && (
+      {(step2Data || step3Data || actData.step2Articles) && (
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-5">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
             <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">2</span>
             <h2 className="text-base font-bold text-slate-900">STEP 2 & 3. Exploration & Peer Discussion</h2>
           </div>
+
+          {/* L5 Articles from Myths (Step 2) */}
+          {actData.step2Articles && (
+            <div className="space-y-3">
+              <p className="text-xs text-slate-600 font-medium">신화에서 유래한 표현들이 현대 뉴스 기사 제목에서 어떻게 사용되는지 확인해보세요.</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {actData.step2Articles.map((art: any, aIdx: number) => (
+                  <div key={aIdx} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+                    <span className="font-bold text-indigo-700 block">📰 {art.title}</span>
+                    {art.expression && (
+                      <p className="text-slate-900 font-semibold">표현: <span className="text-indigo-900 font-bold">{art.expression}</span></p>
+                    )}
+                    {art.topic && (
+                      <p className="text-slate-600">주제: {art.topic}</p>
+                    )}
+                    {art.meaning && (
+                      <p className="text-slate-600 italic">의미: {art.meaning}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* L2 Creative People List */}
           {step2Data?.people && (

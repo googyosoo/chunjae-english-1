@@ -1,0 +1,1289 @@
+import json
+import os
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+lesson5_data = {
+  "lessonNumber": 5,
+  "title": "Ancient Worlds of Imagination",
+  "topic": "Culture & Myths",
+  "topicQuestion": "How do ancient myths relate to us?",
+  "hashtags": [
+    "#myths_and_legends",
+    "#Baucis_and_Philemon",
+    "#sun_mythology",
+    "#expressions_from_myths"
+  ],
+  "pageRange": "pp. 104-127",
+  "school": "심인고등학교",
+  "vocabulary": [
+    {"word": "cottage", "meaning": "오두막, 시골집", "pos": "n.", "page": 108},
+    {"word": "wandering", "meaning": "방랑하는, 헤매는", "pos": "adj.", "page": 108},
+    {"word": "immortals", "meaning": "신들, 불멸의 존재", "pos": "n.", "page": 108},
+    {"word": "approval", "meaning": "찬성, 승인", "pos": "n.", "page": 108},
+    {"word": "refusal", "meaning": "거절", "pos": "n.", "page": 109},
+    {"word": "prompt", "meaning": "신속한, 기꺼이 ~하는", "pos": "adj.", "page": 110},
+    {"word": "delicacy", "meaning": "별미, 진미", "pos": "n.", "page": 110},
+    {"word": "squawking", "meaning": "꽥꽥거리는 소리", "pos": "n.", "page": 111},
+    {"word": "wear out", "meaning": "~을 지치게 하다", "pos": "phr.", "page": 111},
+    {"word": "ordinarily", "meaning": "보통, 대개", "pos": "adv.", "page": 111},
+    {"word": "astonish", "meaning": "깜짝 놀라게 하다", "pos": "v.", "page": 111},
+    {"word": "whisper", "meaning": "속삭이다", "pos": "v.", "page": 111},
+    {"word": "beneath", "meaning": "~의 아래에", "pos": "prep.", "page": 112},
+    {"word": "punish", "meaning": "처벌하다", "pos": "v.", "page": 112},
+    {"word": "humble", "meaning": "누추한, 겸손한", "pos": "adj.", "page": 112},
+    {"word": "neither ... nor", "meaning": "~도 아니고 ...도 아니다", "pos": "phr.", "page": 112},
+    {"word": "companionship", "meaning": "동료애, 우정, 동행", "pos": "n.", "page": 113},
+    {"word": "perish", "meaning": "소멸하다, 죽다", "pos": "v.", "page": 113},
+    {"word": "moderate", "meaning": "절제 있는, 적당한", "pos": "adj.", "page": 113},
+    {"word": "worship", "meaning": "숭배하다, 예배하다", "pos": "v.", "page": 114},
+    {"word": "intertwined", "meaning": "뒤엉킨, 얽힌", "pos": "adj.", "page": 114},
+    {"word": "produce", "meaning": "생산하다; 농산물", "pos": "v./n.", "page": 120}
+  ],
+  "corners": [
+    {
+      "id": "introduction",
+      "cornerNumber": 1,
+      "titleKo": "단원 도입 & 토픽 질문",
+      "titleEn": "Introduction",
+      "pageRange": "pp. 104-105",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l5_intro_topic_question",
+          "type": "topic_reflection",
+          "title": "Topic Question 사전·사후 성찰",
+          "page": 104,
+          "sourceRef": "Textbook p. 104 & p. 127",
+          "data": {
+            "topicQuestion": "How do ancient myths relate to us?",
+            "topicSampleAnswer": "In our everyday lives, we use a lot of expressions related to myths and they remind us of lessons from ancient people.",
+            "hashtags": [
+              "#myths_and_legends",
+              "#Baucis_and_Philemon",
+              "#sun_mythology",
+              "#expressions_from_myths"
+            ],
+            "lessonFlow": [
+              {
+                "step": "1",
+                "cornerTitle": "Communicate on Topic: Figures from Myths and Legends",
+                "page": "pp. 106-107"
+              },
+              {
+                "step": "2",
+                "cornerTitle": "Before You Read: Background Check & Vocabulary Check",
+                "page": "p. 108"
+              },
+              {
+                "step": "3",
+                "cornerTitle": "Read: Baucis and Philemon",
+                "page": "pp. 109-114"
+              },
+              {
+                "step": "4",
+                "cornerTitle": "After You Read: Summary & Reading Skill",
+                "page": "pp. 115-116"
+              },
+              {
+                "step": "5",
+                "cornerTitle": "Share Your Thoughts: Sun Mythology & Expressions from Myths",
+                "page": "pp. 117-119"
+              },
+              {
+                "step": "6",
+                "cornerTitle": "Language Focus: Word Uses, Phrases & Grammar",
+                "page": "pp. 120-121"
+              },
+              {
+                "step": "7",
+                "cornerTitle": "Write & Present: Creating an Alternative Ending of a Story",
+                "page": "pp. 122-124"
+              },
+              {
+                "step": "8",
+                "cornerTitle": "Go Global: Myths in the Media & Wrap Up",
+                "page": "pp. 125-127"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "communicate",
+      "cornerNumber": 2,
+      "titleKo": "듣기·말하기",
+      "titleEn": "Communicate on Topic",
+      "pageRange": "pp. 106-107",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l5_comm_watch_think",
+          "type": "watch_and_think",
+          "title": "A. Watch and Think: The Fall of Icarus",
+          "page": 106,
+          "sourceRef": "Textbook p. 106, Scripts pp. 149-150, Answers p. 161",
+          "data": {
+            "figureNote": "교과서 p.106의 이카로스(Icarus) 영상을 보세요",
+            "pageRef": 106,
+            "instruction": "Watch the video and choose the right phrase.",
+            "question": "Icarus fell because [ ].",
+            "options": [
+              "the wings got wet and too heavy to use",
+              "the sun melted the wax on his wings"
+            ],
+            "answer": "the sun melted the wax on his wings",
+            "videoScript": [
+              {
+                "speaker": "M",
+                "en": "Daedalus and his son Icarus were kept in a tall tower by King Minos. To escape from the tower, Daedalus made two pairs of giant wings out of wax and feathers. As he attached the wings to his son, he gave a warning. Flying too near the ocean would make the wings wet and make them too heavy to use. Flying too close to the sun, the heat would melt the wax, and the wings would fall apart. In either case, they surely would die. Therefore, the key to their escape would be in keeping to the middle. With the instructions clear, both men left from the tower. They were the first men ever to fly. While Daedalus flew safely between the sun and the ocean, Icarus was so excited that he forgot his father’s warning. Daedalus could only watch in horror as Icarus flew up higher and higher, powerless to change his son’s fate. When the heat from the sun melted the wax on his wings, Icarus fell from the sky."
+              }
+            ],
+            "yourThoughts": {
+              "prompt": "What do you think is the lesson of this myth?",
+              "sampleAnswer": "We should be aware of our limitations."
+            }
+          }
+        },
+        {
+          "activityId": "l5_comm_listen_answer",
+          "type": "listen_and_answer",
+          "title": "B. Listen and Answer",
+          "page": 106,
+          "sourceRef": "Textbook p. 106, Scripts p. 150, Answers p. 161",
+          "data": {
+            "dialogues": [
+              {
+                "title": "Dialogue 1",
+                "turns": [
+                  {
+                    "speaker": "G",
+                    "en": "Hey, what are you up to?"
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "I have to write an essay about my weakest point and how to overcome it."
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Oh, yeah? Then, what’s your “Achilles’ heel”?"
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "What do you mean by “Achilles’ heel”?"
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "An “Achilles’ heel” is an area of weakness. It comes from the Greek myth of Achilles."
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "Oh, I see. Then I’d say my Achilles’ heel is that I always put things off until the last minute."
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "You know what? That’s a pretty common problem. I used to have that problem, too."
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "What did you do to overcome it?"
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "For me, breaking down a large task into smaller ones and setting deadlines for each one really helped."
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "That’s a good idea. I’ll definitely give it a try."
+                  }
+                ],
+                "quiz": {
+                  "question": "Which one is NOT the girl’s advice for the boy?",
+                  "options": [
+                    "a. to set a deadline for each task",
+                    "b. to break down a large task into smaller ones",
+                    "c. to reward himself for completing tasks on time"
+                  ],
+                  "answer": "c"
+                }
+              },
+              {
+                "title": "Dialogue 2",
+                "turns": [
+                  {
+                    "speaker": "B",
+                    "en": "We’re going bowling next Tuesday, right?"
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Actually, it’s Thursday. By the way, did you know that Thursday originated from “Thor’s day”?"
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "Thor? You mean the main character of the movie series?"
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Yeah. You know, he’s a figure from a myth."
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "Really? I thought he was just a movie character."
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Actually, there are some differences between the Thor in the movie and the Thor in the myth."
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "Like what?"
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Take Thor’s hammer for example. In the myth, the hammer is a powerful weapon that can control the weather, but in the movie, it also lets him fly."
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "Wow, you must be a big Thor fan. You seem to know a lot about him."
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Yes, he is my favorite character in that movie. Who’s your favorite character in the series?"
+                  },
+                  {
+                    "speaker": "B",
+                    "en": "Let me see. I would have to say that Loki’s my favorite. I love his clever little tricks."
+                  },
+                  {
+                    "speaker": "G",
+                    "en": "Yeah, he’s charming."
+                  }
+                ],
+                "quiz": {
+                  "question": "Find the incorrect information about Thor among ⓐ~ⓓ and correct it.",
+                  "options": [
+                    "• ⓐ Thursday originated from “Thor’s day.”",
+                    "• He is a figure from a ⓑ myth and also appears in a movie.",
+                    "• In the myth, his hammer can ⓒ control the weather, while in the movie, it also lets him ⓓ travel back to the past."
+                  ],
+                  "answer": "(ⓓ) travel back to the past -> fly"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "activityId": "l5_comm_listen_write",
+          "type": "listen_and_write",
+          "title": "C. Listen and Write: Myths vs. Legends",
+          "page": 107,
+          "sourceRef": "Textbook p. 107, Scripts pp. 150-151, Answers p. 161",
+          "data": {
+            "lectureScript": [
+              {
+                "speaker": "W",
+                "en": "Myths and legends are both traditional stories that have been passed down through generations, but they are different in a few key ways. A myth is a traditional story that explains the beliefs, customs, or natural phenomena of a culture or reveals the origins of a practice. Myths often involve gods or supernatural beings, and they often serve to explain why things are the way they are or to teach us a moral lesson. Legends, on the other hand, are traditional stories that are believed to have some basis in historical facts, but also contain elements of fiction. Legends often involve real people or events, but they get exaggerated over time."
+              }
+            ],
+            "comparisonNotes": {
+              "myths": [
+                "explain the beliefs, customs, or [natural] phenomena of a culture",
+                "involve gods or supernatural beings",
+                "teach us a(n) [moral] lesson"
+              ],
+              "legends": [
+                "have some basis in [historical] facts",
+                "contain elements of fiction",
+                "involve real people or events that get [exaggerated] over time"
+              ]
+            },
+            "wordsBox": ["historical", "natural", "exaggerated", "moral"],
+            "answers": {
+              "1": "natural",
+              "2": "moral",
+              "3": "historical",
+              "4": "exaggerated"
+            }
+          }
+        },
+        {
+          "activityId": "l5_comm_chance_express",
+          "type": "chance_to_express",
+          "title": "D. Write and Talk: Favorite Mythological Figures",
+          "page": 107,
+          "sourceRef": "Textbook p. 107",
+          "data": {
+            "figures": [
+              {
+                "name": "Jeon Uchi",
+                "desc": "a mysterious man who uses his magical powers to help people in need"
+              },
+              {
+                "name": "Cupid",
+                "desc": "the god of love, whose arrows make people fall in and out of love"
+              }
+            ],
+            "modelDialogue": [
+              {
+                "speaker": "A",
+                "en": "Who’s your favorite figure from an ancient myth or legend?"
+              },
+              {
+                "speaker": "B",
+                "en": "My favorite is Jeon Uchi."
+              },
+              {
+                "speaker": "A",
+                "en": "Who’s that? I haven’t heard of that figure before."
+              },
+              {
+                "speaker": "B",
+                "en": "He is a mysterious man who uses his magical powers to help people in need."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "cornerNumber": 3,
+      "titleKo": "본문 읽기 & 심화 독해",
+      "titleEn": "Read: Baucis and Philemon",
+      "pageRange": "pp. 108-114",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l5_read_before",
+          "type": "before_you_read",
+          "title": "Before You Read: Background & Vocabulary Check",
+          "page": 108,
+          "sourceRef": "Textbook p. 108, Answers p. 161",
+          "data": {
+            "backgroundCheck": {
+              "paintingTitle": "Peter Paul Rubens, Jupiter and Mercury with Philemon and Baucis",
+              "figureNote": "교과서 p.108의 Peter Paul Rubens, Jupiter and Mercury with Philemon and Baucis 그림을 보세요",
+              "pageRef": 108,
+              "characters": [
+                {"name": "Philemon", "role": "husband of Baucis"},
+                {"name": "Baucis", "role": "wife of Philemon"},
+                {"name": "Zeus", "role": "king of the gods"},
+                {"name": "Hermes", "role": "son of Zeus"}
+              ],
+              "prompt": "Look at the painting below and describe what is happening in the picture.",
+              "sampleAnswer": "Two men are talking to each other face to face, and another man is looking at a woman trying to catch a goose."
+            },
+            "vocabularyCheck": {
+              "wordsBox": ["approval", "cottage", "immortals", "wandering"],
+              "items": [
+                {
+                  "num": 1,
+                  "text": "In the forest, there was a [ ] glowing with a fire inside.",
+                  "answer": "cottage"
+                },
+                {
+                  "num": 2,
+                  "text": "A fox was [ ] around the town.",
+                  "answer": "wandering"
+                },
+                {
+                  "num": 3,
+                  "text": "The ancient Greeks believed in the [ ], who lived on Mount Olympus.",
+                  "answer": "immortals"
+                },
+                {
+                  "num": 4,
+                  "text": "The board of directors gave their [ ] for the new vaccine formulas.",
+                  "answer": "approval"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l5_read_main",
+          "type": "main_text",
+          "title": "Baucis and Philemon",
+          "subtitle": "Adapted from Olivia E. Coolidge, Greek Myths",
+          "pageRange": "pp. 109-114",
+          "sourceRef": "Textbook pp. 109-114, Answers pp. 161-162",
+          "data": {
+            "readingTip": "Sequencing events Keeping track of the order of events in a story helps you understand the flow of the story and grasp the narrative structure effectively.",
+            "sections": [
+              {
+                "sectionNumber": 1,
+                "page": 109,
+                "title": "Baucis and Philemon",
+                "paragraphs": [
+                  {
+                    "paragraphNumber": 1,
+                    "sentences": [
+                      {
+                        "sentenceNumber": 1,
+                        "en": "Long ago, two strangers traveled through a certain district, asking for food and shelter as they went.",
+                        "ko": "옛날에 두 낯선 이가 한 지역을 여행하며 길을 따라 음식과 쉴 곳을 구했습니다."
+                      },
+                      {
+                        "sentenceNumber": 2,
+                        "en": "For a long time, they found nothing but refusals from both the rich and the poor.",
+                        "ko": "오랫동안 그들은 부자든 가난한 사람이든 오직 거절만을 마주했습니다."
+                      },
+                      {
+                        "sentenceNumber": 3,
+                        "en": "Finally, they came to a little cottage where a poor old couple, Baucis and Philemon, lived.",
+                        "ko": "마침내 그들은 가난한 노부부 바우키스와 필레몬이 살고 있는 작은 오두막에 이르렀습니다."
+                      }
+                    ]
+                  }
+                ],
+                "questions": [
+                  {
+                    "num": "Q1",
+                    "question": "Who lived in the little cottage?",
+                    "answer": "A poor old couple, Baucis and Philemon"
+                  }
+                ]
+              },
+              {
+                "sectionNumber": 2,
+                "page": 110,
+                "title": "Baucis and Philemon",
+                "paragraphs": [
+                  {
+                    "paragraphNumber": 2,
+                    "sentences": [
+                      {
+                        "sentenceNumber": 4,
+                        "en": "The two had little to offer since they lived entirely from the produce of their small piece of land, a goose, and a few goats and pigs.",
+                        "ko": "두 사람은 작은 땅에서 나는 농산물과 거위 한 마리, 염소와 돼지 몇 마리만으로 완전히 자급자족하고 있었기에 내놓을 것이 거의 없었습니다."
+                      },
+                      {
+                        "sentenceNumber": 5,
+                        "en": "Nevertheless, they were prompt to ask the strangers in and to set their best before them.",
+                        "ko": "그럼에도 불구하고 그들은 기꺼이 낯선 이들을 안으로 맞아들여 자신들이 가진 최선의 것을 대접했습니다."
+                      },
+                      {
+                        "sentenceNumber": 6,
+                        "en": "They pulled their chairs forward for their guests.",
+                        "ko": "그들은 손님들을 위해 의자를 앞으로 당겨 주었습니다."
+                      },
+                      {
+                        "sentenceNumber": 7,
+                        "en": "Philemon put a piece of broken pot under one table leg, and Baucis rubbed the table top with fresh mint and set some water over the fire.",
+                        "ko": "필레몬은 부서진 항아리 조각을 탁자 다리 하나 밑에 받쳤고, 바우키스는 신선한 박하 잎으로 식탁 윗면을 문지르고 불 위에 물을 얹었습니다."
+                      },
+                      {
+                        "sentenceNumber": 8,
+                        "en": "They set out their best delicacies on the table.",
+                        "ko": "그들은 식탁 위에 자신들이 가진 최고의 별미들을 차려내었습니다."
+                      },
+                      {
+                        "sentenceNumber": 9,
+                        "en": "There were fresh vegetables baked over the fire as well as wine.",
+                        "ko": "포도주뿐만 아니라 불 위에서 구워낸 신선한 채소들도 있었습니다."
+                      },
+                      {
+                        "sentenceNumber": 10,
+                        "en": "There was a big bowl in the middle of the table to mix the wine with water.",
+                        "ko": "식탁 한가운데에는 포도주를 물과 섞기 위한 커다란 사발이 놓여 있었습니다."
+                      }
+                    ]
+                  }
+                ],
+                "questions": [
+                  {
+                    "num": "Q2",
+                    "question": "What was the big bowl on the table used for?",
+                    "answer": "It was used for mixing the wine with water."
+                  }
+                ]
+              },
+              {
+                "sectionNumber": 3,
+                "page": 111,
+                "title": "Baucis and Philemon",
+                "paragraphs": [
+                  {
+                    "paragraphNumber": 3,
+                    "sentences": [
+                      {
+                        "sentenceNumber": 11,
+                        "en": "The second course had to be fruit, and there were nuts, dried dates, grapes, and apples, for it was their best season of the year.",
+                        "ko": "두 번째 코스는 과일이어야 했고, 연중 최고의 계절이었기에 견과류, 말린 대추야자, 포도, 사과가 있었습니다."
+                      },
+                      {
+                        "sentenceNumber": 12,
+                        "en": "Baucis even had it in mind to kill their only goose for dinner, and there was a great squawking that went on for a long time.",
+                        "ko": "바우키스는 저녁 식사로 유일한 거위를 잡을 작정까지 하여, 한동안 요란한 꽥꽥 소리가 계속 이어졌습니다."
+                      },
+                      {
+                        "sentenceNumber": 13,
+                        "en": "Poor old Baucis wore herself out trying to catch that goose, but somehow the animal always got away from her, until the guests made her let it be, for they had been well served so far.",
+                        "ko": "가련한 늙은 바우키스는 그 거위를 잡으려다 기진맥진해졌지만, 거위는 어떻게든 늘 그녀에게서 달아났고, 손님들은 지금까지 이미 훌륭한 대접을 받았다며 그녀에게 거위를 그냥 두라고 만류했습니다."
+                      },
+                      {
+                        "sentenceNumber": 14,
+                        "en": "It was a good meal, and the old couple continued to encourage their visitors to eat and drink, not caring that they were now consuming in one day what would ordinarily have lasted a week.",
+                        "ko": "훌륭한 식사였으며, 노부부는 평소라면 일주일 동안 먹었을 양을 하루 만에 소비하고 있다는 사실도 개의치 않고 손님들에게 계속해서 먹고 마시기를 권했습니다."
+                      },
+                      {
+                        "sentenceNumber": 15,
+                        "en": "At last, the wine sank low in the mixing bowl, and Philemon rose to get some more.",
+                        "ko": "마침내 사발 속 포도주가 바닥을 드러내자, 필레몬은 더 가져오기 위해 일어섰습니다."
+                      },
+                      {
+                        "sentenceNumber": 16,
+                        "en": "He was astonished to find the bowl full again, as if it had never been touched before.",
+                        "ko": "그는 마치 이전에 한 번도 손대지 않았던 것처럼 사발이 다시 가득 차 있는 것을 발견하고 깜짝 놀랐습니다."
+                      },
+                      {
+                        "sentenceNumber": 17,
+                        "en": "Then he whispered to Baucis that the two strangers must be gods, and Baucis also was awed and afraid.",
+                        "ko": "그때 그는 바우키스에게 두 낯선 이가 신임에 틀림없다고 속삭였고, 바우키스 역시 경외감과 두려움에 휩싸였습니다."
+                      }
+                    ]
+                  }
+                ],
+                "questions": [
+                  {
+                    "num": "Q3",
+                    "question": "Why did the guests stop Baucis from killing the goose for dinner?",
+                    "answer": "They thought they had already been served very well."
+                  },
+                  {
+                    "num": "Q4",
+                    "question": "Why do you think Baucis and Philemon were willing to use a week’s worth of food in one day for their guests?",
+                    "answer": "I think it’s because they were welcoming and wanted to offer the best they could to their visitors."
+                  },
+                  {
+                    "num": "Q5",
+                    "question": "How did Philemon know the two strangers must be gods?",
+                    "answer": "Even though they drank wine, the bowl of wine was full again as if it had never been touched before."
+                  }
+                ]
+              },
+              {
+                "sectionNumber": 4,
+                "page": 112,
+                "title": "Baucis and Philemon",
+                "paragraphs": [
+                  {
+                    "paragraphNumber": 4,
+                    "sentences": [
+                      {
+                        "sentenceNumber": 18,
+                        "en": "However, the gods smiled kindly at them and identified themselves as Zeus and Hermes.",
+                        "ko": "그러나 신들은 그들에게 인자하게 미소 지으며 자신들이 제우스와 헤르메스임을 밝혔습니다."
+                      },
+                      {
+                        "sentenceNumber": 19,
+                        "en": "Hermes said, “Both of you welcomed us beneath your roof this day when others refused us shelter. Be sure those shall be punished who would not help the wandering strangers, but you shall have whatever reward you choose. Tell us what you will have.”",
+                        "ko": "헤르메스가 말했습니다. “다른 이들이 우리에게 쉴 곳을 거절했을 때, 오늘 너희 둘은 우리를 너희 지붕 아래로 따뜻이 맞아주었다. 방랑하는 낯선 이들을 돕지 않은 자들은 반드시 벌을 받을 것이나, 너희는 원하는 어떤 보상이든 받게 될 것이다. 무엇을 원하는지 말해보아라.”"
+                      },
+                      {
+                        "sentenceNumber": 20,
+                        "en": "The old man thought for a little while with his eyes bent on the ground, and then he said: “We have lived happily together here for many years, even though the times have been hard. But never have we turned strangers away or asked for a reward for entertaining them. To have spoken with the immortals face to face is a thing few men can boast of. In this small cottage, humble though it is, the gods have sat at meal. Neither this place nor we deserve the honor. If, therefore, you will do something for us, turn this cottage into a temple where the gods may always be served and where we may live out the rest of our days.”",
+                        "ko": "노인은 눈을 땅에 둔 채 잠시 생각하더니 말했습니다. “시절이 어려웠음에도 불구하고 우리는 이곳에서 수년 동안 함께 행복하게 살아왔습니다. 그러나 우리는 결코 낯선 이들을 내쫓거나 대접한 대가로 보상을 바란 적이 없습니다. 불멸의 신들과 얼굴을 맞대고 대화를 나눈 것은 극소수의 사람만이 자랑할 수 있는 일입니다. 누추하긴 하지만 이 작은 오두막에서 신들께서 식사를 하셨습니다. 이곳도 저희도 이러한 영광을 누릴 자격이 없습니다. 그러하오니 저희를 위해 무언가를 해주고자 하신다면, 이 오두막을 신들께서 항상 섬김을 받으실 수 있고 저희가 남은 여생을 보낼 수 있는 신전으로 바꾸어 주십시오.”"
+                      }
+                    ]
+                  }
+                ],
+                "questions": [
+                  {
+                    "num": "Q6",
+                    "question": "What was the true identity of the two strangers?",
+                    "answer": "They were the gods Zeus and Hermes."
+                  },
+                  {
+                    "num": "Q7",
+                    "question": "Whom did Hermes say he would punish?",
+                    "answer": "He said he would punish those who would not help the wandering strangers."
+                  },
+                  {
+                    "num": "Q8",
+                    "question": "What did Philemon ask of the gods as a reward?",
+                    "answer": "Philemon asked the gods to turn their cottage into a temple where the gods might always be served and where he and his wife Baucis could live out the rest of their days."
+                  }
+                ]
+              },
+              {
+                "sectionNumber": 5,
+                "page": 113,
+                "title": "Baucis and Philemon",
+                "paragraphs": [
+                  {
+                    "paragraphNumber": 5,
+                    "sentences": [
+                      {
+                        "sentenceNumber": 21,
+                        "en": "“You have spoken well,” said Hermes, “and you shall have your wish. Yet is there not anything that you would desire for yourselves?”",
+                        "ko": "“훌륭한 말을 하였도다,” 헤르메스가 말했습니다. “너의 소원대로 될 것이다. 하지만 너희 자신만을 위해 바라는 것은 정녕 없는가?”"
+                      },
+                      {
+                        "sentenceNumber": 22,
+                        "en": "At this, the husband glanced over at old Baucis with her thin, gray hair and her rough hands.",
+                        "ko": "이 말에 남편은 희끗희끗 숱 적은 머리카락과 거친 손을 지닌 늙은 바우키스를 힐긋 바라보았습니다."
+                      },
+                      {
+                        "sentenceNumber": 23,
+                        "en": "Baucis said, “We have lived together for many years, and in all that time never has there been a word of anger between us. Now, at last, we are growing old and our long companionship is coming to an end. Grant us this one request, that when we come to die, we may perish in the same hour, so that neither of us would be left without the other.”",
+                        "ko": "바우키스가 말했습니다. “저희는 오랜 세월을 함께 살아왔고, 그 모든 시간 동안 저희 사이에 분노의 말 한마디 오간 적이 없었습니다. 이제 마침내 저희는 늙어가고 있으며 저희의 오랜 동행도 끝을 향해 가고 있습니다. 저희의 이 한 가지 청을 들어주소서. 저희가 죽음을 맞이할 때 같은 시간에 함께 눈을 감게 하시어, 어느 누구도 상대방 없이 홀로 남겨지지 않게 해주십시오.”"
+                      },
+                      {
+                        "sentenceNumber": 24,
+                        "en": "She looked at Philemon, and he nodded in approval, so the old couple turned their eyes on the gods.",
+                        "ko": "그녀가 필레몬을 바라보자 그는 찬성의 뜻으로 고개를 끄덕였고, 노부부는 신들을 향해 시선을 돌렸습니다."
+                      },
+                      {
+                        "sentenceNumber": 25,
+                        "en": "“It shall be as you desire,” said Hermes. “Few would have made such a good and moderate request.”",
+                        "ko": "“너희의 소원대로 이루어질 것이다,” 헤르메스가 말했습니다. “이토록 훌륭하고 절제 있는 청을 올릴 자는 거의 없을 것이다.”"
+                      }
+                    ]
+                  }
+                ],
+                "questions": [
+                  {
+                    "num": "Q9",
+                    "question": "What was the wish that Baucis asked for?",
+                    "answer": "It was to die at the same time with Philemon, so that neither would be left without the other."
+                  },
+                  {
+                    "num": "Q10",
+                    "question": "How did Hermes respond to Philemon and Baucis’ request?",
+                    "answer": "Hermes praised them for making a good and moderate request."
+                  },
+                  {
+                    "num": "Q11",
+                    "question": "If you had been in the old couple’s situation, what would you have asked for?",
+                    "answer": "I would have asked for the ability to make good choices in life."
+                  }
+                ]
+              },
+              {
+                "sectionNumber": 6,
+                "page": 114,
+                "title": "Baucis and Philemon",
+                "paragraphs": [
+                  {
+                    "paragraphNumber": 6,
+                    "sentences": [
+                      {
+                        "sentenceNumber": 26,
+                        "en": "Before long, the house became a temple, and the neighbors, amazed at the change, often came to worship and left offerings for the gods.",
+                        "ko": "얼마 지나지 않아 그 집은 신전이 되었고, 그 변화에 놀란 이웃들은 자주 예배하러 찾아와 신들에게 제물을 바쳤습니다."
+                      },
+                      {
+                        "sentenceNumber": 27,
+                        "en": "For many years, Baucis and Philemon lived in peace, passing from old to extreme old age.",
+                        "ko": "수년 동안 바우키스와 필레몬은 평화롭게 살며 노년을 지나 백발의 깊은 노령에 이르렀습니다."
+                      },
+                      {
+                        "sentenceNumber": 28,
+                        "en": "At last, they were so old and bowed that it seemed they could only walk if they clung to each other.",
+                        "ko": "마침내 그들은 너무나 늙고 허리가 굽어 서로에게 기대어야만 겨우 걸을 수 있는 것처럼 보였습니다."
+                      },
+                      {
+                        "sentenceNumber": 29,
+                        "en": "One evening, it took them longer than ever to reach the usual spot they would visit every day to look at the temple.",
+                        "ko": "어느 날 저녁, 매일 신전을 바라보기 위해 찾던 평소의 장소에 도달하는 데 그 어느 때보다 오랜 시간이 걸렸습니다."
+                      },
+                      {
+                        "sentenceNumber": 30,
+                        "en": "There they held each other’s arms, thinking that it was perhaps the last time their limbs would support them.",
+                        "ko": "그곳에서 그들은 아마도 자신들의 팔다리가 몸을 지탱해 줄 마지막 순간일지도 모른다고 생각하며 서로의 팔을 맞잡았습니다."
+                      },
+                      {
+                        "sentenceNumber": 31,
+                        "en": "As they stood, each one felt the other change and only had time to turn and say “Farewell,” before they lost their human shapes completely.",
+                        "ko": "서 있는 동안, 두 사람은 서로가 변해가는 것을 느꼈고 완전히 인간의 형상을 잃기 전에 겨우 돌아서서 “안녕,”이라고 작별 인사를 건넬 시간밖에 없었습니다."
+                      },
+                      {
+                        "sentenceNumber": 32,
+                        "en": "Now there stood two tall trees growing closely side by side with the branches intertwined.",
+                        "ko": "이제 그곳에는 가지가 서로 뒤엉킨 채 나란히 다정하게 자라는 두 그루의 키 큰 나무가 서 있었습니다."
+                      },
+                      {
+                        "sentenceNumber": 33,
+                        "en": "They swayed in the passing breeze as if they nodded and whispered to each other.",
+                        "ko": "나무들은 스쳐 지나가는 산들바람에 마치 서로에게 고개를 끄덕이고 속삭이듯 부드럽게 흔들렸습니다."
+                      }
+                    ]
+                  }
+                ],
+                "questions": [
+                  {
+                    "num": "Q12",
+                    "question": "What happened to Baucis and Philemon’s house after it was turned into a temple?",
+                    "answer": "Neighbors came to worship and left offerings for the gods."
+                  },
+                  {
+                    "num": "Q13",
+                    "question": "What happened to Baucis and Philemon in their last moment?",
+                    "answer": "They transformed into two tall trees growing closely side by side with the branches intertwined."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "after_read",
+      "cornerNumber": 4,
+      "titleKo": "읽기 후 활동 & 독해 스킬",
+      "titleEn": "After You Read",
+      "pageRange": "pp. 115-116",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l5_after_summary",
+          "type": "summary_sequencing",
+          "title": "A. Summary: Sequencing Events",
+          "page": 115,
+          "sourceRef": "Textbook p. 115, Answers p. 162",
+          "data": {
+            "instruction": "Number the sentences in order of the events based on the main text.",
+            "firstStep": "Two strangers asked for food and shelter. While both the rich and the poor refused them shelter, Baucis and Philemon welcomed them.",
+            "events": [
+              {
+                "id": "evt_1",
+                "text": "Baucis and Philemon wanted to turn their cottage into a temple, and they wanted to die at the same time."
+              },
+              {
+                "id": "evt_2",
+                "text": "Baucis and Philemon turned into trees at their last moment."
+              },
+              {
+                "id": "evt_3",
+                "text": "Hermes asked what Baucis and Philemon wished for."
+              },
+              {
+                "id": "evt_4",
+                "text": "Philemon realized that the guests were gods."
+              }
+            ],
+            "correctOrder": "4-5-2-3"
+          }
+        },
+        {
+          "activityId": "l5_after_details",
+          "type": "comprehension_details",
+          "title": "B. Details: True or False",
+          "page": 115,
+          "sourceRef": "Textbook p. 115, Answers p. 162",
+          "data": {
+            "instruction": "Check T for true or F for false based on the main text.",
+            "items": [
+              {
+                "num": 1,
+                "statement": "Baucis cleaned the table with mint and prepared her best food for the table.",
+                "answer": "T"
+              },
+              {
+                "num": 2,
+                "statement": "When Baucis tried to kill their only goose for dinner, the gods stopped her from killing it.",
+                "answer": "T"
+              },
+              {
+                "num": 3,
+                "statement": "Philemon’s wish was to turn their cottage into a temple to live a wealthy life.",
+                "answer": "F"
+              },
+              {
+                "num": 4,
+                "statement": "The neighbors were uninterested in the house that became a temple.",
+                "answer": "F"
+              }
+            ]
+          }
+        },
+        {
+          "activityId": "l5_after_reading_skill",
+          "type": "reading_skill",
+          "title": "C. Reading Skill: Understanding Pronoun Reference",
+          "page": 116,
+          "sourceRef": "Textbook p. 116, Answers p. 162",
+          "data": {
+            "skillName": "Understanding pronoun reference",
+            "instruction": "Find and write what each underlined word refers to.",
+            "exampleText": "Long ago, two strangers traveled through a certain district, asking for food and shelter as they went. For a long time, (A) they found nothing but refusals from both the rich and the poor. Finally, they came to a little cottage where a poor old couple, Baucis and Philemon, lived. The two had little to offer since they lived entirely from the produce of their small piece of land, a goose, and a few goats and pigs. Nevertheless, (B) they were prompt to ask the strangers in and to set their best before (C) them.",
+            "storyText": "Echo was a nymph, cursed by the gods to only repeat the last words of others. (A) She fell in love with Narcissus after encountering him in the woods, and despite his rejection, she continued to long for (B) him. One day, while hunting, Narcissus saw his reflection in a pool of water and fell in love with (C) himself. He refused to leave, declaring to the gods that he and his love - his reflection - would die as one if (D) they couldn’t be together. Narcissus eventually died by the pool, with Echo as a witness. She repeated the farewell she heard him say to his reflection.",
+            "questions": [
+              {
+                "label": "(A)",
+                "question": "Find and write what each underlined word refers to: (A) She",
+                "answer": "Echo"
+              },
+              {
+                "label": "(B)",
+                "question": "Find and write what each underlined word refers to: (B) him",
+                "answer": "Narcissus"
+              },
+              {
+                "label": "(C)",
+                "question": "Find and write what each underlined word refers to: (C) himself",
+                "answer": "Narcissus"
+              },
+              {
+                "label": "(D)",
+                "question": "Find and write what each underlined word refers to: (D) they",
+                "answer": "he and his love"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "share_thoughts",
+      "cornerNumber": 5,
+      "titleKo": "생각 나누기 & 심화 읽기",
+      "titleEn": "Share Your Thoughts",
+      "pageRange": "pp. 117-119",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l5_share_read_further",
+          "type": "read_further",
+          "title": "Read Further: Sun Mythology",
+          "page": 117,
+          "sourceRef": "Textbook p. 117, Answers p. 162",
+          "data": {
+            "title": "Sun Mythology",
+            "subtitle": "Adapted from Storied, How Sun Mythologies Are Universal",
+            "paragraphs": [
+              "Ancient cultures recognized the sun’s power to sustain life, so it was held in a place of honor in most mythologies.",
+              "The Incas who lived in modern day Peru from the 12th to 16th centuries incorporated the sun in many aspects of their culture, from holidays to agriculture. Their sun god, Inti, was one of their most powerful gods. The Incan royal family was said to be directly descended from Inti, so his temples were considered important. The Temple of the Sun, in the capital city Cuzco, was made of carved stone and filled with luxurious gold objects.",
+              "In Baltic mythology, the sun was represented by Saule, the mother and ruler of the world, who determined the well-being of all life on the earth. Depicted as a blonde woman wearing a golden scarf and a golden crown, Saule lived in a palace at the end of the sea, where she tended a garden of golden apples. Saule would ride across the sky in a chariot pulled by two tireless white horses. Saule was not the only solar god to ride a vehicle across the sky. The Greek gods Helios and Apollo were both shown riding chariots through the heavens.",
+              "The Egyptian sun god Ra was said to ride in a solar boat during the day. At night, he sailed underwater until he returned to the sky in the east.",
+              "The sun has been a central figure in some of the world’s most enduring myths. That is because there would be no life without that immense force in the sky."
+            ],
+            "discussionQuestion": "Can you think of any other myths that are related to the sun?",
+            "sampleAnswer": "Plenty of other cultures explained eclipses as something eating the sun. In Vietnamese mythology, that creature is a giant frog. In ancient Korea, it was a pack of dogs."
+          }
+        },
+        {
+          "activityId": "l5_share_expressions",
+          "type": "expressions_from_myths",
+          "title": "Step 1 & 2. Expressions from Myths",
+          "pageRange": "pp. 118-119",
+          "sourceRef": "Textbook pp. 118-119, Scripts p. 151, Answers p. 162",
+          "data": {
+            "step1Video": {
+              "title": "Midas Touch",
+              "pageRef": 118,
+              "figureNote": "교과서 p.118의 'Midas Touch' 영상을 시청하세요",
+              "script": "Have you ever heard of someone described as having the “Midas touch”? Do you know what the “Midas touch” means? Well, that’s an expression about the mythological Greek king, Midas, who turned anything he touched into solid gold. Saying someone has the “Midas touch” means that they have the ability to make money or be successful at everything they are involved in. So you could say, “Everything Linda does is a success. She really has the Midas touch.”",
+              "quiz": {
+                "question": "What is the topic of the video?",
+                "options": [
+                  "a. an expression that comes from a myth",
+                  "b. the way to achieve success in business",
+                  "c. an important figure in ancient Greek history"
+                ],
+                "answer": "a"
+              },
+              "fillInBlanks": {
+                "wordsBox": ["make money", "solid gold", "success"],
+                "originatedFrom": "the mythological Greek king, Midas, who turned anything he touched into [solid gold]",
+                "meaning": "the ability to [make money] or be successful at everything they are involved in",
+                "example": "“Everything Linda does is a [success]. She really has the Midas touch.”",
+                "answers": ["solid gold", "make money", "success"]
+              }
+            },
+            "step2Articles": [
+              {
+                "title": "Opening Pandora’s Box: Gene Editing and Its Consequences",
+                "topic": "gene editing",
+                "expression": "Pandora’s box",
+                "meaning": "something that will cause a lot of problems or have unexpected results"
+              },
+              {
+                "title": "Does Taking Selfies Make You a Narcissist?",
+                "topic": "taking selfies",
+                "expression": "a narcissist",
+                "meaning": "someone who seeks too much attention and wants people to admire him or her"
+              },
+              {
+                "title": "the Pygmalion effect",
+                "topic": "",
+                "expression": "the Pygmalion effect",
+                "meaning": ""
+              }
+            ],
+            "talkAboutVideo": {
+              "prompt": "Think about other expressions that originated from myths. Talk about them with a classmate.",
+              "example": "A Sisyphean task is a task that is impossible to complete.",
+              "sampleAnswer": "A Herculean task is a task that requires extremely great strength or effort."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "language_focus",
+      "cornerNumber": 6,
+      "titleKo": "어휘 & 문법 집중 탐구",
+      "titleEn": "Language Focus",
+      "pageRange": "pp. 120-121",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l5_lang_word_phrases",
+          "type": "word_and_phrases",
+          "title": "A & B. Word Uses & Common Phrases",
+          "page": 120,
+          "sourceRef": "Textbook p. 120, Answers p. 162",
+          "data": {
+            "wordUses": {
+              "targetWord": "produce",
+              "meanings": [
+                {
+                  "label": "a",
+                  "def": "v. to make or manufacture from components or raw materials",
+                  "example": "The machine produced a large quantity of data."
+                },
+                {
+                  "label": "b",
+                  "def": "v. to cause (a particular result or situation) to happen or come into existence",
+                  "example": "The storm produced heavy rain and flooding."
+                },
+                {
+                  "label": "c",
+                  "def": "n. things that have been made or grown, especially through farming",
+                  "example": "Fruit and vegetables are some of the most common types of produce."
+                }
+              ],
+              "sentences": [
+                {
+                  "num": 1,
+                  "text": "The enactment of the new law produced a significant decrease in crime across the community.",
+                  "answer": "b"
+                },
+                {
+                  "num": 2,
+                  "text": "I bought a bag of organic produce at the grocery store to make healthier meals at home.",
+                  "answer": "c"
+                },
+                {
+                  "num": 3,
+                  "text": "France produced a great deal of wine for export to various countries around the world.",
+                  "answer": "a"
+                }
+              ]
+            },
+            "commonPhrases": {
+              "phrases": [
+                {
+                  "phrase": "neither ... nor",
+                  "exampleSentence": "Neither this place nor we deserve the honor."
+                },
+                {
+                  "phrase": "have it in mind to",
+                  "exampleSentence": "Baucis even had it in mind to kill their only goose for dinner."
+                },
+                {
+                  "phrase": "wear ... out",
+                  "exampleSentence": "Poor old Baucis wore herself out trying to catch that goose, but somehow the animal always got away from her."
+                }
+              ],
+              "exercises": [
+                {
+                  "num": 1,
+                  "sentence": "Eowyn said, “I fear [ ] death [ ] pain, but I fear a cage.”",
+                  "answer": "neither, nor"
+                },
+                {
+                  "num": 2,
+                  "sentence": "For a long time, I’ve [ ] sing at my uncle’s wedding, but I’ve kept it private.",
+                  "answer": "had it in mind to"
+                },
+                {
+                  "num": 3,
+                  "sentence": "Although I love museums, walking around the museum all day has [ ] me [ ].",
+                  "answer": "worn, out"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l5_lang_grammar",
+          "type": "grammar_in_context",
+          "title": "C. Grammar in Context",
+          "page": 121,
+          "sourceRef": "Textbook p. 121, Answers p. 162",
+          "data": {
+            "structures": [
+              {
+                "pointNumber": 1,
+                "title": "Negative Inversion",
+                "poem": "Never did I think that I could love\nSomeone as much as I love you.\nYour smile, your laugh, your touch,\nThey all make my heart sing.\nNever have I thought that I could be\nSo happy with another person.\nYou make me feel alive,\nLike I can do anything.",
+                "examples": [
+                  "Never did I think that I could love someone as much as I love you.",
+                  "Never have I thought that I could be so happy with another person."
+                ],
+                "practice": [
+                  {
+                    "num": 1,
+                    "originalSentence": "I never expected that I would meet him there.",
+                    "leadIn": "Never",
+                    "answer": "did I expect that I would meet him there"
+                  },
+                  {
+                    "num": 2,
+                    "originalSentence": "I had never imagined that I would win this game.",
+                    "leadIn": "Never",
+                    "answer": "had I imagined that I would win this game"
+                  }
+                ]
+              },
+              {
+                "pointNumber": 2,
+                "title": "As if + Past Perfect",
+                "narrative": "When we met last week, Tim was telling me all about how he had participated in the running of the bulls in Spain two years ago and how a bull had stepped on his foot. However, I happened to know that he had never been to Spain. Yet, he kept acting as if he had been there, describing the event as if he had experienced it all himself.",
+                "examples": [
+                  "He kept acting as if he had been there.",
+                  "describing the event as if he had experienced it all himself."
+                ],
+                "practice": [
+                  {
+                    "num": 1,
+                    "originalSentence": "Jane gave her presentation with confidence, as if [ ]. (a thousand times / it / she / practiced / before / had)",
+                    "leadIn": "as if",
+                    "answer": "she had practiced it a thousand times before"
+                  },
+                  {
+                    "num": 2,
+                    "originalSentence": "Cinderella went to the party last night, but she acted as if [ ]. (never / left / she / had / home)",
+                    "leadIn": "as if",
+                    "answer": "she had never left home"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "write_present",
+      "cornerNumber": 7,
+      "titleKo": "쓰기 스튜디오",
+      "titleEn": "Write & Present: Creating an Alternative Ending",
+      "pageRange": "pp. 122-124",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l5_write_alternative_ending",
+          "type": "writing_studio",
+          "title": "Creating an Alternative Ending of a Story",
+          "pageRange": "pp. 122-124",
+          "page": 122,
+          "sourceRef": "Textbook pp. 122-124, Answers p. 163",
+          "data": {
+            "writingWorkspace": {
+              "modelWriting": {
+                "title": "Creating an Alternative Ending of a Story",
+                "headingsBox": [
+                  "Beginning",
+                  "Conflict",
+                  "Ending"
+                ],
+                "sections": [
+                  {
+                    "label": "(A) Beginning",
+                    "text": "Once upon a time, in Ancient Greece, the gods and goddesses lived on Mount Olympus. Zeus, the king of the gods, created Pandora and gave her a box as a gift. He warned her not to open it."
+                  },
+                  {
+                    "label": "(B) Conflict",
+                    "text": "One day, Pandora’s curiosity got the best of her, and she opened the box, setting all the evils of the world free, such as sickness, war, and death. Pandora quickly tried to close the box, but it was too late, as the evils had already spread throughout the world."
+                  },
+                  {
+                    "label": "(C) Original Ending",
+                    "text": "However, in the end, Pandora discovered one special thing left inside the box: hope. She spread hope throughout the world, and it helped people to find their way through dark times, giving people a light to follow."
+                  },
+                  {
+                    "label": "Alternative Ending",
+                    "text": "She slammed the lid shut, but one thing remained inside: a genie. The genie was a powerful being who could grant wishes. Pandora wished for the evils to be gone, and the genie granted her wish. The evils disappeared from the world, and Pandora was left with peace and happiness."
+                  }
+                ]
+              },
+              "step2Outline": {
+                "beginning": [
+                  "Ancient Greece, on Mount Olympus",
+                  "a box given to Pandora"
+                ],
+                "conflict": [
+                  "opened the box and set all the evils of the world free",
+                  "tried to close the box, but it was too late"
+                ],
+                "ending": [
+                  "found a hidden button labeled “Reset”",
+                  "pressed the button, and the evils turned into tiny pink birds, which turn a hardship into an opportunity"
+                ]
+              },
+              "step3Draft": {
+                "draftText": "Once upon a time, in Ancient Greece, the gods and goddesses lived on Mount Olympus. Zeus, the king of the gods, created Pandora and gave her a box as a gift. He warned her not to open it. One day, Pandora’s curiosity got the best of her, and she opened the box, setting all the evils of the world free, such as sickness, war, and death. Pandora quickly tried to close the box, but it was too late, as the evils had already spread throughout the world. She found a hidden button labeled “Reset.” She pressed it, and the evils turned into tiny pink birds, which went back into the box. From then on, whenever a hardship came, these magical birds would appear, turning it into an opportunity."
+              },
+              "editingPractice": {
+                "instruction": "과거에 일어난 동작, 상태, 습관, 역사적 사실을 나타낼 때에 동사의 과거형을 사용합니다.",
+                "originalParagraph": "A new study finds that doing yoga could significantly improve memory. In the study, the people who did yoga for 50 minutes three times a week has lower levels of stress and anxiety, and they also perform better on mental tasks.",
+                "corrections": [
+                  {
+                    "num": 1,
+                    "error": "finds",
+                    "correction": "found"
+                  },
+                  {
+                    "num": 2,
+                    "error": "has",
+                    "correction": "had"
+                  },
+                  {
+                    "num": 3,
+                    "error": "perform",
+                    "correction": "performed"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "go_global",
+      "cornerNumber": 8,
+      "titleKo": "세계 문화 & 단원 정리",
+      "titleEn": "Go Global & Wrap Up",
+      "pageRange": "pp. 125-127",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l5_go_global_media",
+          "type": "myths_in_media",
+          "title": "Go Global: Myths in the Media",
+          "page": 125,
+          "sourceRef": "Textbook p. 125",
+          "data": {
+            "goGlobal": {
+              "intro": "Many movies and TV series are based on myths, legends, and folk tales from various cultures around the world. Take a look at some of them and think of other examples.",
+              "mediaList": [
+                {
+                  "title": "Guardian (2016)",
+                  "desc": "The TV drama tells the story of a protector of souls, who is cursed to live as an immortal being and can only end his curse by finding his human bride."
+                },
+                {
+                  "title": "Song of the Sea (2016)",
+                  "desc": "Song of the Sea is a story of an Irish boy on a magical journey to save his sister. It is based on the Irish legend of the selkie."
+                },
+                {
+                  "title": "Beowulf (2007)",
+                  "desc": "Based on the long narrative poem, the film depicts the rise and fall of the hero, Beowulf, after he travels to Denmark to kill a monster."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l5_wrap_up_activities",
+          "type": "wrap_up_activities",
+          "title": "Wrap Up",
+          "page": 126,
+          "sourceRef": "Textbook p. 126, Scripts p. 151, Answers p. 163",
+          "data": {
+            "partA": {
+              "question": "What is the main topic of the conversation?",
+              "options": [
+                "a. movies based on books",
+                "b. special effects in movies",
+                "c. differences between books and movies"
+              ],
+              "answer": "a",
+              "script": "B: What are you reading these days?\nG: I’m reading The Lightning Thief by Rick Riordan.\nB: What is it about?\nG: It’s an adventure novel about a boy named Percy Jackson whose father is Poseidon, the god of the sea.\nB: How is it so far?\nG: So far, it’s great! I love how Riordan helps us imagine Greek gods living among us in the 21st century.\nB: I heard they made a movie based on the story.\nG: Yes. They also made the sequel.\nB: What do you mean by a sequel?\nG: It means another movie that continues the story of the previous movie.\nB: Oh, I should watch both of them then!"
+            },
+            "partB": {
+              "title": "Speaking Practice",
+              "modelDialogue": "A: What is your favorite book?\nB: My favorite book is Harry Potter and the Prisoner of Azkaban because the main character is brave and overcomes all the hardships with the help of his friends."
+            },
+            "partC": {
+              "readingExcerpt": "The second course had to be fruit, and there were nuts, dried dates, grapes, and apples, for it was their best season of the year. Baucis even had it in mind to kill their only goose for dinner, and there was a great squawking that went on for a long time. Poor old Baucis wore herself out trying to catch that goose, but somehow the animal always got away from her, until the guests made her let it be, for they had been well served so far. It was a good meal, and the old couple continued to encourage their visitors to eat and drink, not caring that they were now consuming in one day what would ordinarily have lasted a week.\nAt last, the wine sank low in the mixing bowl, and Philemon rose to get some more. He was astonished to find the bowl full again, as if never / touched / it / had / before / been. Then he whispered to Baucis that the two strangers must be gods, and Baucis also was awed and afraid.",
+              "quiz1": {
+                "question": "How did the old couple serve the guests?",
+                "options": [
+                  "a. They served the guests their only goose.",
+                  "b. They did their best to treat their guests well.",
+                  "c. They were not willing to offer what they had."
+                ],
+                "answer": "b"
+              },
+              "quiz2": {
+                "question": "Put the underlined words in the right order.",
+                "answer": "it had never been touched before"
+              }
+            }
+          }
+        },
+        {
+          "activityId": "l5_lesson_summary",
+          "type": "lesson_summary",
+          "title": "Lesson Summary",
+          "page": 127,
+          "sourceRef": "Textbook p. 127, Answers p. 163",
+          "data": {
+            "selfCheck": [
+              {
+                "corner": "Communicate on Topic",
+                "statement": "I learned about various figures from myths and legends.",
+                "expressions": [
+                  "What do you mean by “Achilles’ heel”?",
+                  "Who’s your favorite character in the series?"
+                ]
+              },
+              {
+                "corner": "Read",
+                "statement": "I read about Baucis and Philemon, who served two poor strangers.",
+                "expressions": [
+                  "Never have we turned strangers away or asked for a reward for entertaining them.",
+                  "He was astonished to find the bowl full again, as if it had never been touched before."
+                ]
+              },
+              {
+                "corner": "Share Your Thoughts",
+                "statement": "I talked about expressions that originated from myths."
+              },
+              {
+                "corner": "Write & Present",
+                "statement": "I wrote an alternative ending of a story."
+              },
+              {
+                "corner": "Go Global",
+                "statement": "I read about movies and TV series based on myths."
+              }
+            ],
+            "thinkBack": {
+              "q1": "What was the most interesting part of this lesson? Why?",
+              "q2": "How do ancient myths relate to us?",
+              "sampleAnswer": "In our everyday lives, we use a lot of expressions related to myths and they remind us of lessons from ancient people."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
+def main():
+    target_file = ROOT / "content" / "lesson-05.json"
+    target_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(target_file, "w", encoding="utf-8") as f:
+        json.dump(lesson5_data, f, ensure_ascii=False, indent=2)
+    print(f"Successfully wrote {target_file}")
+
+if __name__ == "__main__":
+    main()

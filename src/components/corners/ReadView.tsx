@@ -65,8 +65,8 @@ export const ReadView: React.FC<ReadViewProps> = ({
           ? sec.paragraphs.flatMap((p: any) => p.sentences || [])
           : [];
 
-        const questions = (sec.marginalQuestions || sec.questions || []).map((q: any) => ({
-          qNumber: q.id || `q_${idx}`,
+        const questions = (sec.marginalQuestions || sec.questions || []).map((q: any, qIdx: number) => ({
+          qNumber: q.id || q.num || `q_${idx}_${qIdx}`,
           question: q.question,
           sampleAnswer: q.answer,
         }));
@@ -108,9 +108,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
                 1. Background Check: 나의 습관 점검하기
               </h3>
               <div className="space-y-2">
-                {backgroundCheck.map((item: any) => (
+                {backgroundCheck.map((item: any, bIdx: number) => (
                   <div
-                    key={item.id}
+                    key={item.id || item.statement || `bg_${bIdx}`}
                     className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs"
                   >
                     <span className="font-medium text-slate-800">{item.statement}</span>
@@ -118,9 +118,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
                       {['rarely', 'often', 'always'].map(level => (
                         <button
                           key={level}
-                          onClick={() => setBgAnswers(prev => ({ ...prev, [item.id]: level }))}
+                          onClick={() => setBgAnswers(prev => ({ ...prev, [item.id || `bg_${bIdx}`]: level }))}
                           className={`px-3 py-1 rounded-lg font-semibold text-[11px] transition-all ${
-                            bgAnswers[item.id] === level
+                            bgAnswers[item.id || `bg_${bIdx}`] === level
                               ? 'bg-indigo-600 text-white shadow-2xs'
                               : 'bg-white text-slate-600 border border-slate-200 hover:border-indigo-300'
                           }`}
@@ -129,6 +129,29 @@ export const ReadView: React.FC<ReadViewProps> = ({
                         </button>
                       ))}
                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* L5 Background Check (Painting & Characters) */}
+          {backgroundCheck?.characters && (
+            <div className="space-y-3">
+              <h3 className="text-xs sm:text-sm font-bold text-slate-800">
+                1. Background Check: {backgroundCheck.paintingTitle || 'Painting and Characters'}
+              </h3>
+              {(backgroundCheck.pageRef || backgroundCheck.figureNote) && (
+                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+                  <span>📖</span>
+                  <span>{backgroundCheck.figureNote || `교과서 p.${backgroundCheck.pageRef}의 그림을 보세요`}</span>
+                </div>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {backgroundCheck.characters.map((char: any, cIdx: number) => (
+                  <div key={char.name || cIdx} className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-xs">
+                    <span className="font-bold text-indigo-900 block">{char.name}</span>
+                    <p className="text-slate-600 mt-0.5">{char.desc}</p>
                   </div>
                 ))}
               </div>
@@ -154,21 +177,21 @@ export const ReadView: React.FC<ReadViewProps> = ({
               <h3 className="text-xs sm:text-sm font-bold text-slate-800">
                 2. Vocabulary Check: 문맥에 맞는 어휘 고르기
               </h3>
-              {vocabularyCheck.wordBox && (
+              {(vocabularyCheck.wordBox || vocabularyCheck.wordsBox) && (
                 <div className="flex flex-wrap gap-2 p-2.5 bg-slate-100 rounded-lg text-xs font-bold text-slate-700">
                   <span>단어함:</span>
-                  {vocabularyCheck.wordBox.map((w: string) => (
-                    <span key={w} className="px-2 py-0.5 bg-white rounded border border-slate-300">{w}</span>
+                  {(vocabularyCheck.wordBox || vocabularyCheck.wordsBox).map((w: string, wIdx: number) => (
+                    <span key={`${w}_${wIdx}`} className="px-2 py-0.5 bg-white rounded border border-slate-300">{w}</span>
                   ))}
                 </div>
               )}
               <div className="space-y-2">
-                {(Array.isArray(vocabularyCheck) ? vocabularyCheck : vocabularyCheck.questions || []).map((item: any, idx: number) => {
+                {(Array.isArray(vocabularyCheck) ? vocabularyCheck : vocabularyCheck.questions || vocabularyCheck.items || []).map((item: any, idx: number) => {
                   const key = item.id || `vc_${idx}`;
                   const isSelected = vocabAnswers[key] || '';
                   const isCorrect = isSelected === item.answer;
 
-                  const options = item.options || vocabularyCheck?.wordBox;
+                  const options = item.options || vocabularyCheck?.wordBox || vocabularyCheck?.wordsBox;
 
                   return (
                     <div
@@ -176,7 +199,7 @@ export const ReadView: React.FC<ReadViewProps> = ({
                       className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 space-y-2 text-xs"
                     >
                       <p className="font-medium text-slate-800 leading-relaxed">
-                        {idx + 1}. {item.sentence}
+                        {idx + 1}. {item.sentence || item.text}
                       </p>
                       {options && options.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
@@ -312,9 +335,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
 
               {/* Sentences Stream */}
               <div className="space-y-2">
-                {para.sentences.map((sentence: any) => (
+                {para.sentences.map((sentence: any, sIdx: number) => (
                   <div
-                    key={sentence.id}
+                    key={sentence.id || `s_${para.id}_${sentence.sentenceNumber || sIdx}`}
                     onClick={() => onSelectSentence(sentence)}
                     className="group p-3 rounded-xl cursor-pointer transition-all border bg-white hover:bg-indigo-50/50 border-transparent hover:border-indigo-200"
                   >

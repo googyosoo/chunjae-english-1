@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
+import { LessonDataSchema } from '../schemas/lessonSchema';
 import lesson1DataRaw from '../../content/lesson-01.json';
 
 const lesson1 = lesson1DataRaw as any;
@@ -346,6 +347,121 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
       expect(wrapUpAct.partA.answer).toBe('b');
       expect(wrapUpAct.partC.questions[0].answer).toBe('b');
       expect(wrapUpAct.partC.questions[1].answers).toContain('realize the value of the mudflats');
+    });
+  });
+
+  describe('Lesson 5: Ancient Worlds of Imagination 교과서 무결성 전수 검증', () => {
+    let l5: any;
+
+    beforeAll(() => {
+      const p = path.resolve(__dirname, '../../content/lesson-05.json');
+      const raw = fs.readFileSync(p, 'utf-8');
+      l5 = JSON.parse(raw);
+    });
+
+    it('1. LessonDataSchema Zod 런타임 스키마 검증을 100% 통과해야 한다', () => {
+      const res = LessonDataSchema.safeParse(l5);
+      expect(res.success).toBe(true);
+      if (!res.success) {
+        console.error('L5 Zod Errors:', res.error.issues);
+      }
+      expect(l5.lessonNumber).toBe(5);
+      expect(l5.title).toBe('Ancient Worlds of Imagination');
+      expect(l5.topic).toBe('Culture & Myths');
+      expect(l5.topicQuestion).toBe('How do ancient myths relate to us?');
+      expect(l5.pageRange).toBe('pp. 104-127');
+      expect(l5.corners).toHaveLength(8);
+    });
+
+    it('2. Watch and Think(p.106) 이카로스 영상 및 선택지가 일치해야 한다', () => {
+      const commCorner = l5.corners.find((c: any) => c.id === 'communicate');
+      const wt = commCorner.activities.find((a: any) => a.activityId === 'l5_comm_watch_think').data;
+      expect(wt.answer).toBe('the sun melted the wax on his wings');
+      expect(wt.yourThoughts.sampleAnswer).toBe('We should be aware of our limitations.');
+      expect(wt.videoScript[0].en).toContain('Daedalus and his son Icarus');
+    });
+
+    it('3. Listen and Answer(p.106) Dialogue 1과 2가 Scripts p.150 원문과 일치해야 한다', () => {
+      const commCorner = l5.corners.find((c: any) => c.id === 'communicate');
+      const la = commCorner.activities.find((a: any) => a.activityId === 'l5_comm_listen_answer').data;
+      expect(la.dialogues[0].turns[2].en).toContain('Achilles’ heel');
+      expect(la.dialogues[0].quiz.answer).toBe('c');
+      expect(la.dialogues[1].turns[1].en).toContain('Thor’s day');
+      expect(la.dialogues[1].quiz.answer).toContain('travel back to the past -> fly');
+    });
+
+    it('4. Before You Read(p.108) Background Check 및 Vocabulary Check 4문항이 일치해야 한다', () => {
+      const readCorner = l5.corners.find((c: any) => c.id === 'read');
+      const before = readCorner.activities.find((a: any) => a.activityId === 'l5_read_before').data;
+      expect(before.backgroundCheck.paintingTitle).toBe('Peter Paul Rubens, Jupiter and Mercury with Philemon and Baucis');
+      expect(before.backgroundCheck.characters).toHaveLength(4);
+      expect(before.vocabularyCheck.items.map((v: any) => v.answer)).toEqual(['cottage', 'wandering', 'immortals', 'approval']);
+    });
+
+    it('5. 본문(pp.109-114) Baucis and Philemon 6개 섹션 및 Q1~Q13이 일치해야 한다', () => {
+      const readCorner = l5.corners.find((c: any) => c.id === 'read');
+      const viewer = readCorner.activities.find((a: any) => a.activityId === 'l5_read_main').data;
+      expect(viewer.sections).toHaveLength(6);
+      expect(viewer.sections[0].page).toBe(109);
+      expect(viewer.sections[1].page).toBe(110);
+      expect(viewer.sections[2].page).toBe(111);
+      expect(viewer.sections[3].page).toBe(112);
+      expect(viewer.sections[4].page).toBe(113);
+      expect(viewer.sections[5].page).toBe(114);
+
+      // 본문 핵심 문장 검증 (마법의 사발, 두 그루의 얽힌 나무)
+      const sec2Sentences = viewer.sections[2].paragraphs.flatMap((p: any) => p.sentences);
+      const sec5Sentences = viewer.sections[5].paragraphs.flatMap((p: any) => p.sentences);
+      expect(sec2Sentences.some((s: any) => s.en.includes('as if it had never been touched before'))).toBe(true);
+      expect(sec5Sentences.some((s: any) => s.en.includes('branches intertwined'))).toBe(true);
+
+      // 여백 질문 13문항(Q1~Q13) 전수 검증
+      const allQuestions = viewer.sections.flatMap((s: any) => s.questions || []);
+      expect(allQuestions).toHaveLength(13);
+      expect(allQuestions[0].num).toBe('Q1');
+      expect(allQuestions[12].num).toBe('Q13');
+    });
+
+    it('6. After You Read(pp.115-116) 사건 순서 배열(4-5-2-3)과 대명사 지칭 추론이 일치해야 한다', () => {
+      const afterCorner = l5.corners.find((c: any) => c.id === 'after_read');
+      const summary = afterCorner.activities.find((a: any) => a.activityId === 'l5_after_summary').data;
+      expect(summary.correctOrder).toBe('4-5-2-3');
+
+      const details = afterCorner.activities.find((a: any) => a.activityId === 'l5_after_details').data;
+      expect(details.items.map((it: any) => it.answer)).toEqual(['T', 'T', 'F', 'F']);
+
+      const skill = afterCorner.activities.find((a: any) => a.activityId === 'l5_after_reading_skill').data;
+      expect(skill.questions.map((q: any) => q.answer)).toEqual(['Echo', 'Narcissus', 'Narcissus', 'he and his love']);
+    });
+
+    it('7. Share Your Thoughts(pp.117-119) Sun Mythology 및 Midas Touch 표현이 일치해야 한다', () => {
+      const stCorner = l5.corners.find((c: any) => c.id === 'share_thoughts');
+      const rf = stCorner.activities.find((a: any) => a.activityId === 'l5_share_read_further').data;
+      expect(rf.title).toBe('Sun Mythology');
+      expect(rf.paragraphs[1]).toContain('Inti');
+      expect(rf.sampleAnswer).toContain('Vietnamese mythology');
+
+      const expr = stCorner.activities.find((a: any) => a.activityId === 'l5_share_expressions').data;
+      expect(expr.step1Video.quiz.answer).toBe('a');
+      expect(expr.step1Video.fillInBlanks.answers).toEqual(['solid gold', 'make money', 'success']);
+      expect(expr.step2Articles[0].expression).toBe('Pandora’s box');
+      expect(expr.step2Articles[1].expression).toBe('a narcissist');
+    });
+
+    it('8. Go Global & Wrap Up(pp.125-127) 현대 미디어 신화 3편 및 총괄 평가가 일치해야 한다', () => {
+      const ggCorner = l5.corners.find((c: any) => c.id === 'go_global');
+      expect(ggCorner).toBeDefined();
+
+      const mediaAct = ggCorner.activities.find((a: any) => a.activityId === 'l5_go_global_media').data.goGlobal;
+      expect(mediaAct.mediaList).toHaveLength(3);
+      expect(mediaAct.mediaList[0].title).toBe('Guardian (2016)');
+      expect(mediaAct.mediaList[1].title).toBe('Song of the Sea (2016)');
+      expect(mediaAct.mediaList[2].title).toBe('Beowulf (2007)');
+
+      const wrapUpAct = ggCorner.activities.find((a: any) => a.activityId === 'l5_wrap_up_activities').data;
+      expect(wrapUpAct.partA.answer).toBe('a');
+      expect(wrapUpAct.partC.quiz1.answer).toBe('b');
+      expect(wrapUpAct.partC.quiz2.answer).toBe('it had never been touched before');
     });
   });
 });

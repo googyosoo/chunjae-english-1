@@ -18,7 +18,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
   const summaryData = (summaryAct?.data?.summaryDialogue || summaryAct?.data?.summaryFillIn || summaryAct?.data?.summaryFillBlanks || summaryAct?.data) as any;
 
   const tfAct = activities.find(a => a.type.includes('details') || a.activityId.includes('details'));
-  const tfList = (tfAct?.data?.detailsTf || tfAct?.data?.detailsTF || (Array.isArray(tfAct?.data) ? tfAct?.data : null)) as any[] | null;
+  const tfList = (tfAct?.data?.detailsTf || tfAct?.data?.detailsTF || tfAct?.data?.items || (Array.isArray(tfAct?.data) ? tfAct?.data : null)) as any[] | null;
   const tfData = (tfList || tfAct?.data) as any;
 
   const skillAct = activities.find(a => a.type.includes('skill') || a.activityId.includes('skill'));
@@ -277,6 +277,51 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
           </div>
         )}
 
+        {/* L5: Sequencing Events */}
+        {summaryData?.events && (
+          <div className="space-y-4 mb-4">
+            {summaryData.firstStep && (
+              <div className="p-3.5 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs space-y-1">
+                <span className="font-bold text-indigo-700 block">시작 사건 (Step 1):</span>
+                <p className="text-slate-800 leading-relaxed font-medium">{summaryData.firstStep}</p>
+              </div>
+            )}
+            <div className="space-y-2.5">
+              <span className="text-xs font-bold text-slate-700 block">사건 순서 배열하기:</span>
+              {summaryData.events.map((evt: any, eIdx: number) => {
+                const evtKey = evt.id || `evt_${eIdx}`;
+                const chosen = selectedWords[evtKey] || '';
+                return (
+                  <div key={evtKey} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between gap-3">
+                    <p className="flex-1 text-slate-800 leading-relaxed font-medium">
+                      {evt.text}
+                    </p>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="text-[11px] font-bold text-slate-500">순서:</span>
+                      <select
+                        value={chosen}
+                        onChange={e => handleSelectWord(evtKey, e.target.value)}
+                        aria-label={`Event ${eIdx + 1} order`}
+                        className="px-2.5 py-1 border border-slate-300 rounded-md bg-white font-bold text-xs text-indigo-700"
+                      >
+                        <option value="">선택</option>
+                        {[2, 3, 4, 5].map(num => (
+                          <option key={num} value={num}>{num}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {showTeacherAnswers && summaryData.correctOrder && (
+              <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
+                🔑 [교과서 정답키]: 사건 순서 = {summaryData.correctOrder}
+              </div>
+            )}
+          </div>
+        )}
+
         {showTeacherAnswers && summaryData?.items && (
           <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
             🔑 [교과서 정답키]: {summaryData.items.map((it: any, idx: number) => `(${idx + 1}) ${it.answer}`).join(', ')}
@@ -297,15 +342,16 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
           <h2 className="text-base font-bold text-slate-900">Details Check: 세부 내용 이해 확인</h2>
         </div>
 
-        {/* L1 & L3: Array of T/F */}
+        {/* L1 & L3 & L5: Array of T/F */}
         {Array.isArray(tfList) && (
           <div className="space-y-3">
             {tfData.map((item: any, idx: number) => {
-              const chosen = detailsAnswers[item.id];
+              const itemId = item.id || `tf_${item.num || idx}`;
+              const chosen = detailsAnswers[itemId];
               const isCorrect = chosen === item.answer;
 
               return (
-                <div key={item.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div key={itemId} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
                   <div className="flex items-start justify-between gap-3">
                     <p className="text-xs sm:text-sm font-semibold text-slate-900 leading-snug">
                       {idx + 1}. {item.statement}
@@ -314,7 +360,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
                       {(['T', 'F'] as const).map(opt => (
                         <button
                           key={opt}
-                          onClick={() => setDetailsAnswers(prev => ({ ...prev, [item.id]: opt }))}
+                          onClick={() => setDetailsAnswers(prev => ({ ...prev, [itemId]: opt }))}
                           aria-label={`Statement ${idx + 1} ${opt}`}
                           className={`w-9 h-9 rounded-lg font-bold text-xs border transition-all ${
                             chosen === opt
@@ -502,15 +548,67 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
             </div>
           )}
 
-          {/* L1 Questions */}
-          {skillData.questions && (
+          {/* L5 Pronoun Reference: Story & Questions */}
+          {skillData.storyText && skillData.questions && (
+            <div className="space-y-4">
+              {skillData.exampleText && (
+                <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+                  <span className="font-bold text-slate-600 block">[예시 지문]</span>
+                  <p className="text-slate-700 leading-relaxed italic">{skillData.exampleText}</p>
+                </div>
+              )}
+              <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 text-xs space-y-2">
+                <span className="font-bold text-indigo-900 block">[본문 지문: Echo and Narcissus]</span>
+                <p className="text-slate-800 leading-relaxed italic">{skillData.storyText}</p>
+              </div>
+              <div className="space-y-3">
+                {skillData.questions.map((q: any, idx: number) => {
+                  const qId = q.id || q.label || `pronoun_${idx}`;
+                  const chosen = skillAnswers[qId] || '';
+                  const isCorrect = chosen.trim().toLowerCase() === q.answer.trim().toLowerCase();
+
+                  return (
+                    <div key={qId} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="flex-1">
+                        <span className="font-bold text-indigo-700 mr-2">{q.label || `(${idx + 1})`}</span>
+                        <span className="text-slate-800 font-medium">{q.question}</span>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+                        <input
+                          type="text"
+                          value={chosen}
+                          onChange={e => setSkillAnswers(prev => ({ ...prev, [qId]: e.target.value }))}
+                          placeholder="가리키는 대상 입력"
+                          aria-label={`Question ${q.label || idx + 1} input`}
+                          className="px-3 py-1.5 border border-slate-300 rounded-lg text-xs bg-white font-medium focus:ring-2 focus:ring-indigo-500 w-full sm:w-44"
+                        />
+                        {skillChecked && (
+                          <span className="text-[11px] font-bold shrink-0">
+                            {isCorrect ? (
+                              <span className="text-emerald-600">✓ 정답</span>
+                            ) : (
+                              <span className="text-rose-600">✗ 정답: {q.answer}</span>
+                            )}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* L1 Multiple Choice Questions */}
+          {!skillData.storyText && skillData.questions && (
             <div className="space-y-4">
               {skillData.questions.map((q: any, idx: number) => {
-                const chosen = skillAnswers[q.id];
+                const qId = q.id || `skill_q_${idx}`;
+                const chosen = skillAnswers[qId];
                 const isCorrect = chosen === q.answer;
 
                 return (
-                  <div key={q.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-3">
+                  <div key={qId} className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-3">
                     {q.passage && (
                       <div className="p-3 bg-white rounded-lg border border-slate-200 text-slate-700 leading-relaxed italic">
                         "{q.passage}"
@@ -523,7 +621,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
                       {q.options?.map((opt: any) => (
                         <button
                           key={opt.label}
-                          onClick={() => setSkillAnswers(prev => ({ ...prev, [q.id]: opt.label }))}
+                          onClick={() => setSkillAnswers(prev => ({ ...prev, [qId]: opt.label }))}
                           aria-label={`Option ${opt.label}: ${opt.text}`}
                           className={`p-2.5 rounded-lg border text-left text-xs transition-all flex items-center justify-between ${
                             chosen === opt.label

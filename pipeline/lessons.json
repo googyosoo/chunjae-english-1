@@ -42,5 +42,16 @@
       "answers": [159, 161],
       "sources": [168, 171]
     }
+  },
+  "lesson-05": {
+    "lessonNumber": 5,
+    "title": "Ancient Worlds of Imagination",
+    "pdfPath": "C:/Users/user/Desktop/고등_영어1(강상구)_교과서.pdf",
+    "pages": {
+      "main": [104, 127],
+      "scripts": [149, 151],
+      "answers": [161, 163],
+      "sources": [168, 171]
+    }
   }
 }

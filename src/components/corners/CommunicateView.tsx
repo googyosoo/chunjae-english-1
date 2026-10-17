@@ -143,7 +143,7 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
         {/* Check Question */}
         <div className="p-4 rounded-xl bg-indigo-50/60 border border-indigo-200/70">
           <p className="text-xs sm:text-sm font-bold text-indigo-950 mb-3">
-            Q. {watchData?.checkQuestion || watchData?.sentence || watchData?.quiz?.sentence || watchData?.quiz?.question || ''}
+            Q. {watchData?.question || watchData?.checkQuestion || watchData?.sentence || watchData?.quiz?.sentence || watchData?.quiz?.question || ''}
           </p>
           <div className="flex gap-2">
             {(watchData?.options || watchData?.quiz?.options || []).map((opt: any) => {
@@ -211,19 +211,19 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
         </div>
 
         <div className="space-y-6">
-          {listenAnswerData?.dialogues.map((dial: any) => (
-            <div key={dial.id} className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          {listenAnswerData?.dialogues?.map((dial: any, dialIdx: number) => (
+            <div key={dial.id || dial.title || `dial_${dialIdx}`} className="p-4 rounded-xl bg-slate-50 border border-slate-200">
               <h3 className="font-bold text-slate-800 text-sm mb-3">{dial.title}</h3>
 
               <div className="space-y-2 mb-4">
-                {(dial.utterances || dial.script || []).map((utt: any, uIdx: number) => {
-                  const uId = `${dial.id}_${uIdx}`;
+                {(dial.utterances || dial.script || dial.turns || []).map((utt: any, uIdx: number) => {
+                  const uId = `${dial.id || dial.title || dialIdx}_${uIdx}`;
                   const isBoy = utt.speaker === 'B' || utt.speaker?.includes('Boy');
                   const uText = utt.text || utt.en;
                   const uTrans = utt.translation || utt.ko;
                   return (
                     <div
-                      key={uIdx}
+                      key={uId}
                       onClick={() => handleSpeak(uText, uId)}
                       className={`p-2.5 rounded-lg cursor-pointer transition-all flex items-start gap-2.5 ${
                         activeUtteranceId === uId
@@ -418,28 +418,90 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
               )}
             </div>
           )}
+
+          {/* L5 Myths vs. Legends Comparison Notes Mode */}
+          {listenWriteData.comparisonNotes && (
+            <div className="space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
+              {listenWriteData.wordsBox && (
+                <div className="flex flex-wrap gap-2 p-3 bg-white rounded-xl border border-slate-200">
+                  <span className="font-bold text-indigo-700">단어 보관함 (Word Box):</span>
+                  {(listenWriteData.wordsBox as string[]).map((w: string) => (
+                    <span key={w} className="px-2.5 py-1 bg-indigo-50 text-indigo-900 rounded-lg font-bold">
+                      {w}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-2">
+                  <h4 className="font-bold text-sm text-indigo-900 border-b pb-1">Myths (신화)</h4>
+                  <ul className="list-disc pl-4 space-y-1 text-slate-700">
+                    {listenWriteData.comparisonNotes.myths.map((item: string, i: number) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-2">
+                  <h4 className="font-bold text-sm text-indigo-900 border-b pb-1">Legends (전설)</h4>
+                  <ul className="list-disc pl-4 space-y-1 text-slate-700">
+                    {listenWriteData.comparisonNotes.legends.map((item: string, i: number) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {showTeacherAnswers && listenWriteData.answers && (
+                <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
+                  🔑 [교사용 정답]: {typeof listenWriteData.answers === 'object' && !Array.isArray(listenWriteData.answers)
+                    ? Object.entries(listenWriteData.answers).map(([k, v]) => `${k}. ${v}`).join(', ')
+                    : (listenWriteData.answers as string[]).join(', ')}
+                </div>
+              )}
+            </div>
+          )}
         </section>
       )}
 
-      {/* D. Write and Talk (Chance to Express, p. 11) */}
+      {/* D. Write and Talk / Chance to Express */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
           <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">D</span>
-          <h2 className="text-base font-bold text-slate-900">Write and Talk: Chance to Express (p. 11)</h2>
+          <h2 className="text-base font-bold text-slate-900">{writeTalkAct?.title || 'Write and Talk: Chance to Express'}</h2>
         </div>
 
-        {/* Model Dialogue */}
-        <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
-          <p className="font-bold text-slate-900 mb-1">대화 모델 (Dialogue Model):</p>
-          <div className="p-2.5 bg-white rounded-lg border border-slate-200">
-            <p className="text-indigo-900 font-semibold">A: {writeTalkData?.dialogueModel?.question}</p>
-            <p className="text-slate-700 mt-1">B (긍정): {writeTalkData?.dialogueModel?.positiveAnswer}</p>
-            <p className="text-slate-700 mt-0.5">B (부정): {writeTalkData?.dialogueModel?.negativeAnswer}</p>
+        {/* Figures from Myths and Legends (L5) */}
+        {writeTalkAct?.data?.figures && (
+          <div className="space-y-3">
+            <p className="text-xs text-slate-600 font-medium">자신이 좋아하는 신화나 전설 속 인물을 선택하고 친구와 이야기해보세요.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {writeTalkAct.data.figures.map((fig: any, fIdx: number) => (
+                <div key={fIdx} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <h4 className="font-bold text-sm text-indigo-900">{fig.name}</h4>
+                  <p className="text-xs text-slate-700 mt-1">{fig.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="text-[11px] text-slate-500">
-            * 유용한 표현: {writeTalkData?.usefulExpressions?.join(', ')}
-          </p>
-        </div>
+        )}
+
+        {/* Model Dialogue */}
+        {writeTalkData?.dialogueModel && (
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+            <p className="font-bold text-slate-900 mb-1">대화 모델 (Dialogue Model):</p>
+            <div className="p-2.5 bg-white rounded-lg border border-slate-200">
+              <p className="text-indigo-900 font-semibold">A: {writeTalkData.dialogueModel.question}</p>
+              <p className="text-slate-700 mt-1">B (긍정): {writeTalkData.dialogueModel.positiveAnswer}</p>
+              <p className="text-slate-700 mt-0.5">B (부정): {writeTalkData.dialogueModel.negativeAnswer}</p>
+            </div>
+            {writeTalkData.usefulExpressions && (
+              <p className="text-[11px] text-slate-500">
+                * 유용한 표현: {writeTalkData.usefulExpressions.join(', ')}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Interactive Opinion Form */}
         <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-200 space-y-3 text-xs">

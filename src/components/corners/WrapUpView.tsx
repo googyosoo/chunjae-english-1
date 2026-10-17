@@ -18,9 +18,11 @@ export const WrapUpView: React.FC<WrapUpViewProps> = ({ lesson, showTeacherAnswe
     a.type === 'texting_abbreviations' || 
     a.activityId === 'texting_abbreviations' ||
     a.type === 'eco_friendly_recipes' ||
-    a.activityId === 'l3_go_global_recipes'
+    a.activityId === 'l3_go_global_recipes' ||
+    a.type === 'myths_in_media' ||
+    a.activityId === 'l5_go_global_media'
   );
-  const goGlobalData = goGlobalAct?.data?.goGlobal;
+  const goGlobalData = (goGlobalAct?.data?.goGlobal || goGlobalAct?.data) as any;
 
   // 2. Wrap Up Activities (Part A, B, C)
   const wrapUpAct = globalCorner?.activities.find(a => a.type === 'wrap_up_activities' || a.activityId === 'wrap_up_activities' || a.activityId === 'l3_wrap_up_activities');
@@ -107,6 +109,25 @@ export const WrapUpView: React.FC<WrapUpViewProps> = ({ lesson, showTeacherAnswe
               {goGlobalData.sourceCitation && (
                 <p className="text-[11px] text-slate-400 text-right">출처: {goGlobalData.sourceCitation}</p>
               )}
+            </div>
+          )}
+
+          {/* Lesson 5: Myths in the Media */}
+          {goGlobalData.mediaList && goGlobalData.mediaList.length > 0 && (
+            <div className="space-y-4">
+              <span className="text-xs font-bold text-slate-700 block">🎬 현대 미디어 속 신화와 전설 (Myths in the Media):</span>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {goGlobalData.mediaList.map((m: any, idx: number) => (
+                  <div key={idx} className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col justify-between space-y-3">
+                    <div>
+                      <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-bold">
+                        {m.title}
+                      </span>
+                      <p className="mt-2 text-xs text-slate-700 leading-relaxed">{m.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
