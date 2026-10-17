@@ -30,6 +30,7 @@ const getInitialLessonId = (): string => {
   if (typeof window !== 'undefined') {
     const params = new URLSearchParams(window.location.search);
     const l = params.get('lesson');
+    if (l === '04' || l === 'lesson-04' || l === '4') return 'lesson-04';
     if (l === '03' || l === 'lesson-03' || l === '3') return 'lesson-03';
     if (l === '02' || l === 'lesson-02' || l === '2') return 'lesson-02';
     if (l === '01' || l === 'lesson-01' || l === '1') return 'lesson-01';
@@ -143,7 +144,7 @@ export const App: React.FC = () => {
   }, [user, selectedLessonId]);
 
   // 3. 진도 데이터 로드 및 역할 분기
-  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'lesson-03' ? 3 : selectedLessonId === 'lesson-02' ? 2 : 1);
+  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'lesson-04' ? 4 : selectedLessonId === 'lesson-03' ? 3 : selectedLessonId === 'lesson-02' ? 2 : 1);
   useEffect(() => {
     if (user) {
       StorageService.getProgressAsync(user, currentLessonNum).then((progress) => {
@@ -256,6 +257,16 @@ export const App: React.FC = () => {
       pageRange: 'pp. 56-79',
       description: '지속 가능한 식문화를 위한 미래 식량(배양육, 곤충, 3D 프린팅 푸드, 조류)과 푸드 업사이클링을 탐구하고 친환경 급식 제안서를 작성합니다.',
       completedCornersCount: selectedLessonId === 'lesson-03' ? completedCorners.length : 0,
+      totalCornersCount: 8,
+    },
+    {
+      id: 'lesson-04',
+      lessonNumber: 4,
+      title: 'Amazing Animals Around Us',
+      topic: 'Nature & Ecology',
+      pageRange: 'pp. 80-103',
+      description: '생태계 속 동물들의 경이로운 이동과 생존 방식을 인터뷰 형식으로 탐구하고, 멸종 위기 동물 보존을 위한 인포그래픽 모둠 프로젝트를 진행합니다.',
+      completedCornersCount: selectedLessonId === 'lesson-04' ? completedCorners.length : 0,
       totalCornersCount: 8,
     },
   ];

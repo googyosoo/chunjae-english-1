@@ -1,0 +1,1770 @@
+{
+  "lessonNumber": 4,
+  "title": "Amazing Animals Around Us",
+  "topic": "Nature & Ecology",
+  "topicQuestion": "How do we coexist with animals around us?",
+  "hashtags": [
+    "#biodiversity",
+    "#migratory_birds",
+    "#animal_habitats",
+    "#coexistence"
+  ],
+  "pageRange": "pp. 80-103",
+  "school": "심인고등학교",
+  "vocabulary": [
+    {
+      "word": "biodiversity",
+      "meaning": "생물 다양성",
+      "pos": "n.",
+      "page": 82
+    },
+    {
+      "word": "resilient",
+      "meaning": "회복력 있는, 탄력 있는",
+      "pos": "adj.",
+      "page": 82
+    },
+    {
+      "word": "predator",
+      "meaning": "포식자",
+      "pos": "n.",
+      "page": 84
+    },
+    {
+      "word": "migrate",
+      "meaning": "이동하다, 이주하다",
+      "pos": "v.",
+      "page": 84
+    },
+    {
+      "word": "preserve",
+      "meaning": "보존하다",
+      "pos": "v.",
+      "page": 84
+    },
+    {
+      "word": "spectacle",
+      "meaning": "장관, 광경",
+      "pos": "n.",
+      "page": 86
+    },
+    {
+      "word": "strip away",
+      "meaning": "~을 벗겨내다, 제거하다",
+      "pos": "phr.",
+      "page": 86
+    },
+    {
+      "word": "featureless",
+      "meaning": "특징 없는",
+      "pos": "adj.",
+      "page": 87
+    },
+    {
+      "word": "turn out",
+      "meaning": "~임이 밝혀지다",
+      "pos": "phr.",
+      "page": 87
+    },
+    {
+      "word": "binge",
+      "meaning": "폭식하다, 과도하게 하다",
+      "pos": "v.",
+      "page": 88
+    },
+    {
+      "word": "put to use",
+      "meaning": "~을 이용하다, 사용하다",
+      "pos": "phr.",
+      "page": 88
+    },
+    {
+      "word": "mudflat",
+      "meaning": "갯벌",
+      "pos": "n.",
+      "page": 89
+    },
+    {
+      "word": "stopover",
+      "meaning": "중간 기착지",
+      "pos": "n.",
+      "page": 89
+    },
+    {
+      "word": "countless",
+      "meaning": "수많은, 셀 수 없는",
+      "pos": "adj.",
+      "page": 89
+    },
+    {
+      "word": "cooperation",
+      "meaning": "협력",
+      "pos": "n.",
+      "page": 90
+    },
+    {
+      "word": "scale",
+      "meaning": "규모, 척도, 저울",
+      "pos": "n.",
+      "page": 96
+    }
+  ],
+  "corners": [
+    {
+      "id": "introduction",
+      "cornerNumber": 1,
+      "titleKo": "단원 도입 & 토픽 질문",
+      "titleEn": "Introduction",
+      "pageRange": "pp. 80-81",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l4_intro_topic_question",
+          "type": "topic_reflection",
+          "title": "Topic Question 사전·사후 성찰",
+          "page": 80,
+          "sourceRef": "Textbook p. 80 & p. 103",
+          "data": {
+            "topicQuestion": "How do we coexist with animals around us?",
+            "topicSampleAnswer": "We can coexist with animals around us by knowing better about them and protecting their lives.",
+            "hashtags": [
+              "#biodiversity",
+              "#migratory_birds",
+              "#animal_habitats",
+              "#coexistence"
+            ],
+            "lessonFlow": [
+              {
+                "step": "1",
+                "cornerTitle": "Communicate on Topic: Appreciating Biodiversity",
+                "page": "pp. 82-83"
+              },
+              {
+                "step": "2",
+                "cornerTitle": "Before You Read: Background & Vocabulary Check",
+                "page": "p. 84"
+              },
+              {
+                "step": "3",
+                "cornerTitle": "Read: A World on the Wing & Read Further",
+                "page": "pp. 85-90, 93"
+              },
+              {
+                "step": "4",
+                "cornerTitle": "After You Read: Summary & Details",
+                "page": "pp. 91-92"
+              },
+              {
+                "step": "5",
+                "cornerTitle": "Share Your Thoughts: Coexisting with Animals",
+                "page": "pp. 94-95"
+              },
+              {
+                "step": "6",
+                "cornerTitle": "Language Focus: Word Uses, Phrases & Grammar",
+                "page": "pp. 96-97"
+              },
+              {
+                "step": "7",
+                "cornerTitle": "Write & Present: Animal Information Report",
+                "page": "pp. 98-100"
+              },
+              {
+                "step": "8",
+                "cornerTitle": "Work Together: Making an Infographic on an Endangered Animal & Wrap Up",
+                "page": "pp. 101-103"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "communicate",
+      "cornerNumber": 2,
+      "titleKo": "듣기 & 말하기 의사소통",
+      "titleEn": "Communicate on Topic",
+      "pageRange": "pp. 82-83",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l4_comm_watch_think",
+          "type": "video_exploration",
+          "title": "A. Watch and Think (영상 시청 및 생물 다양성 생각하기)",
+          "page": 82,
+          "sourceRef": "Textbook p. 82, Scripts pp. 147-148, Answers p. 159",
+          "data": {
+            "videoTitle": "Earth is Full of Life: Appreciating Biodiversity",
+            "pageRef": 82,
+            "figureNote": "교과서 p.82의 지구 생태계 그림과 생물 다양성 영상을 확인하세요",
+            "script": [
+              {
+                "id": "l4_vs_1",
+                "speaker": "M",
+                "en": "Earth is full of life. There are thousands of habitats and ecosystems, and millions of species of animals, plants, fungi, and insects.",
+                "ko": "지구는 생명으로 가득 차 있습니다. 수천 개의 서식지와 생태계, 그리고 수백만 종의 동물, 식물, 균류, 곤충이 있습니다."
+              },
+              {
+                "id": "l4_vs_2",
+                "speaker": "M",
+                "en": "This is biodiversity, the sum total of all different life forms on Earth.",
+                "ko": "이것이 바로 지구상의 모든 서로 다른 생명체의 총합인 생물 다양성입니다."
+              },
+              {
+                "id": "l4_vs_3",
+                "speaker": "M",
+                "en": "Every one of these species depends on all the others for survival, including ourselves.",
+                "ko": "우리 자신을 포함하여, 이 종들 하나하나는 생존을 위해 다른 모든 종에 의존합니다."
+              },
+              {
+                "id": "l4_vs_4",
+                "speaker": "M",
+                "en": "We need trees that clean our air and water, animals and plants that provide us with food, medicine, and biofuels, and insects that pollinate our crops.",
+                "ko": "우리는 공기와 물을 정화하는 나무, 우리에게 음식, 의약품, 바이오 연료를 제공하는 동물과 식물, 그리고 작물을 수분시키는 곤충이 필요합니다."
+              },
+              {
+                "id": "l4_vs_5",
+                "speaker": "M",
+                "en": "The more biodiversity there is, the more resilient the environment is.",
+                "ko": "생물 다양성이 풍부할수록 환경은 더욱 회복력이 있습니다."
+              },
+              {
+                "id": "l4_vs_6",
+                "speaker": "M",
+                "en": "But when this delicate balance is upset, entire ecosystems can collapse, and right now, that is exactly what's happening.",
+                "ko": "하지만 이 섬세한 균형이 깨지면 생태계 전체가 무너질 수 있으며, 바로 지금 그것이 일어나고 있습니다."
+              }
+            ],
+            "videoScript": [
+              {
+                "id": "l4_vs_1",
+                "speaker": "M",
+                "en": "Earth is full of life. There are thousands of habitats and ecosystems, and millions of species of animals, plants, fungi, and insects.",
+                "ko": "지구는 생명으로 가득 차 있습니다. 수천 개의 서식지와 생태계, 그리고 수백만 종의 동물, 식물, 균류, 곤충이 있습니다."
+              },
+              {
+                "id": "l4_vs_2",
+                "speaker": "M",
+                "en": "This is biodiversity, the sum total of all different life forms on Earth.",
+                "ko": "이것이 바로 지구상의 모든 서로 다른 생명체의 총합인 생물 다양성입니다."
+              },
+              {
+                "id": "l4_vs_3",
+                "speaker": "M",
+                "en": "Every one of these species depends on all the others for survival, including ourselves.",
+                "ko": "우리 자신을 포함하여, 이 종들 하나하나는 생존을 위해 다른 모든 종에 의존합니다."
+              },
+              {
+                "id": "l4_vs_4",
+                "speaker": "M",
+                "en": "We need trees that clean our air and water, animals and plants that provide us with food, medicine, and biofuels, and insects that pollinate our crops.",
+                "ko": "우리는 공기와 물을 정화하는 나무, 우리에게 음식, 의약품, 바이오 연료를 제공하는 동물과 식물, 그리고 작물을 수분시키는 곤충이 필요합니다."
+              },
+              {
+                "id": "l4_vs_5",
+                "speaker": "M",
+                "en": "The more biodiversity there is, the more resilient the environment is.",
+                "ko": "생물 다양성이 풍부할수록 환경은 더욱 회복력이 있습니다."
+              },
+              {
+                "id": "l4_vs_6",
+                "speaker": "M",
+                "en": "But when this delicate balance is upset, entire ecosystems can collapse, and right now, that is exactly what's happening.",
+                "ko": "하지만 이 섬세한 균형이 깨지면 생태계 전체가 무너질 수 있으며, 바로 지금 그것이 일어나고 있습니다."
+              }
+            ],
+            "checkQuestion": "Every species on Earth [ ] all the others for survival.",
+            "sentence": "Every species on Earth [ ] all the others for survival.",
+            "options": [
+              "depends on",
+              "competes against"
+            ],
+            "answer": "depends on",
+            "yourThoughtsQuestion": "What may be upsetting the balance of our ecosystem right now?",
+            "yourThoughtsPrompt": "What may be upsetting the balance of our ecosystem right now?",
+            "yourThoughtsSample": "I think human activities are disturbing the ecosystem right now.",
+            "quiz": {
+              "sentence": "Every species on Earth [ ] all the others for survival.",
+              "options": [
+                "depends on",
+                "competes against"
+              ],
+              "answer": "depends on"
+            },
+            "yourThoughts": {
+              "prompt": "What may be upsetting the balance of our ecosystem right now?",
+              "sampleAnswer": "I think human activities are disturbing the ecosystem right now."
+            }
+          }
+        },
+        {
+          "activityId": "l4_comm_listen_answer",
+          "type": "listen_and_answer",
+          "title": "B. Listen and Answer (대화 듣기 및 사실 확인)",
+          "page": 82,
+          "sourceRef": "Textbook p. 82, Scripts p. 148, Answers p. 159",
+          "data": {
+            "listenAndAnswer": {
+              "dialogues": [
+                {
+                  "id": "l4_d1",
+                  "title": "Dialogue 1",
+                  "script": [
+                    {
+                      "id": "l4_d1_1",
+                      "speaker": "G",
+                      "en": "Hey, did you watch the nature documentary the teacher recommended?",
+                      "ko": "선생님이 추천해 주신 자연 다큐멘터리 봤어?"
+                    },
+                    {
+                      "id": "l4_d1_2",
+                      "speaker": "B",
+                      "en": "You mean the one about the endangered species around us? No, I didn't. Was it good?",
+                      "ko": "우리 주변의 멸종 위기 종에 관한 거 말이야? 아니, 안 봤어. 좋았어?"
+                    },
+                    {
+                      "id": "l4_d1_3",
+                      "speaker": "G",
+                      "en": "Yes, it was. I was particularly impressed by the part about the Eurasian otters.",
+                      "ko": "응, 좋았어. 난 특히 유라시아 수달에 관한 부분에 깊은 인상을 받았어."
+                    },
+                    {
+                      "id": "l4_d1_4",
+                      "speaker": "B",
+                      "en": "Oh, you mean the long, thin creatures that like water? I heard they are very intelligent, playful, and excellent at catching fish.",
+                      "ko": "아, 물을 좋아하는 길고 날씬한 동물 말이지? 걔네들 엄청 똑똑하고 장난기 많고 물고기도 아주 잘 잡는다고 들었어."
+                    },
+                    {
+                      "id": "l4_d1_5",
+                      "speaker": "G",
+                      "en": "They sure are. They can swim at the speed of 12 kilometers per hour and dive as deep as 14 meters.",
+                      "ko": "맞아. 시속 12km로 수영할 수 있고 14m 깊이까지 잠수할 수 있대."
+                    },
+                    {
+                      "id": "l4_d1_6",
+                      "speaker": "B",
+                      "en": "That's cool. But why are they endangered?",
+                      "ko": "멋지다. 그런데 왜 멸종 위기에 처한 거야?"
+                    },
+                    {
+                      "id": "l4_d1_7",
+                      "speaker": "G",
+                      "en": "In the past, they were hunted for their expensive fur and skin. Nowadays, the bigger threat is the loss of their habitats due to human activities.",
+                      "ko": "과거에는 값비싼 모피와 가죽 때문에 사냥당했어. 요즘은 인간 활동으로 인한 서식지 상실이 더 큰 위협이야."
+                    },
+                    {
+                      "id": "l4_d1_8",
+                      "speaker": "B",
+                      "en": "What a shame! Shouldn't we do something about it?",
+                      "ko": "정말 안타깝다! 우리가 뭔가 대책을 세워야 하지 않을까?"
+                    },
+                    {
+                      "id": "l4_d1_9",
+                      "speaker": "G",
+                      "en": "Fortunately, thanks to conservation efforts, their population is now recovering and more and more are being spotted around us.",
+                      "ko": "다행히도 보존 노력 덕분에 개체수가 회복되고 있고 우리 주변에서 점점 더 많이 목격되고 있어."
+                    },
+                    {
+                      "id": "l4_d1_10",
+                      "speaker": "B",
+                      "en": "Oh, that's a relief.",
+                      "ko": "아, 정말 다행이다."
+                    }
+                  ],
+                  "quiz": {
+                    "question": "Which one is not correct about Eurasian otters?",
+                    "options": [
+                      "a. They were hunted for their fur and skin.",
+                      "b. They are intelligent and excellent at catching fish.",
+                      "c. Their population is still decreasing due to human activities."
+                    ],
+                    "answer": "c"
+                  }
+                },
+                {
+                  "id": "l4_d2",
+                  "title": "Dialogue 2",
+                  "script": [
+                    {
+                      "id": "l4_d2_1",
+                      "speaker": "G",
+                      "en": "You're not going to believe this. I saw a huge bird on my way to school.",
+                      "ko": "믿지 못하겠지만, 등굣길에 거대한 새를 봤어."
+                    },
+                    {
+                      "id": "l4_d2_2",
+                      "speaker": "B",
+                      "en": "A huge bird in the middle of a city? That's surprising.",
+                      "ko": "도시 한복판에서 거대한 새를? 놀라운데."
+                    },
+                    {
+                      "id": "l4_d2_3",
+                      "speaker": "G",
+                      "en": "I know. It was flying very elegantly over the little stream by the road.",
+                      "ko": "그러니까. 도로 옆 작은 개울 위를 아주 우아하게 날고 있었어."
+                    },
+                    {
+                      "id": "l4_d2_4",
+                      "speaker": "B",
+                      "en": "What did the bird look like?",
+                      "ko": "그 새가 어떻게 생겼었는데?"
+                    },
+                    {
+                      "id": "l4_d2_5",
+                      "speaker": "G",
+                      "en": "It had a long neck, long legs, and large wings. Its body was slim and its feathers looked so white, glowing in the morning sun.",
+                      "ko": "목이 길고, 다리가 길고, 날개가 컸어. 몸은 날씬했고 깃털은 아침 햇살에 빛나면서 정말 하얗게 보였어."
+                    },
+                    {
+                      "id": "l4_d2_6",
+                      "speaker": "B",
+                      "en": "So I guess you don't know the name of the bird.",
+                      "ko": "그럼 그 새의 이름을 모르는 거구나."
+                    },
+                    {
+                      "id": "l4_d2_7",
+                      "speaker": "G",
+                      "en": "I have no idea. Is there a way to find out?",
+                      "ko": "전혀 몰라. 알아낼 방법이 있을까?"
+                    },
+                    {
+                      "id": "l4_d2_8",
+                      "speaker": "B",
+                      "en": "Why don't you try the Bird Watch website?",
+                      "ko": "Bird Watch 웹사이트를 이용해 보는 건 어때?"
+                    },
+                    {
+                      "id": "l4_d2_9",
+                      "speaker": "G",
+                      "en": "The Bird Watch website?",
+                      "ko": "Bird Watch 웹사이트?"
+                    },
+                    {
+                      "id": "l4_d2_10",
+                      "speaker": "B",
+                      "en": "People often share their bird sightings there. If you describe some features of a bird, they will help you identify it.",
+                      "ko": "사람들이 종종 거기에 새 목격담을 공유하거든. 새의 몇 가지 특징을 묘사하면 식별하도록 도와줄 거야."
+                    },
+                    {
+                      "id": "l4_d2_11",
+                      "speaker": "G",
+                      "en": "That's a great idea! I'll write on that website about what I saw right away and see what comes up.",
+                      "ko": "좋은 생각이다! 내가 본 것에 대해 바로 그 웹사이트에 글을 써서 무엇이 나오는지 확인해 볼게."
+                    }
+                  ],
+                  "quiz": {
+                    "question": "What is the girl most likely to do after the conversation?",
+                    "options": [
+                      "a. ask the biology teacher about a bird",
+                      "b. write a post on the Bird Watch website",
+                      "c. describe the features of a bird to the boy"
+                    ],
+                    "answer": "b"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l4_comm_listen_write",
+          "type": "listen_and_write",
+          "title": "C. Listen and Write (동물의 미각 기관 탐구)",
+          "page": 83,
+          "sourceRef": "Textbook p. 83, Scripts pp. 148-149, Answers p. 159",
+          "data": {
+            "lectureScript": [
+              {
+                "speaker": "M",
+                "en": "So we obviously taste with our tongues, but the catfish can sense taste with its skin over the whole body. If you put little pieces of food near the side of a catfish, it will be able to taste it, and turn around and snap it up.",
+                "ko": "우리는 분명 혀로 맛을 느끼지만, 메기는 온몸의 피부로 맛을 감지할 수 있습니다. 메기 옆에 작은 음식 조각을 놓으면 맛을 느끼고 돌아서서 그것을 덥석 물 수 있습니다."
+              },
+              {
+                "speaker": "M",
+                "en": "For most animals, taste is about food. It's about trying to work out whether something is worth eating or not. And for humans, food is something that we put in our mouths. But if you're a very small animal, food can be something you land on. And that is why many insects evolved to taste with their feet as well as their mouths. A fly landing on an apple can taste it by just walking on it.",
+                "ko": "대부분의 동물에게 맛은 음식에 관한 것입니다. 무언가가 먹을 가치가 있는지 없는지 알아내려는 것에 관한 것이죠. 그리고 인간에게 음식은 입에 넣는 것입니다. 하지만 아주 작은 동물이라면, 음식은 그 위에 내려앉는 것일 수 있습니다. 그것이 바로 많은 곤충들이 입뿐만 아니라 발로도 맛을 느끼도록 진화한 이유입니다. 사과 위에 내려앉은 파리는 그 위를 걷는 것만으로도 맛을 느낄 수 있습니다."
+              }
+            ],
+            "tableItems": [
+              {
+                "organism": "Humans",
+                "sentence": "We sense taste with our [tongues].",
+                "answer": "tongues"
+              },
+              {
+                "organism": "Catfish",
+                "sentence": "A catfish can sense taste with its [skin].",
+                "answer": "skin"
+              },
+              {
+                "organism": "Fly / Insects",
+                "sentence": "A fly can sense taste with its [feet] as well as its mouth.",
+                "answer": "feet"
+              }
+            ]
+          }
+        },
+        {
+          "activityId": "l4_comm_chance_express",
+          "type": "chance_to_express",
+          "title": "D. Write and Talk (동물 묘사 및 퀴즈 맞히기)",
+          "page": 83,
+          "sourceRef": "Textbook p. 83",
+          "data": {
+            "examples": [
+              {
+                "animal": "a seahorse",
+                "description": "has a head shaped like a horse's",
+                "interestingFact": "can change its colors to match the surroundings"
+              },
+              {
+                "animal": "a kangaroo",
+                "description": "has a long strong tail and powerful legs",
+                "interestingFact": "can carry its young in a pocket of skin"
+              }
+            ],
+            "modelDialogue": [
+              {
+                "speaker": "A",
+                "en": "What does the animal look like?",
+                "ko": "그 동물은 어떻게 생겼니?"
+              },
+              {
+                "speaker": "B",
+                "en": "It has a head shaped like a horse's.",
+                "ko": "말 모양의 머리를 가지고 있어."
+              },
+              {
+                "speaker": "A",
+                "en": "What is an interesting fact about the animal?",
+                "ko": "그 동물에 관한 흥미로운 사실은 뭐야?"
+              },
+              {
+                "speaker": "B",
+                "en": "It can change its colors to match the surroundings. Can you guess what it is?",
+                "ko": "주변 환경에 맞춰 색을 바꿀 수 있어. 무엇인지 맞혀볼래?"
+              },
+              {
+                "speaker": "A",
+                "en": "Is it a seahorse?",
+                "ko": "해마니?"
+              },
+              {
+                "speaker": "B",
+                "en": "Correct!",
+                "ko": "정답이야!"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "cornerNumber": 3,
+      "titleKo": "본문 읽기 & 심화 독해",
+      "titleEn": "Read: A World on the Wing",
+      "pageRange": "pp. 84-90",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l4_read_before",
+          "type": "before_you_read",
+          "title": "Before You Read: Background & Vocabulary Check",
+          "page": 84,
+          "sourceRef": "Textbook p. 84, Answers p. 159",
+          "data": {
+            "backgroundCheck": {
+              "headline": "Young Bar-tailed Godwit Sets New World Record!",
+              "dateline": "Oct. 24, Australia",
+              "text": "A young bar-tailed godwit with the tag number 234684 amazed the world by making an over 13,500 km non-stop flight across the Pacific in 11 days and one hour. The bird beat the previous record set by an adult of the same species last year by 500 km.",
+              "question": "Can you find some other animals that regularly travel from one place to another?",
+              "sampleAnswer": "Some whales are known to travel long distances between their feeding grounds and breeding grounds."
+            },
+            "vocabularyCheck": {
+              "wordsBox": [
+                "preserve",
+                "countless",
+                "predators",
+                "migrate"
+              ],
+              "items": [
+                {
+                  "num": 1,
+                  "text": "Many people [ ] to cities in search of work.",
+                  "answer": "migrate"
+                },
+                {
+                  "num": 2,
+                  "text": "Some animals defend themselves against [ ] by living in groups.",
+                  "answer": "predators"
+                },
+                {
+                  "num": 3,
+                  "text": "[ ] stars fill up the night sky.",
+                  "answer": "countless"
+                },
+                {
+                  "num": 4,
+                  "text": "Salt is often used to [ ] food for a long time.",
+                  "answer": "preserve"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l4_read_main",
+          "type": "reading_viewer",
+          "title": "A World on the Wing: Interview on Migratory Birds",
+          "pageRange": "pp. 85-90",
+          "sourceRef": "Textbook pp. 85-90, Answers pp. 159-160",
+          "data": {
+            "titleEn": "A World on the Wing",
+            "sections": [
+              {
+                "page": 85,
+                "sectionId": "sec_85",
+                "readingTip": "Taking notes: Take notes while reading to organize information and identify important points. By doing so, you can understand the text more clearly.",
+                "sentences": [
+                  {
+                    "id": "s85_1",
+                    "speaker": "Jo",
+                    "en": "Hello, listeners. Did you know there are times at night when a massive migration happens right over your heads?",
+                    "ko": "청취자 여러분, 안녕하세요. 밤에 여러분의 머리 바로 위로 대규모 이동이 일어나는 때가 있다는 것을 알고 계셨나요?"
+                  },
+                  {
+                    "id": "s85_2",
+                    "speaker": "Jo",
+                    "en": "The scale of migration involving billions of birds traveling up to thousands of kilometers leaves you in awe.",
+                    "ko": "수십억 마리의 새들이 수천 킬로미터까지 이동하는 이동의 규모는 경외감을 불러일으킵니다."
+                  },
+                  {
+                    "id": "s85_3",
+                    "speaker": "Jo",
+                    "en": "On today's Jo's Tea Time, we invite naturalist and author Scott Weidensaul to share his knowledge.",
+                    "ko": "오늘 Jo's Tea Time에서는 자연학자이자 작가인 Scott Weidensaul을 모시고 지식을 나눕니다."
+                  },
+                  {
+                    "id": "s85_4",
+                    "speaker": "Jo",
+                    "en": "He's spent decades studying migratory birds, writing about them, and engaging in conservation efforts.",
+                    "ko": "그는 수십 년간 철새를 연구하고, 그들에 관해 글을 쓰고, 보존 노력에 참여해 왔습니다."
+                  },
+                  {
+                    "id": "s85_5",
+                    "speaker": "Jo",
+                    "en": "Welcome to the show, Mr. Weidensaul.",
+                    "ko": "방송에 오신 것을 환영합니다, Weidensaul 씨."
+                  },
+                  {
+                    "id": "s85_6",
+                    "speaker": "Weidensaul",
+                    "en": "Thanks for having me, Jo.",
+                    "ko": "초대해 주셔서 감사합니다, Jo."
+                  }
+                ],
+                "questions": [
+                  {
+                    "id": "q1",
+                    "question": "Q1. Why does Jo say the bird migration at night leaves one in awe?",
+                    "answer": "It is because it involves billions of birds traveling up to thousands of kilometers."
+                  },
+                  {
+                    "id": "q2",
+                    "question": "Q2. What has Scott Weidensaul written about?",
+                    "answer": "He has written about migratory birds."
+                  }
+                ]
+              },
+              {
+                "page": 86,
+                "sectionId": "sec_86",
+                "sentences": [
+                  {
+                    "id": "s86_1",
+                    "speaker": "Jo",
+                    "en": "Your new book says every spring and fall, hundreds of millions to billions of migratory birds pass over our roofs, but we seem to have no idea that it's happening. Why is that?",
+                    "ko": "새 책에서 매년 봄과 가을에 수억에서 수십억 마리의 철새가 우리 지붕 위를 지나가지만, 우리는 그런 일이 일어나고 있는지 전혀 모르는 것 같다고 하셨습니다. 왜 그런가요?"
+                  },
+                  {
+                    "id": "s86_2",
+                    "speaker": "Weidensaul",
+                    "en": "Well, most birds migrate after dark, including almost all of the birds that are normally active during the day.",
+                    "ko": "글쎄요, 낮에 보통 활동하는 거의 모든 새를 포함하여 대부분의 새가 어두워진 후에 이동합니다."
+                  },
+                  {
+                    "id": "s86_3",
+                    "speaker": "Weidensaul",
+                    "en": "That's why it's hard for us to realize the migration is happening.",
+                    "ko": "그것이 바로 우리가 이동이 일어나고 있다는 것을 깨닫기 어려운 이유입니다."
+                  },
+                  {
+                    "id": "s86_4",
+                    "speaker": "Weidensaul",
+                    "en": "They migrate at night because the night sky is cooler, and the air calmer.",
+                    "ko": "밤하늘이 더 시원하고 공기가 더 잔잔하기 때문에 새들은 밤에 이동합니다."
+                  },
+                  {
+                    "id": "s86_5",
+                    "speaker": "Weidensaul",
+                    "en": "Besides, there are fewer predators at night.",
+                    "ko": "게다가 밤에는 포식자가 더 적습니다."
+                  },
+                  {
+                    "id": "s86_6",
+                    "speaker": "Weidensaul",
+                    "en": "If you could strip away the night sky and make everything visible, this migration would probably be the largest, greatest natural spectacle on the planet.",
+                    "ko": "만약 밤하늘을 벗겨내고 모든 것을 볼 수 있게 만든다면, 이 이동은 아마 지구상에서 가장 크고 위대한 자연의 장관일 것입니다."
+                  },
+                  {
+                    "id": "s86_7",
+                    "speaker": "Jo",
+                    "en": "Among those global travelers in your book, I found the bar-tailed godwits to be particularly impressive.",
+                    "ko": "선생님의 책에 등장하는 전 세계의 여행자들 중에서도 큰날개도요가 특히 인상적이었습니다."
+                  },
+                  {
+                    "id": "s86_8",
+                    "speaker": "Weidensaul",
+                    "en": "Sure. Some of them can even make a 10,000 km non-stop journey across the Pacific Ocean, from western Alaska to New Zealand in 11 days.",
+                    "ko": "맞습니다. 그들 중 일부는 알래스카 서부에서 뉴질랜드까지 태평양을 가로질러 11일 동안 10,000km를 쉬지 않고 이동하기도 합니다."
+                  }
+                ],
+                "questions": [
+                  {
+                    "id": "q3",
+                    "question": "Q3. Why do most birds migrate after dark?",
+                    "answer": "Most birds migrate after dark because the night sky is cooler, the air is calmer, and there are fewer predators at night."
+                  },
+                  {
+                    "id": "q4",
+                    "question": "Q4. What other natural spectacles would you like to see if you could?",
+                    "sampleAnswer": "I'd like to see an elephant migration from high above."
+                  }
+                ]
+              },
+              {
+                "page": 87,
+                "sectionId": "sec_87",
+                "sentences": [
+                  {
+                    "id": "s87_1",
+                    "speaker": "Jo",
+                    "en": "How do they travel such a long distance over a nearly featureless ocean?",
+                    "ko": "거의 아무 특징도 없는 바다 위로 어떻게 그렇게 먼 거리를 이동할 수 있나요?"
+                  },
+                  {
+                    "id": "s87_2",
+                    "speaker": "Weidensaul",
+                    "en": "To find their routes, the bar-tailed godwits probably rely on the sun and stars among other things.",
+                    "ko": "경로를 찾기 위해 큰날개도요는 다른 무엇보다도 태양과 별에 의존할 것입니다."
+                  },
+                  {
+                    "id": "s87_3",
+                    "speaker": "Weidensaul",
+                    "en": "Some experts believe that they may be able to sense the earth's magnetic field lines, too.",
+                    "ko": "일부 전문가들은 그들이 지구의 자기력선을 감지할 수 있을 것이라고도 믿습니다."
+                  },
+                  {
+                    "id": "s87_4",
+                    "speaker": "Weidensaul",
+                    "en": "You may also wonder how, if ever, they sleep while flying over a vast ocean.",
+                    "ko": "여러분은 그들이 광활한 바다 위를 날면서 과연 어떻게 잠을 자는지 궁금할 수도 있습니다."
+                  },
+                  {
+                    "id": "s87_5",
+                    "speaker": "Weidensaul",
+                    "en": "It turns out that migratory birds use an approach called 'half-brain sleep.' This is how it works.",
+                    "ko": "철새들은 '반구 수면'이라고 불리는 방식을 사용하는 것으로 밝혀졌습니다. 원리는 이렇습니다."
+                  },
+                  {
+                    "id": "s87_6",
+                    "speaker": "Weidensaul",
+                    "en": "Only the left half of the brain sleeps for a couple of seconds, then only the right half for the next couple of seconds, and then this process repeats over and over again.",
+                    "ko": "뇌의 왼쪽 절반만 몇 초 동안 잠들고, 다음 몇 초 동안은 오른쪽 절반만 잠들며, 이 과정이 계속 반복됩니다."
+                  },
+                  {
+                    "id": "s87_7",
+                    "speaker": "Weidensaul",
+                    "en": "Isn't it amazing? Actually, some sea mammals like dolphins can do that, too, because they have to keep breathing consciously.",
+                    "ko": "놀랍지 않나요? 실제로 돌고래와 같은 몇몇 해양 포유류도 의식적으로 계속 숨을 쉬어야 하기 때문에 그렇게 할 수 있습니다."
+                  },
+                  {
+                    "id": "s87_8",
+                    "speaker": "Jo",
+                    "en": "That's a neat trick. Who wouldn't like to have such an ability?",
+                    "ko": "참 대단한 재주네요. 누가 그런 능력을 갖고 싶지 않겠어요?"
+                  }
+                ],
+                "questions": [
+                  {
+                    "id": "q5",
+                    "question": "Q5. For what do the bar-tailed godwits rely on the sun and stars?",
+                    "answer": "They rely on the sun and stars to find their routes."
+                  },
+                  {
+                    "id": "q6",
+                    "question": "Q6. What is common between bar-tailed godwits and dolphins?",
+                    "answer": "They both can use half-brain sleep."
+                  }
+                ]
+              },
+              {
+                "page": 88,
+                "sectionId": "sec_88",
+                "sentences": [
+                  {
+                    "id": "s88_1",
+                    "speaker": "Weidensaul",
+                    "en": "Birds in migratory condition can do things that they can't do at other times of the year.",
+                    "ko": "이주 상태에 있는 새들은 일 년 중 다른 시기에는 할 수 없는 일들을 할 수 있습니다."
+                  },
+                  {
+                    "id": "s88_2",
+                    "speaker": "Weidensaul",
+                    "en": "Another neat trick you might envy is that they can gain a tremendous amount of muscle tissue without exercise.",
+                    "ko": "부러워할 만한 또 다른 대단한 기술은 운동 없이도 엄청난 양의 근육 조직을 얻을 수 있다는 점입니다."
+                  },
+                  {
+                    "id": "s88_3",
+                    "speaker": "Weidensaul",
+                    "en": "For example, before some bar-tailed godwits leave Alaska in September and make a 10,000 km flight across the Pacific, they undergo a process of binge feeding.",
+                    "ko": "예를 들어, 일부 큰날개도요는 9월에 알래스카를 떠나 태평양을 가로지르는 10,000km 비행을 시작하기 전에 폭식의 과정을 거칩니다."
+                  },
+                  {
+                    "id": "s88_4",
+                    "speaker": "Weidensaul",
+                    "en": "They just eat and eat until they double their weight.",
+                    "ko": "그들은 몸무게가 두 배가 될 때까지 먹고 또 먹습니다."
+                  },
+                  {
+                    "id": "s88_5",
+                    "speaker": "Weidensaul",
+                    "en": "By the time they take off, their heart and flight muscles may have increased by 50%.",
+                    "ko": "이륙할 때쯤이면 심장과 비행 근육이 50%나 증가해 있을 수 있습니다."
+                  },
+                  {
+                    "id": "s88_6",
+                    "speaker": "Weidensaul",
+                    "en": "After they have eaten as much as they possibly can and can't put any more weight on, their digestive organs shrink dramatically because these won't be put to use during the non-stop flight to New Zealand.",
+                    "ko": "가능한 한 많이 먹고 더 이상 살을 찌울 수 없게 되면, 뉴질랜드로 가는 무착륙 비행 동안 사용되지 않을 소화 기관이 극적으로 줄어듭니다."
+                  },
+                  {
+                    "id": "s88_7",
+                    "speaker": "Jo",
+                    "en": "Then what happens after they arrive there?",
+                    "ko": "그럼 그곳에 도착한 후에는 어떻게 되나요?"
+                  },
+                  {
+                    "id": "s88_8",
+                    "speaker": "Weidensaul",
+                    "en": "They regrow their digestive organs and spend the summer feeding again, and they undergo the same journey back to Alaska.",
+                    "ko": "그들은 소화 기관을 다시 자라나게 하여 여름을 다시 먹이를 먹으며 보내고, 알래스카로 돌아가는 똑같은 여정을 겪습니다."
+                  },
+                  {
+                    "id": "s88_9",
+                    "speaker": "Weidensaul",
+                    "en": "They do this again and again for 25 to 30 years, flying up to 30,000 km every year.",
+                    "ko": "그들은 25년에서 30년 동안 매년 30,000km에 달하는 거리를 날며 이 과정을 반복합니다."
+                  },
+                  {
+                    "id": "s88_10",
+                    "speaker": "Weidensaul",
+                    "en": "By the time bar-tailed godwits die, they have flown close to twice the distance from Earth to the moon.",
+                    "ko": "큰날개도요가 죽을 때쯤이면 그들은 지구에서 달까지 거리의 두 배에 가까운 거리를 날아간 셈입니다."
+                  },
+                  {
+                    "id": "s88_11",
+                    "speaker": "Jo",
+                    "en": "That's truly impressive. By the way, I hear you've visited Korea several times before. Why do you come here so often?",
+                    "ko": "정말 감명 깊네요. 그런데 전에 한국을 여러 번 방문하셨다고 들었습니다. 왜 그렇게 자주 오시나요?"
+                  }
+                ],
+                "questions": [
+                  {
+                    "id": "q7",
+                    "question": "Q7. What is the process of birds eating and eating until they double their weight called?",
+                    "answer": "It is called binge feeding."
+                  },
+                  {
+                    "id": "q8",
+                    "question": "Q8. Why do bar-tailed godwits' digestive organs shrink before they take off?",
+                    "answer": "It's because the digestive organs won't be put to use during the non-stop flight."
+                  }
+                ]
+              },
+              {
+                "page": 89,
+                "sectionId": "sec_89",
+                "sentences": [
+                  {
+                    "id": "s89_1",
+                    "speaker": "Weidensaul",
+                    "en": "As a bird watcher and conservationist, I find the Yellow Sea mudflats between Korea and China very special.",
+                    "ko": "조류 관찰자이자 환경 보존 활동가로서, 저는 한국과 중국 사이의 황해 갯벌이 매우 특별하다고 생각합니다."
+                  },
+                  {
+                    "id": "s89_2",
+                    "speaker": "Weidensaul",
+                    "en": "They are some of the largest tidal mudflats on the earth and provide a critical stopover point for the countless migratory birds on the East Asian-Australasian Flyway.",
+                    "ko": "그곳은 지구상에서 가장 큰 조간대 갯벌 중 하나이며 동아시아-대양주 철새 이동 경로에 있는 수많은 철새들에게 결정적인 중간 기착지를 제공합니다."
+                  },
+                  {
+                    "id": "s89_3",
+                    "speaker": "Weidensaul",
+                    "en": "While these enormous stretches of tidal mud look featureless to the human eye, they have plenty of marine life forms.",
+                    "ko": "사람의 눈에는 이 거대한 조간대 진흙펄이 아무 특징도 없어 보이지만, 그곳에는 수많은 해양 생명체가 있습니다."
+                  },
+                  {
+                    "id": "s89_4",
+                    "speaker": "Jo",
+                    "en": "So the mudflats are drawing all kinds of birds in from as far away as New Zealand, Australia, and Asia?",
+                    "ko": "그러면 갯벌이 뉴질랜드, 호주, 아시아처럼 멀리 떨어진 곳에서 온 온갖 종류의 새들을 끌어들이고 있는 건가요?"
+                  },
+                  {
+                    "id": "s89_5",
+                    "speaker": "Weidensaul",
+                    "en": "Yes. Many of these birds fly several thousand kilometers to get to the Yellow Sea.",
+                    "ko": "그렇습니다. 이 새들 중 많은 수가 황해에 도달하기 위해 수천 킬로미터를 날아옵니다."
+                  },
+                  {
+                    "id": "s89_6",
+                    "speaker": "Weidensaul",
+                    "en": "Here, they have to double their weight in less than two weeks and make another flight of several thousand kilometers up north.",
+                    "ko": "여기서 그들은 2주도 채 안 되는 기간 동안 몸무게를 두 배로 늘려 북쪽으로 수천 킬로미터의 또 다른 비행을 해야 합니다."
+                  },
+                  {
+                    "id": "s89_7",
+                    "speaker": "Weidensaul",
+                    "en": "That's why the Yellow Sea is so critically important.",
+                    "ko": "그것이 바로 황해가 매우 결정적으로 중요한 이유입니다."
+                  },
+                  {
+                    "id": "s89_8",
+                    "speaker": "Weidensaul",
+                    "en": "It's one of the few places in the world where migratory birds can get the resources they need on their difficult journey.",
+                    "ko": "철새들이 힘든 여정에서 필요한 자원을 얻을 수 있는 세계에서 몇 안 되는 장소 중 하나입니다."
+                  }
+                ],
+                "questions": [
+                  {
+                    "id": "q9",
+                    "question": "Q9. Where are the Yellow Sea mudflats located?",
+                    "answer": "They are located between Korea and China."
+                  },
+                  {
+                    "id": "q10",
+                    "question": "Q10. What can be found in the tidal mudflats?",
+                    "answer": "Plenty of marine life forms can be found in the tidal mudflats."
+                  }
+                ]
+              },
+              {
+                "page": 90,
+                "sectionId": "sec_90",
+                "sentences": [
+                  {
+                    "id": "s90_1",
+                    "speaker": "Jo",
+                    "en": "Oh, I had no idea that the Yellow Sea has such importance. What do you think we can do to preserve this precious gathering place for migratory birds?",
+                    "ko": "아, 황해가 그렇게 중요한 곳인 줄 전혀 몰랐습니다. 철새들을 위한 이 귀중한 모임 장소를 보존하기 위해 우리가 무엇을 할 수 있다고 생각하시나요?"
+                  },
+                  {
+                    "id": "s90_2",
+                    "speaker": "Weidensaul",
+                    "en": "Well, you can start by raising awareness of its importance among people around you.",
+                    "ko": "글쎄요, 주변 사람들에게 그 중요성에 대한 인식을 높이는 것부터 시작할 수 있습니다."
+                  },
+                  {
+                    "id": "s90_3",
+                    "speaker": "Weidensaul",
+                    "en": "Or, if you want to be more actively involved, you can participate in cleaning up beaches or monitoring wildlife habitats.",
+                    "ko": "아니면 더 적극적으로 참여하고 싶다면 해변 청소나 야생 동물 서식지 모니터링에 참여할 수 있습니다."
+                  },
+                  {
+                    "id": "s90_4",
+                    "speaker": "Weidensaul",
+                    "en": "On a bigger scale, because migratory birds travel through many countries, international cooperation is a must for their protection.",
+                    "ko": "더 큰 규모로 보면, 철새는 여러 나라를 여행하기 때문에 이들을 보호하기 위한 국제 협력이 필수적입니다."
+                  },
+                  {
+                    "id": "s90_5",
+                    "speaker": "Weidensaul",
+                    "en": "Actually, I'm working with an international organization consisting of the countries along the East Asian-Australasian Flyway.",
+                    "ko": "실제로 저는 동아시아-대양주 철새 이동 경로를 따라 위치한 국가들로 구성된 국제기구와 함께 일하고 있습니다."
+                  },
+                  {
+                    "id": "s90_6",
+                    "speaker": "Weidensaul",
+                    "en": "As a result of our international collaboration, we managed to successfully bring back the endangered black-faced spoonbills.",
+                    "ko": "우리의 국제적 협력의 결과로 우리는 멸종 위기에 처한 저어새를 성공적으로 되살려냈습니다."
+                  },
+                  {
+                    "id": "s90_7",
+                    "speaker": "Jo",
+                    "en": "Fascinating! Mr. Weidensaul, today you let us see migratory birds and the Yellow Sea in a whole new way. Thank you!",
+                    "ko": "대단히 흥미진진하네요! Weidensaul 씨, 오늘 철새와 황해를 완전히 새로운 시각으로 볼 수 있게 해주셨습니다. 감사합니다!"
+                  }
+                ],
+                "questions": [
+                  {
+                    "id": "q11",
+                    "question": "Q11. What else do you think we can do to protect migratory birds?",
+                    "sampleAnswer": "I think we can look for and join a wildlife conservation group around us."
+                  },
+                  {
+                    "id": "q12",
+                    "question": "Q12. What has the international collaboration successfully done?",
+                    "answer": "It has successfully brought back the endangered black-faced spoonbills."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "after_read",
+      "cornerNumber": 4,
+      "titleKo": "읽기 후 활동 & 요약",
+      "titleEn": "After You Read",
+      "pageRange": "pp. 91-92",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "l4_after_summary",
+          "type": "summary_fill_in",
+          "title": "A. Summary (본문 요약 대화 완성하기)",
+          "page": 91,
+          "sourceRef": "Textbook p. 91, Answers p. 160",
+          "data": {
+            "summaryDialogue": {
+              "wordsBox": [
+                "fewer predators",
+                "the sun and stars",
+                "binge feeding",
+                "get the resources"
+              ],
+              "pairs": [
+                {
+                  "question": "Why do migratory birds travel at night?",
+                  "answerSentence": "The night sky is cooler, the air is calmer, and there are [fewer predators].",
+                  "answer": "fewer predators"
+                },
+                {
+                  "question": "How do bar-tailed godwits find their way while crossing a featureless ocean?",
+                  "answerSentence": "They probably rely on [the sun and stars].",
+                  "answer": "the sun and stars"
+                },
+                {
+                  "question": "How can bar-tailed godwits cross the ocean without eating?",
+                  "answerSentence": "They increase their muscles by undergoing a process of [binge feeding] before the journey.",
+                  "answer": "binge feeding"
+                },
+                {
+                  "question": "Why is the Yellow Sea so important?",
+                  "answerSentence": "It is a place where migratory birds can [get the resources] they need on their difficult journey.",
+                  "answer": "get the resources"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l4_after_details",
+          "type": "details_tf",
+          "title": "B. Details (세부 사실 T/F 확인)",
+          "page": 91,
+          "sourceRef": "Textbook p. 91, Answers p. 160",
+          "data": {
+            "detailsTf": [
+              {
+                "id": "dt_1",
+                "statement": "Only the birds that are normally active at night migrate after dark.",
+                "answer": "F",
+                "explanation": "Most birds migrate after dark, including almost all of the birds that are normally active during the day."
+              },
+              {
+                "id": "dt_2",
+                "statement": "Dolphins use 'half-brain sleep' in order to continue breathing.",
+                "answer": "T",
+                "explanation": "Dolphins use half-brain sleep because they have to keep breathing consciously."
+              },
+              {
+                "id": "dt_3",
+                "statement": "The digestive organs of bar-tailed godwits shrink before their migration.",
+                "answer": "T",
+                "explanation": "Their digestive organs shrink dramatically before their non-stop flight to New Zealand."
+              },
+              {
+                "id": "dt_4",
+                "statement": "Black-faced spoonbills went extinct despite international conservation efforts.",
+                "answer": "F",
+                "explanation": "As a result of international collaboration, they managed to successfully bring back the endangered black-faced spoonbills."
+              }
+            ]
+          }
+        },
+        {
+          "activityId": "l4_after_reading_skill",
+          "type": "reading_skill",
+          "title": "C. Reading Skill: Identifying rhetorical questions",
+          "page": 92,
+          "sourceRef": "Textbook p. 92, Answers p. 160",
+          "data": {
+            "readingSkill": {
+              "skillTitle": "Identifying rhetorical questions",
+              "skillDesc": "의문문은 때로는 실질적인 답변을 얻으려는 것이 아니라, 글의 효과를 높이거나 독자의 주의를 집중시키려고 쓸 수 있습니다.",
+              "passage": "What is another characteristic that animals and human beings share? Many people think that only humans can show pity, but many animals express pity for each other, too. In one case, an old woman who couldn't see well, got lost and was found the next day. Who would have guessed? There were some elephants guarding her! They had put her in a sort of a cage of branches to protect her from predators. That seems extraordinary to us, but it comes naturally to elephants.",
+              "analysis": {
+                "question": "Who would have guessed?",
+                "intendedMeaning": "No one would have guessed."
+              },
+              "exercises": [
+                {
+                  "id": "rs_ex1",
+                  "label": "A",
+                  "question": "Isn't it amazing?",
+                  "intendedMeaning": "It is amazing."
+                },
+                {
+                  "id": "rs_ex2",
+                  "label": "B",
+                  "question": "Who wouldn't like to have such an ability?",
+                  "intendedMeaning": "Everybody would like to have such an ability."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "share_thoughts",
+      "cornerNumber": 5,
+      "titleKo": "생각 공유 & 탐구 발표",
+      "titleEn": "Share Your Thoughts",
+      "pageRange": "pp. 93-95",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l4_share_read_further",
+          "type": "read_further",
+          "title": "Read Further: Hamsters in Urban Areas (도심 속 햄스터)",
+          "page": 93,
+          "sourceRef": "Textbook p. 93, Sources p. 171",
+          "data": {
+            "articleTitle": "Hamsters in Urban Areas",
+            "sourceCitation": "BBC Earth, Wild Hamsters Thriving in Viennese Graveyards (p. 171)",
+            "text": "Today, I'm looking for a tiny animal that's hiding in one of Europe's most beautiful capital cities, Vienna. Now it's home to nearly 2 million people, but 50% of the city is green space. What I'm looking for is probably one of Europe's most critically endangered mammals. Now, I've come really early to a graveyard to try to see some hamsters because this is one of the best times of day to see them. At this time of the day, there's nobody around so they don't have to avoid people while looking for food. These little ones have been in the area for decades, but now live among the dead because development has robbed them of the green fields they used to inhabit. Look! I just found one over there. See how it is trying to stuff its cheeks full? Hamsters can pack a quarter of their body weight inside their cheeks, which helps them get through the winter. Surprisingly, they not only feed on nuts and flowers, but have also adapted to eating candle wax, which is a good source of fat and is easy to find in graveyards. Even though the hamsters here have adapted to the noises of the city, they still keep a watchful eye, as predators are never too far away. They may need to quickly escape back down into their holes, which are complex structures stretching under the ground. Despite urban areas generally having a negative effect on wildlife, cities can actually provide islands of protection for it.",
+            "question": "Can you think of any other animals that are living in urban areas?",
+            "sampleAnswer": "Pigeons can be seen all over the city, where they can find all sorts of food."
+          }
+        },
+        {
+          "activityId": "l4_share_step1_video",
+          "type": "video_exploration",
+          "title": "Step 1: Coexisting with Animals (조류 충돌 방지 건축)",
+          "page": 94,
+          "sourceRef": "Textbook p. 94, Scripts p. 149, Sources p. 170, Answers p. 160",
+          "data": {
+            "step1": {
+              "video": {
+                "title": "BBC, How to stop birds smashing into windows",
+                "videoUrl": "https://www.bbc.com/news/av/stories-43407634",
+                "sourceCitation": "BBC, How to stop birds smashing into windows, 2018 (p. 170)"
+              },
+              "script": [
+                {
+                  "speaker": "M",
+                  "en": "Millions of birds die each year by crashing into windows, and Toronto decided to do something about it. They put up buildings like this for the safety of the birds. Bird deaths here are especially common because birds rest by lake Ontario on their journey.",
+                  "ko": "매년 수백만 마리의 새들이 유리창에 부딪혀 죽고 있으며, 토론토는 이에 대해 조치를 취하기로 결정했습니다. 그들은 새들의 안전을 위해 이런 건물을 짓습니다. 이곳에서 새들의 죽음이 특히 흔한 이유는 새들이 여정 중에 온타리오 호수 옆에서 휴식을 취하기 때문입니다."
+                },
+                {
+                  "speaker": "M",
+                  "en": "In the city, they become confused by all the glass. They think they're flying to a tree, not realizing it's just a reflection. So Toronto became the first city to make new buildings safe for birds.",
+                  "ko": "도시에서 새들은 온통 유리로 된 것들에 혼란을 느낍니다. 그것이 단지 반사된 것임을 깨닫지 못한 채 나무를 향해 날아가고 있다고 생각합니다. 그래서 토론토는 새 건물을 새들에게 안전하게 만든 최초의 도시가 되었습니다."
+                },
+                {
+                  "speaker": "M",
+                  "en": "Since 2010, developers have had to meet a set of standards that do not harm the birds. Kelly Snow from the city council drew up the rules. So here are 5 ways Toronto makes it better for birds.",
+                  "ko": "2010년부터 개발업자들은 새들에게 해를 끼치지 않는 일련의 기준을 충족해야 했습니다. 시의회의 Kelly Snow가 그 규칙을 작성했습니다. 여기 토론토가 새들을 위해 더 나은 환경을 만드는 5가지 방법이 있습니다."
+                },
+                {
+                  "speaker": "M",
+                  "en": "1. Reduce the amount of glass in new buildings. 2. Put markings on glass so birds can see it. 3. Recess windows to stop reflections. 4. Use shutters or sunshades to hide glass. 5. Switch off the lights, so birds aren't drawn to the light.",
+                  "ko": "1. 새 건물의 유리 양을 줄입니다. 2. 새들이 볼 수 있도록 유리에 표시를 합니다. 3. 반사를 막기 위해 창문을 오목하게 넣습니다. 4. 유리를 가리기 위해 덧문이나 차양을 사용합니다. 5. 새들이 빛에 이끌리지 않도록 조명을 끕니다."
+                }
+              ],
+              "quiz": {
+                "question": "What is the video mainly about?",
+                "options": [
+                  "a. modern trends of building design",
+                  "b. how to stop birds from crashing into windows",
+                  "c. various species of birds migrating through Canada"
+                ],
+                "answer": "b"
+              },
+              "reviewFillIn": {
+                "boxWords": [
+                  "glass",
+                  "markings",
+                  "reflections",
+                  "sunshades"
+                ],
+                "reviews": [
+                  {
+                    "reviewer": "Rule 1",
+                    "text": "Reduce the amount of [glass] in new buildings."
+                  },
+                  {
+                    "reviewer": "Rule 2",
+                    "text": "Put [markings] on glass so birds can see it."
+                  },
+                  {
+                    "reviewer": "Rule 3",
+                    "text": "Recess windows to stop [reflections]."
+                  },
+                  {
+                    "reviewer": "Rule 4",
+                    "text": "Use shutters or [sunshades] to hide glass."
+                  }
+                ]
+              },
+              "talkAboutVideo": {
+                "question": "Talk about the list above which is to prevent birds from crashing into buildings and choose the one that you think is most effective.",
+                "sampleAnswer": "I think reducing the amount of glass in new buildings is the most effective way to prevent birds from crashing into buildings."
+              }
+            }
+          }
+        },
+        {
+          "activityId": "l4_share_step2_3",
+          "type": "idea_sharing",
+          "title": "Step 2 & 3. 야생동물 공존을 위한 실천 방안",
+          "page": 95,
+          "sourceRef": "Textbook p. 95",
+          "data": {
+            "step2": {
+              "ideas": [
+                {
+                  "material": "reduce city lights at night",
+                  "desc": "migratory birds are losing their way due to city lights at night"
+                },
+                {
+                  "material": "make paths for animals to safely cross highways",
+                  "desc": "animals are being killed on the road"
+                }
+              ]
+            },
+            "step3": {
+              "dialogue": [
+                {
+                  "speaker": "A",
+                  "en": "I think some animals are getting hurt from human activities these days.",
+                  "ko": "요즘 몇몇 동물들이 인간 활동으로 인해 다치고 있다고 생각해."
+                },
+                {
+                  "speaker": "B",
+                  "en": "Yeah? What makes you say so?",
+                  "ko": "그래? 왜 그렇게 말하는데?"
+                },
+                {
+                  "speaker": "A",
+                  "en": "It seems that migratory birds are losing their way due to city lights at night.",
+                  "ko": "밤에 도시의 불빛 때문에 철새들이 길을 잃고 있는 것 같아."
+                },
+                {
+                  "speaker": "B",
+                  "en": "That's too bad. Do you have any ideas on how to help these animals?",
+                  "ko": "정말 안타깝다. 이 동물들을 도울 수 있는 아이디어가 있니?"
+                },
+                {
+                  "speaker": "A",
+                  "en": "We can reduce city lights at night.",
+                  "ko": "우리는 밤에 도시 불빛을 줄일 수 있어."
+                },
+                {
+                  "speaker": "B",
+                  "en": "That sounds like a good idea.",
+                  "ko": "좋은 생각인 것 같아."
+                }
+              ],
+              "checkPoint": [
+                "1. I can talk about how we can help animals safely live around us.",
+                "2. I expressed my ideas clearly.",
+                "3. I listened to others carefully."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "language_focus",
+      "cornerNumber": 6,
+      "titleKo": "어휘 & 문법 집중 탐구",
+      "titleEn": "Language Focus",
+      "pageRange": "pp. 96-97",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l4_lang_word_phrases",
+          "type": "word_and_phrases",
+          "title": "A & B. Word Uses & Common Phrases",
+          "page": 96,
+          "sourceRef": "Textbook p. 96, Answers p. 160",
+          "data": {
+            "wordUses": {
+              "targetWord": "scale",
+              "meanings": [
+                {
+                  "label": "a",
+                  "def": "a set of numbers used for measuring something"
+                },
+                {
+                  "label": "b",
+                  "def": "the relation between the real size of something and the size of its representation"
+                },
+                {
+                  "label": "c",
+                  "def": "a device for weighing people or things"
+                },
+                {
+                  "label": "d",
+                  "def": "the size or level of something, especially when it is large"
+                }
+              ],
+              "sentences": [
+                {
+                  "num": 1,
+                  "text": "My sister weighs herself on the scale every morning.",
+                  "answer": "c"
+                },
+                {
+                  "num": 2,
+                  "text": "How would you rate his work on a scale of 1 to 5?",
+                  "answer": "a"
+                },
+                {
+                  "num": 3,
+                  "text": "Security attacks on wireless networks can prevent communication on a large scale.",
+                  "answer": "d"
+                },
+                {
+                  "num": 4,
+                  "text": "This map is small scale; only significant features are shown on the map.",
+                  "answer": "b"
+                }
+              ]
+            },
+            "commonPhrases": {
+              "phrases": [
+                {
+                  "phrase": "strip away",
+                  "meaningKo": "벗겨내다, 제거하다"
+                },
+                {
+                  "phrase": "put to use",
+                  "meaningKo": "이용하다, 사용하다"
+                },
+                {
+                  "phrase": "turn out",
+                  "meaningKo": "~임이 밝혀지다"
+                }
+              ],
+              "exercises": [
+                {
+                  "num": 1,
+                  "sentence": "You need a special cutter to [ ] the wire's coating.",
+                  "answer": "strip away"
+                },
+                {
+                  "num": 2,
+                  "sentence": "Through a month of education, she has acquired some skills that she can [ ].",
+                  "answer": "put to use"
+                },
+                {
+                  "num": 3,
+                  "sentence": "The news about the tragic accident on 5th Street [ ] to be false.",
+                  "answer": "turned out"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l4_lang_grammar",
+          "type": "grammar_in_context",
+          "title": "C. Grammar in Context (That's why & Ellipsis)",
+          "page": 97,
+          "sourceRef": "Textbook p. 97, Answers p. 160",
+          "data": {
+            "structures": [
+              {
+                "pointNumber": 1,
+                "title": "That's why... (그것이 바로 ~한 이유이다)",
+                "explanation": "앞서 언급된 이유나 원인을 바탕으로 그 결과가 일어난 이유를 설명할 때 쓰입니다.",
+                "examples": [
+                  "Most birds migrate after dark. That's why it's hard for us to realize the migration is happening.",
+                  "Cats are cute, lovable creatures with their own elegant, mysterious personalities. That's why they have fascinated people for thousands of years."
+                ],
+                "practice": [
+                  {
+                    "num": 1,
+                    "originalSentence": "Jane missed her train, so she was late today.",
+                    "leadIn": "Jane missed her train.",
+                    "answer": "That's why she was late today."
+                  },
+                  {
+                    "num": 2,
+                    "originalSentence": "They were still hungry, so they ordered more food.",
+                    "leadIn": "They were still hungry.",
+                    "answer": "That's why they ordered more food."
+                  }
+                ]
+              },
+              {
+                "pointNumber": 2,
+                "title": "Ellipsis (반복 어구의 생략)",
+                "explanation": "동일한 동사나 어구가 반복될 때, 문맥상 의미가 명확하면 중복을 피하기 위해 생략할 수 있습니다.",
+                "examples": [
+                  "The night sky is cooler, and the air (is) calmer.",
+                  "Only the left half of the brain sleeps for a couple of seconds, then only the right half (sleeps) for the next couple of seconds."
+                ],
+                "practice": [
+                  {
+                    "num": 1,
+                    "originalSentence": "Each singer would draw people to the concert, but the three together a lot more people.",
+                    "gappedText": "Each singer would draw people to the concert, but the three together [ ] a lot more people.",
+                    "answer": "would draw"
+                  },
+                  {
+                    "num": 2,
+                    "originalSentence": "Some forest fires are started naturally, and others by human activities.",
+                    "gappedText": "Some forest fires are started naturally, and others [ ] by human activities.",
+                    "answer": "are started"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "write_present",
+      "cornerNumber": 7,
+      "titleKo": "쓰기 스튜디오",
+      "titleEn": "Write & Present: Animal Information Report",
+      "pageRange": "pp. 98-100",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l4_write_report",
+          "type": "writing_studio",
+          "title": "Animal Information Report (동물 정보 보고서)",
+          "pageRange": "pp. 98-100",
+          "page": 98,
+          "sourceRef": "Textbook pp. 98-100, Answers pp. 160-161",
+          "data": {
+            "writingWorkspace": {
+              "modelWriting": {
+                "title": "Animal Information Report: Giant Pandas",
+                "text": "The giant panda is one of the world's rarest mammals. Only about 1,500 of these black-and-white pandas live in the wild. Giant pandas have long, sharp claws that they use to climb trees and strip bamboo. They grow to between 1.2 m and 1.5 m and weigh between 75 kg and 135 kg. They are found in forests high in the mountains of Southwest China. They eat almost nothing but bamboo shoots and leaves. Occasionally they eat other plants, fish, or small mammals, but bamboo accounts for 99% of their diet. Giant pandas will eat half their own weight in bamboo every day. Giant pandas spend most of their time eating or sleeping. Giant pandas sometimes stand on their hands when they pee.",
+                "headingsBox": [
+                  "Description",
+                  "Habitat",
+                  "Diet",
+                  "Little known facts"
+                ],
+                "sections": [
+                  {
+                    "label": "(A) Description",
+                    "text": "The giant panda is one of the world's rarest mammals. Only about 1,500 of these black-and-white pandas live in the wild. Giant pandas have long, sharp claws that they use to climb trees and strip bamboo. They grow to between 1.2 m and 1.5 m and weigh between 75 kg and 135 kg."
+                  },
+                  {
+                    "label": "(B) Habitat",
+                    "text": "They are found in forests high in the mountains of Southwest China."
+                  },
+                  {
+                    "label": "(C) Diet",
+                    "text": "They eat almost nothing but bamboo shoots and leaves. Occasionally they eat other plants, fish, or small mammals, but bamboo accounts for 99% of their diet. Giant pandas will eat half their own weight in bamboo every day."
+                  },
+                  {
+                    "label": "Little known facts",
+                    "text": "Giant pandas spend most of their time eating or sleeping. Giant pandas sometimes stand on their hands when they pee."
+                  }
+                ]
+              },
+              "step2Outline": {
+                "animal": "giraffes",
+                "description": "the tallest of all land animals; have long legs and a coat pattern of irregular brown patches on a light background",
+                "habitat": "grasslands of Africa",
+                "diet": "eat new shoots, leaves, and branches directly from trees; obtain most water from their food",
+                "littleKnownFacts": [
+                  "have to spread the front legs apart to reach the ground with the head",
+                  "can run at a speed of 50 km per hour for several kilometers"
+                ]
+              },
+              "step3Draft": {
+                "animal": "giraffes",
+                "draftText": "The giraffe is the tallest of all land animals. Giraffes have long legs and a coat pattern of irregular brown patches on a light background. They are found in grasslands of Africa. They eat new shoots, leaves, and branches directly from trees. They obtain most water from their food. Little known facts: They have to spread the front legs apart to reach the ground with the head. They can run at a speed of 50 km per hour for several kilometers.",
+                "rubric": [
+                  {
+                    "criterion": "정보성",
+                    "description": "동물의 생김새, 서식지, 먹이, 흥미로운 사실이 충실하게 담겼는가?"
+                  },
+                  {
+                    "criterion": "구성 완성도",
+                    "description": "항목별로 논리적인 문단 구성을 갖추었는가?"
+                  },
+                  {
+                    "criterion": "문법 무결성",
+                    "description": "주어와 동사의 수 일치가 정확한가?"
+                  }
+                ]
+              },
+              "editingPractice": {
+                "instruction": "주어와 동사의 수 일치(Subject-Verb Agreement) 오류를 찾아 바르게 고치세요.",
+                "items": [
+                  {
+                    "num": 1,
+                    "sentence": "Are you wondering what to bring to the party? Just a card or a balloon [ ] enough to show that you are supportive of the party.",
+                    "error": "are",
+                    "correction": "is"
+                  },
+                  {
+                    "num": 2,
+                    "sentence": "A bike and a car [ ] involved in the accident.",
+                    "error": "was",
+                    "correction": "were"
+                  },
+                  {
+                    "num": 3,
+                    "sentence": "The student, as well as the committee members, [ ] excited.",
+                    "error": "are",
+                    "correction": "is"
+                  },
+                  {
+                    "num": 4,
+                    "sentence": "No one [ ] available to meet with the professor during office hours.",
+                    "error": "were",
+                    "correction": "was"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "work_together",
+      "cornerNumber": 8,
+      "titleKo": "모둠 협동 프로젝트 & 단원 정리",
+      "titleEn": "Work Together & Wrap Up",
+      "pageRange": "pp. 101-103",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "l4_work_together_project",
+          "type": "group_project",
+          "title": "Making an Infographic on an Endangered Animal (멸종 위기 동물 인포그래픽)",
+          "page": 101,
+          "sourceRef": "Textbook p. 101",
+          "data": {
+            "projectTitle": "Making an Infographic on an Endangered Animal",
+            "pageRef": 101,
+            "figureNote": "교과서 p.101의 아프리카 코끼리 인포그래픽 구성(서식지, 위협요인, 개체수)을 보세요",
+            "steps": [
+              {
+                "step": 1,
+                "title": "대상 멸종 위기 동물 선정",
+                "desc": "As a group of four, decide on an endangered animal to introduce on your infographic.",
+                "example": "African elephants, blue whales, Siberian tigers"
+              },
+              {
+                "step": 2,
+                "title": "핵심 생태 정보 수집",
+                "desc": "Find some relevant information about the animal.",
+                "exampleData": {
+                  "animal": "African elephants",
+                  "population": "about 415,000",
+                  "habitats": "forests, grasslands, deserts",
+                  "majorThreats": "hunting for ivory, habitat loss"
+                }
+              },
+              {
+                "step": 3,
+                "title": "인포그래픽 시각화 제작",
+                "desc": "Make an infographic. Make good use of visual elements like photographs, illustrations, graphs, or charts.",
+                "sampleText": "The biggest land animal on the earth today, the African elephant is facing serious threats. While its population 100 years ago was over 3 million, it's estimated to be just about 415,000 today."
+              },
+              {
+                "step": 4,
+                "title": "학급 공유 및 피드백 투표",
+                "desc": "Post your infographic on the class website and vote for the best one in your class."
+              }
+            ],
+            "checkPoint": [
+              "1. My group made a clear and effective infographic.",
+              "2. I participated in the project actively.",
+              "3. I listened to my classmates' ideas carefully."
+            ]
+          }
+        },
+        {
+          "activityId": "l4_wrap_up_activities",
+          "type": "wrap_up",
+          "title": "Wrap Up (단원 총괄 평가)",
+          "page": 102,
+          "sourceRef": "Textbook p. 102, Scripts p. 149, Answers p. 161",
+          "data": {
+            "partA": {
+              "dialogueScript": [
+                {
+                  "speaker": "G",
+                  "en": "Guess what happened today! I found an abandoned animal on my way home."
+                },
+                {
+                  "speaker": "B",
+                  "en": "Oh, no! What kind of animal was it?"
+                },
+                {
+                  "speaker": "G",
+                  "en": "It was a rabbit. It seemed to have an injured leg, so I couldn't just leave it there alone."
+                },
+                {
+                  "speaker": "B",
+                  "en": "That's too bad. So what did you do?"
+                },
+                {
+                  "speaker": "G",
+                  "en": "I called the local animal shelter, and they sent a worker to the location right away."
+                },
+                {
+                  "speaker": "B",
+                  "en": "Oh, that's a relief."
+                },
+                {
+                  "speaker": "G",
+                  "en": "He told me that rabbits are actually the third most common animals that are abandoned after dogs and cats."
+                },
+                {
+                  "speaker": "B",
+                  "en": "It's a shame that some people are so irresponsible about their companion animals."
+                }
+              ],
+              "question": "What did the girl do today?",
+              "options": [
+                "a. She visited an animal shelter.",
+                "b. She helped to rescue an animal.",
+                "c. She went to the hospital because of a broken leg."
+              ],
+              "answer": "b"
+            },
+            "partB": {
+              "modelDialogue": [
+                {
+                  "speaker": "A",
+                  "en": "What does it look like?"
+                },
+                {
+                  "speaker": "B",
+                  "en": "It has a soft body with a hard, round shell on top of it."
+                },
+                {
+                  "speaker": "A",
+                  "en": "Is it a snail?"
+                },
+                {
+                  "speaker": "B",
+                  "en": "Correct!"
+                }
+              ]
+            },
+            "partC": {
+              "passage": "During migration, some birds may fly hundreds or thousands of kilometers without stopping, arriving to feed and rest at a small number of mudflats around the world. The stops need to provide the birds with enough food to recover from the previous leg of their journey and to sustain them for the next one. That's why the loss of these stopovers can mean disaster, but the losses are already happening. Along the Yellow Sea, the mudflats have shrunk by more than 65% in recent decades. If their number continues to decline, some migratory species may reach endangered levels in the near future. It is time for a new realization of the value of the mudflats.",
+              "questions": [
+                {
+                  "num": 1,
+                  "question": "Which one is correct according to the passage?",
+                  "options": [
+                    "a. Mudflats can protect animals from suffering natural disasters.",
+                    "b. A lot of mudflats have already disappeared along the Yellow Sea.",
+                    "c. Migratory birds settle on the mudflats without leaving for elsewhere."
+                  ],
+                  "answer": "b"
+                },
+                {
+                  "num": 2,
+                  "question": "Complete the summary of the passage by using the given expressions. ( food / provide / realize / the value of the mudflats )",
+                  "template": "We need to [ ] because they [ ] for migratory birds.",
+                  "answers": [
+                    "realize the value of the mudflats",
+                    "provide food"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "l4_lesson_summary",
+          "type": "lesson_summary",
+          "title": "Lesson Summary & Think Back",
+          "page": 103,
+          "sourceRef": "Textbook p. 103, Answers p. 161",
+          "data": {
+            "thinkBack": [
+              {
+                "area": "Communicate on Topic",
+                "expressions": [
+                  {
+                    "intent": "안도감 표현하기",
+                    "expression": "Oh, that's a relief."
+                  },
+                  {
+                    "intent": "사물 묘사하기",
+                    "expression": "It had a long neck, long legs, and large wings."
+                  }
+                ]
+              },
+              {
+                "area": "Read",
+                "expressions": [
+                  {
+                    "intent": "원인-결과 설명",
+                    "expression": "That's why the Yellow Sea is so critically important."
+                  },
+                  {
+                    "intent": "반복 어구 생략",
+                    "expression": "Only the left half of the brain sleeps for a couple of seconds, then only the right half (sleeps) for the next couple of seconds."
+                  }
+                ]
+              },
+              {
+                "area": "Share Your Thoughts",
+                "summary": "I talked about ways to help animals live safely with humans."
+              },
+              {
+                "area": "Write & Present",
+                "summary": "I wrote an animal information report."
+              },
+              {
+                "area": "Work Together",
+                "summary": "I made an infographic on an endangered animal."
+              }
+            ],
+            "topicQuestionReflection": {
+              "topicQuestion": "How do we coexist with animals around us?",
+              "sampleAnswer": "We can coexist with animals around us by knowing better about them and protecting their lives."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -110,7 +110,7 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
         <div className="space-y-2">
           <p className="text-xs text-slate-500 font-medium">🎧 대화 음성을 들으며 스크립트를 확인하세요 (문장 클릭 시 TTS 재생):</p>
           <div className="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
-            {watchData?.script.map((item: any, idx: number) => {
+            {(watchData?.script || watchData?.videoScript || []).map((item: any, idx: number) => {
               const uId = `wt_${idx}`;
               return (
                 <div
@@ -143,12 +143,12 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
         {/* Check Question */}
         <div className="p-4 rounded-xl bg-indigo-50/60 border border-indigo-200/70">
           <p className="text-xs sm:text-sm font-bold text-indigo-950 mb-3">
-            Q. {watchData?.checkQuestion}
+            Q. {watchData?.checkQuestion || watchData?.sentence || watchData?.quiz?.sentence || watchData?.quiz?.question || ''}
           </p>
           <div className="flex gap-2">
-            {watchData?.options?.map((opt: any) => {
+            {(watchData?.options || watchData?.quiz?.options || []).map((opt: any) => {
               const isSelected = watchAnswer === opt;
-              const isCorrect = opt === watchData.answer;
+              const isCorrect = opt === (watchData?.answer || watchData?.quiz?.answer);
               return (
                 <button
                   key={opt}
@@ -169,9 +169,9 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
           </div>
           {watchAnswer && (
             <div className="mt-2 text-xs font-semibold">
-              {watchAnswer === watchData?.answer ? (
+              {watchAnswer === (watchData?.answer || watchData?.quiz?.answer) ? (
                 <span className="text-emerald-700 flex items-center gap-1">
-                  <CheckCircle2 className="w-4 h-4" /> 정답입니다! ({watchData.answer})
+                  <CheckCircle2 className="w-4 h-4" /> 정답입니다! ({watchData?.answer || watchData?.quiz?.answer})
                 </span>
               ) : (
                 <span className="text-rose-600 flex items-center gap-1">
@@ -185,7 +185,7 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
         {/* Your Thoughts Reflection */}
         <div className="space-y-2">
           <label className="block text-xs font-bold text-slate-700">
-            💭 Your Thoughts: {watchData?.yourThoughtsPrompt || watchData?.yourThoughtsQuestion}
+            💭 Your Thoughts: {watchData?.yourThoughtsPrompt || watchData?.yourThoughtsQuestion || watchData?.yourThoughts?.prompt || watchData?.yourThoughts?.question || ''}
           </label>
           <input
             type="text"
@@ -195,9 +195,9 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
             aria-label="Your thoughts 입력"
             className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500"
           />
-          {showTeacherAnswers && watchData?.yourThoughtsSample && (
+          {showTeacherAnswers && (watchData?.yourThoughtsSample || watchData?.yourThoughts?.sampleAnswer) && (
             <div className="p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800">
-              <b>🔑 [교사용] 교과서 예시답안 (p.152):</b> {watchData.yourThoughtsSample}
+              <b>🔑 [교사용] 교과서 예시답안 (p.152):</b> {watchData.yourThoughtsSample || watchData.yourThoughts?.sampleAnswer}
             </div>
           )}
         </div>

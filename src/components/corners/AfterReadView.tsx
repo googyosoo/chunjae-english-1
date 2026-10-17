@@ -15,7 +15,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
   const activities = afterCorner?.activities || [];
   
   const summaryAct = activities.find(a => a.type === 'summary' || a.activityId.includes('summary'));
-  const summaryData = (summaryAct?.data?.summaryFillIn || summaryAct?.data?.summaryFillBlanks || summaryAct?.data) as any;
+  const summaryData = (summaryAct?.data?.summaryDialogue || summaryAct?.data?.summaryFillIn || summaryAct?.data?.summaryFillBlanks || summaryAct?.data) as any;
 
   const tfAct = activities.find(a => a.type.includes('details') || a.activityId.includes('details'));
   const tfList = (tfAct?.data?.detailsTf || tfAct?.data?.detailsTF || (Array.isArray(tfAct?.data) ? tfAct?.data : null)) as any[] | null;
@@ -47,7 +47,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
     await StorageService.logObservation(user, lesson.lessonNumber, 'After Read 퀴즈 채점', '요약 빈칸, 세부 사실 퀴즈 및 독해 스킬 제출');
   };
 
-  const wordBox = summaryData?.wordsBox || summaryData?.wordBox || summaryData?.options || [];
+  const wordBox = summaryData?.wordsBox || summaryData?.wordBox || summaryData?.options || summaryData?.summaryDialogue?.wordsBox || [];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -217,9 +217,75 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
           </div>
         )}
 
+        {/* L4: Dialogue Summary (pairs) */}
+        {summaryData?.pairs && (
+          <div className="space-y-4 mb-4">
+            {summaryData.pairs.map((pair: any, pIdx: number) => {
+              const blankKey = `pair_${pIdx}`;
+              const isSelected = selectedWords[blankKey] || '';
+              const isCorrect = pair.answer ? isSelected.toLowerCase() === pair.answer.toLowerCase() : true;
+              const hasBlank = pair.answerSentence?.includes('[');
+
+              return (
+                <div key={pIdx} className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+                  <div className="flex items-start gap-2">
+                    <span className="font-bold text-indigo-700 shrink-0">Q:</span>
+                    <span className="font-semibold text-slate-800">{pair.question}</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-800 leading-relaxed">
+                    <span className="font-bold text-emerald-700 shrink-0">A:</span>
+                    <div>
+                      {hasBlank ? (
+                        <>
+                          <span>{pair.answerSentence.split(/\[.*?\]/)[0]}</span>
+                          <select
+                            value={isSelected}
+                            onChange={e => handleSelectWord(blankKey, e.target.value)}
+                            aria-label={`Q${pIdx + 1} 빈칸 선택`}
+                            className={`mx-1 px-2.5 py-1 border rounded-md font-bold text-xs ${
+                              summaryChecked
+                                ? isCorrect
+                                  ? 'bg-emerald-50 border-emerald-500 text-emerald-800'
+                                  : 'bg-rose-50 border-rose-500 text-rose-800'
+                                : 'bg-white border-slate-300 text-indigo-700'
+                            }`}
+                          >
+                            <option value="">선택</option>
+                            {wordBox.map((w: string) => (
+                              <option key={w} value={w}>{w}</option>
+                            ))}
+                          </select>
+                          <span>{pair.answerSentence.split(/\[.*?\]/)[1]}</span>
+                        </>
+                      ) : (
+                        <span>{pair.answerSentence}</span>
+                      )}
+                      {summaryChecked && pair.answer && (
+                        <span className="text-[11px] font-bold ml-2">
+                          {isCorrect ? (
+                            <span className="text-emerald-600">✓ 정답</span>
+                          ) : (
+                            <span className="text-rose-600">✗ 정답: {pair.answer}</span>
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {showTeacherAnswers && summaryData?.items && (
           <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
             🔑 [교과서 정답키]: {summaryData.items.map((it: any, idx: number) => `(${idx + 1}) ${it.answer}`).join(', ')}
+          </div>
+        )}
+
+        {showTeacherAnswers && summaryData?.pairs && (
+          <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
+            🔑 [교과서 정답키]: {summaryData.pairs.map((p: any, idx: number) => `(${idx + 1}) ${p.answer}`).join(', ')}
           </div>
         )}
       </section>
@@ -392,27 +458,39 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
 
                   return (
                     <div key={ex.id} className="p-3 bg-white rounded-lg border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                      <span className="font-bold text-slate-800">문항 ({idx + 1}):</span>
-                      <div className="flex gap-2">
-                        {ex.options.map((opt: string) => (
-                          <button
-                            key={opt}
-                            onClick={() => setSkillAnswers(prev => ({ ...prev, [ex.id]: opt }))}
-                            className={`px-3 py-1.5 rounded-lg border font-bold text-xs transition-all ${
-                              chosen === opt
-                                ? skillChecked
-                                  ? isCorrect
-                                    ? 'bg-emerald-600 text-white border-emerald-600'
-                                    : 'bg-rose-600 text-white border-rose-600'
-                                  : 'bg-indigo-600 text-white border-indigo-600'
-                                : 'bg-white text-slate-700 border-slate-300 hover:border-indigo-300'
-                            }`}
-                          >
-                            {opt}
-                          </button>
-                        ))}
-                      </div>
-                      {skillChecked && (
+                      {ex.options && Array.isArray(ex.options) ? (
+                        <div className="flex gap-2">
+                          {ex.options.map((opt: string) => (
+                            <button
+                              key={opt}
+                              onClick={() => setSkillAnswers(prev => ({ ...prev, [ex.id]: opt }))}
+                              className={`px-3 py-1.5 rounded-lg border font-bold text-xs transition-all ${
+                                chosen === opt
+                                  ? skillChecked
+                                    ? isCorrect
+                                      ? 'bg-emerald-600 text-white border-emerald-600'
+                                      : 'bg-rose-600 text-white border-rose-600'
+                                    : 'bg-indigo-600 text-white border-indigo-600'
+                                  : 'bg-white text-slate-700 border-slate-300 hover:border-indigo-300'
+                              }`}
+                            >
+                              {opt}
+                            </button>
+                          ))}
+                        </div>
+                      ) : ex.intendedMeaning ? (
+                        <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-800 space-y-1">
+                          <div>
+                            <span className="font-bold text-indigo-700">Q ({ex.label || idx + 1}): </span>
+                            <span className="italic font-semibold">"{ex.question}"</span>
+                          </div>
+                          <div>
+                            <span className="font-bold text-emerald-700">➔ 의도된 의미: </span>
+                            <span className="font-medium text-slate-700">"{ex.intendedMeaning}"</span>
+                          </div>
+                        </div>
+                      ) : null}
+                      {skillChecked && ex.answer && (
                         <span className={`text-[11px] font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600'}`}>
                           {isCorrect ? '✓ 정답!' : `✗ 정답: ${ex.answer}`}
                         </span>

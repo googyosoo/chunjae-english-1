@@ -43,7 +43,8 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
   };
 
   const wordMeanings = wordUsesData?.meanings || [];
-  const wordSentences = wordUsesData?.sentences || wordUsesData?.questions || [];
+  const wordSentences = wordUsesData?.sentences || wordUsesData?.questions || wordUsesData?.exercises || [];
+  const activeWord = wordUsesData?.word || wordUsesData?.targetWord || '';
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -52,18 +53,18 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">A</span>
-            <h2 className="text-base font-bold text-slate-900">Word Uses: 다의어 마스터 ('{wordUsesData?.word}')</h2>
+            <h2 className="text-base font-bold text-slate-900">Word Uses: 다의어 마스터 ('{activeWord}')</h2>
           </div>
 
           {/* Meaning Box */}
           <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 mb-5">
             <span className="text-xs font-bold text-slate-700 block mb-2">교과서 사전적 의미 분류:</span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {wordMeanings.map((m: any) => (
-                <div key={m.label} className="p-3 bg-white rounded-lg border border-slate-200 text-xs space-y-1">
+              {wordMeanings.map((m: any, mIdx: number) => (
+                <div key={m.label || m.id || mIdx} className="p-3 bg-white rounded-lg border border-slate-200 text-xs space-y-1">
                   <div className="flex items-center gap-1.5">
                     <span className="font-bold text-indigo-600 uppercase bg-indigo-50 px-1.5 py-0.5 rounded text-[11px]">({m.label})</span>
-                    <span className="text-slate-900 font-bold leading-tight">{m.definition || m.enDef}</span>
+                    <span className="text-slate-900 font-bold leading-tight">{m.definition || m.enDef || m.def}</span>
                   </div>
                   {m.example && (
                     <p className="text-slate-500 text-[11px] italic pl-1 border-l-2 border-indigo-200">
@@ -78,11 +79,12 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
           {/* Sentence Matching */}
           <div className="space-y-3">
             {wordSentences.map((item: any, idx: number) => {
-              const chosen = wordAnswers[item.id];
+              const itemId = item.id || `word-sent-${item.num || idx}`;
+              const chosen = wordAnswers[itemId];
               const isCorrect = chosen === item.answer;
 
               return (
-                <div key={item.id} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+                <div key={itemId} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
                       <p className="font-semibold text-slate-900 text-xs sm:text-sm leading-relaxed">
@@ -93,7 +95,7 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
                       {wordMeanings.map((m: any) => (
                         <button
                           key={m.label}
-                          onClick={() => setWordAnswers(prev => ({ ...prev, [item.id]: m.label }))}
+                          onClick={() => setWordAnswers(prev => ({ ...prev, [itemId]: m.label }))}
                           aria-label={`Sentence ${idx + 1} meaning ${m.label}`}
                           className={`w-7 h-7 rounded-lg font-bold border transition-all ${
                             chosen === m.label
@@ -148,10 +150,10 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
           {/* L2 Phrases with meanings */}
           {commonPhrasesData.phrases && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-              {commonPhrasesData.phrases.map((p: any) => (
-                <div key={p.phrase} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+              {commonPhrasesData.phrases.map((p: any, pIdx: number) => (
+                <div key={p.phrase || pIdx} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
                   <span className="font-bold text-indigo-700 block">{p.phrase}</span>
-                  <p className="text-slate-600 text-[11px]">{p.meaning}</p>
+                  <p className="text-slate-600 text-[11px]">{p.meaning || p.meaningKo}</p>
                 </div>
               ))}
             </div>
@@ -185,7 +187,7 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
           <div className="space-y-4">
             <h3 className="text-xs sm:text-sm font-bold text-slate-900">{grammarData.part1?.ruleName}</h3>
             {grammarData.part1?.exercises?.map((ex: any, idx: number) => (
-              <div key={ex.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+              <div key={ex.id || idx} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
                 <p className="font-medium text-slate-800">{idx + 1}. {ex.original}</p>
                 {showTeacherAnswers && <p className="text-emerald-700 font-bold">🔑 정답: {ex.answerWords}</p>}
               </div>
@@ -194,7 +196,7 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
         </section>
       )}
 
-      {/* L2 Grammar Points */}
+      {/* L2 & L4 Grammar Points */}
       {grammarActs.length > 0 && !grammarData && (
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-6">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
@@ -206,7 +208,7 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
             const gData = act.data;
             return (
               <div key={gIdx} className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs">
-                <h3 className="font-bold text-indigo-900 text-xs sm:text-sm">{gData.ruleName}</h3>
+                {gData.ruleName && <h3 className="font-bold text-indigo-900 text-xs sm:text-sm">{gData.ruleName}</h3>}
                 {gData.ruleExplanation && <p className="text-slate-600">{gData.ruleExplanation}</p>}
 
                 {/* Quotes */}
@@ -231,17 +233,51 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
                   </div>
                 )}
 
+                {/* L4: Structures */}
+                {gData.structures && (
+                  <div className="space-y-4 my-2">
+                    {gData.structures.map((st: any, sIdx: number) => (
+                      <div key={st.pointNumber || sIdx} className="p-3 bg-white rounded-lg border border-slate-200 space-y-2">
+                        <span className="font-bold text-indigo-700 block text-xs sm:text-sm">{st.pointNumber}. {st.title}</span>
+                        {st.explanation && <p className="text-slate-600">{st.explanation}</p>}
+                        {st.examples && (
+                          <div className="space-y-1 pl-2 border-l-2 border-indigo-200">
+                            {st.examples.map((ex: string, eIdx: number) => (
+                              <p key={eIdx} className="italic text-slate-800">{ex}</p>
+                            ))}
+                          </div>
+                        )}
+                        {(st.practice || st.exercises) && (
+                          <div className="space-y-2 pt-2 border-t border-slate-100">
+                            {(st.practice || st.exercises).map((ex: any, exIdx: number) => (
+                              <div key={ex.id || ex.num || exIdx} className="p-2 bg-slate-50 rounded text-slate-800">
+                                <p className="font-medium">{ex.sentence || ex.gappedText || ex.originalSentence}</p>
+                                {ex.leadIn && <p className="text-slate-600 text-[11px] mt-0.5">→ {ex.leadIn}</p>}
+                                {showTeacherAnswers && ex.answer && (
+                                  <p className="text-emerald-700 font-bold mt-1">🔑 정답: {ex.answer}</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {/* Questions */}
-                <div className="space-y-2 pt-2 border-t border-slate-200">
-                  {gData.questions?.map((q: any, qIdx: number) => (
-                    <div key={q.id || qIdx} className="p-2.5 bg-white rounded-lg border border-slate-200 space-y-1">
-                      <p className="font-medium text-slate-900">{qIdx + 1}. {q.prompt || q.original}</p>
-                      {showTeacherAnswers && (
-                        <p className="font-bold text-emerald-700">🔑 정답: {q.answer}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                {gData.questions && (
+                  <div className="space-y-2 pt-2 border-t border-slate-200">
+                    {gData.questions.map((q: any, qIdx: number) => (
+                      <div key={q.id || qIdx} className="p-2.5 bg-white rounded-lg border border-slate-200 space-y-1">
+                        <p className="font-medium text-slate-900">{qIdx + 1}. {q.prompt || q.original}</p>
+                        {showTeacherAnswers && (
+                          <p className="font-bold text-emerald-700">🔑 정답: {q.answer}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}

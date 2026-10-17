@@ -31,5 +31,16 @@
       "answers": [157, 159],
       "sources": [168, 171]
     }
+  },
+  "lesson-04": {
+    "lessonNumber": 4,
+    "title": "Amazing Animals Around Us",
+    "pdfPath": "C:/Users/user/Desktop/고등_영어1(강상구)_교과서.pdf",
+    "pages": {
+      "main": [80, 103],
+      "scripts": [147, 149],
+      "answers": [159, 161],
+      "sources": [168, 171]
+    }
   }
 }

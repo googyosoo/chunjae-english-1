@@ -258,4 +258,94 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
       expect(wrapUpAct.partC.quiz2.answer).toContain('benefits of algae as a source of food');
     });
   });
+
+  describe('Lesson 4 교과서 PDF 원문 무결성 테스트', () => {
+    const l4 = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../content/lesson-04.json'), 'utf-8'));
+
+    it('1. Lesson 4 기본 정보 및 토픽 질문이 원문과 일치해야 한다', () => {
+      expect(l4.lessonNumber).toBe(4);
+      expect(l4.title).toBe('Amazing Animals Around Us');
+      expect(l4.topicQuestion).toBe('How do we coexist with animals around us?');
+      expect(l4.hashtags).toContain('#biodiversity');
+      expect(l4.hashtags).toContain('#migratory_birds');
+      expect(l4.hashtags).toContain('#animal_habitats');
+      expect(l4.hashtags).toContain('#coexistence');
+    });
+
+    it('2. Watch and Think(p.82) 대본과 비디오 출처가 일치해야 한다', () => {
+      const commCorner = l4.corners.find((c: any) => c.id === 'communicate');
+      const wt = commCorner.activities.find((a: any) => a.activityId === 'l4_comm_watch_think').data;
+      expect(wt.videoScript[0].en).toContain('Earth is full of life');
+      expect(wt.quiz.answer).toBe('depends on');
+    });
+
+    it('3. Listen and Answer(pp.82-83) Dialogue 1과 2가 Scripts pp.147-148 원문과 일치해야 한다', () => {
+      const commCorner = l4.corners.find((c: any) => c.id === 'communicate');
+      const la = commCorner.activities.find((a: any) => a.activityId === 'l4_comm_listen_answer').data.listenAndAnswer;
+      expect(la.dialogues[0].script[0].en).toContain('did you watch the nature documentary');
+      expect(la.dialogues[0].quiz.answer).toBe('c');
+      expect(la.dialogues[1].script[0].en).toContain('I saw a huge bird on my way to school.');
+      expect(la.dialogues[1].quiz.answer).toBe('b');
+    });
+
+    it('4. Before You Read(p.84)의 Background Check 기사와 Vocabulary Check 4문항이 일치해야 한다', () => {
+      const readCorner = l4.corners.find((c: any) => c.id === 'read');
+      const before = readCorner.activities.find((a: any) => a.activityId === 'l4_read_before').data;
+      expect(before.backgroundCheck.headline).toContain('Young Bar-tailed Godwit');
+      expect(before.vocabularyCheck.wordsBox).toEqual(['preserve', 'countless', 'predators', 'migrate']);
+      expect(before.vocabularyCheck.items.map((i: any) => i.answer)).toEqual(['migrate', 'predators', 'countless', 'preserve']);
+    });
+
+    it('5. 본문(pp.85-90) 인터뷰 대담 6개 섹션(Scott Weidensaul) 및 여백 질문 10문항이 일치해야 한다', () => {
+      const readCorner = l4.corners.find((c: any) => c.id === 'read');
+      const viewer = readCorner.activities.find((a: any) => a.activityId === 'l4_read_main').data;
+      expect(viewer.titleEn).toBe('A World on the Wing');
+      expect(viewer.sections).toHaveLength(6);
+      expect(viewer.sections[0].page).toBe(85);
+      expect(viewer.sections[1].page).toBe(86);
+      expect(viewer.sections[2].page).toBe(87);
+      expect(viewer.sections[3].page).toBe(88);
+      expect(viewer.sections[4].page).toBe(89);
+      expect(viewer.sections[5].page).toBe(90);
+
+      // 본문 내 핵심 과학 사실(반구 수면, 폭식, 황해 갯벌) 검증
+      expect(viewer.sections[2].sentences.some((s: any) => s.en.includes('half-brain sleep'))).toBe(true);
+      expect(viewer.sections[3].sentences.some((s: any) => s.en.includes('binge feeding'))).toBe(true);
+      expect(viewer.sections[4].sentences.some((s: any) => s.en.includes('Yellow Sea mudflats'))).toBe(true);
+
+      // 여백 질문 10문항(Q1~Q10) 전수 검증
+      const allQuestions = viewer.sections.flatMap((s: any) => s.questions || []);
+      expect(allQuestions.length).toBeGreaterThanOrEqual(10);
+      expect(allQuestions[0].id).toBe('q1');
+    });
+
+    it('6. Read Further(p.93) Hamsters in Urban Areas 본문이 원문과 일치해야 한다', () => {
+      const stCorner = l4.corners.find((c: any) => c.id === 'share_thoughts');
+      const rf = stCorner.activities.find((a: any) => a.activityId === 'l4_share_read_further').data;
+      expect(rf.articleTitle).toBe('Hamsters in Urban Areas');
+      expect(rf.text).toContain('Vienna');
+      expect(rf.sampleAnswer).toContain('Pigeons');
+    });
+
+    it('7. Share Your Thoughts(p.94) 유리창 충돌 방지 및 BBC 출처가 일치해야 한다', () => {
+      const stCorner = l4.corners.find((c: any) => c.id === 'share_thoughts');
+      const step1 = stCorner.activities.find((a: any) => a.activityId === 'l4_share_step1_video').data.step1;
+      expect(step1.video.sourceCitation).toContain('BBC');
+      expect(step1.quiz.answer).toBe('b');
+      expect(step1.reviewFillIn.boxWords).toEqual(['glass', 'markings', 'reflections', 'sunshades']);
+    });
+
+    it('8. Work Together & Wrap Up(pp.101-103) 인포그래픽 프로젝트 및 총괄 평가가 일치해야 한다', () => {
+      const wtCorner = l4.corners.find((c: any) => c.id === 'work_together');
+      expect(wtCorner).toBeDefined();
+      const infogAct = wtCorner.activities.find((a: any) => a.activityId === 'l4_work_together_project').data;
+      expect(infogAct.projectTitle).toContain('Infographic');
+      expect(infogAct.steps).toHaveLength(4);
+
+      const wrapUpAct = wtCorner.activities.find((a: any) => a.activityId === 'l4_wrap_up_activities').data;
+      expect(wrapUpAct.partA.answer).toBe('b');
+      expect(wrapUpAct.partC.questions[0].answer).toBe('b');
+      expect(wrapUpAct.partC.questions[1].answers).toContain('realize the value of the mudflats');
+    });
+  });
 });

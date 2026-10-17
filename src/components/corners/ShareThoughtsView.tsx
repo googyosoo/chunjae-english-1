@@ -18,6 +18,9 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
   const shareCorner = lesson.corners.find(c => c.id === 'share_thoughts');
   const activities = shareCorner?.activities || [];
 
+  const readFurtherAct = activities.find(a => a.type.includes('further') || a.activityId.includes('further'));
+  const rfData = (readFurtherAct?.data?.readFurther || readFurtherAct?.data) as any;
+
   const step1Act = activities.find(a => a.activityId.includes('step1') || a.type.includes('video') || a.activityId === 'share_digital_citizen');
   const actData = (step1Act?.data || {}) as any;
   const step1Nested = (actData.step1 || {}) as any;
@@ -73,6 +76,36 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
           {lesson.topic} 관련 탐구 및 생각 나누기
         </p>
       </div>
+
+      {/* Read Further (p.93) */}
+      {rfData && (
+        <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">📖</span>
+            <h2 className="text-base font-bold text-slate-900">
+              Read Further: {rfData.articleTitle || rfData.titleEn || rfData.title || 'Hamsters in Urban Areas'} (p. 93)
+            </h2>
+          </div>
+          {rfData.sourceCitation && (
+            <p className="text-[11px] text-slate-500 italic">
+              출처: {rfData.sourceCitation}
+            </p>
+          )}
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line">
+            {typeof rfData.text === 'string' ? rfData.text : Array.isArray(rfData.text) ? rfData.text.map((t: any) => t.en || t).join('\n\n') : ''}
+          </div>
+          {rfData.question && (
+            <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-200/80 space-y-2 text-xs">
+              <p className="font-bold text-indigo-950">Q. {rfData.question}</p>
+              {showTeacherAnswers && (rfData.sampleAnswer || rfData.answer) && (
+                <div className="p-2.5 bg-emerald-50 rounded text-emerald-800 text-[11px] font-medium">
+                  🔑 [교과서 예시답안]: {rfData.sampleAnswer || rfData.answer}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Step 1: Video & Discussion */}
       {step1Act && (

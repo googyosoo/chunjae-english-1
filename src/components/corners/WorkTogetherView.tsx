@@ -58,10 +58,10 @@ export const WorkTogetherView: React.FC<WorkTogetherViewProps> = ({
           <span>Work Together · 3인 협동 모둠 프로젝트</span>
         </div>
         <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-          {data.title || '모둠 협동 프로젝트'}
+          {data.projectTitle || data.title || activityData?.title || '모둠 협동 프로젝트'}
         </h1>
         <p className="text-xs sm:text-sm text-teal-100 leading-relaxed max-w-2xl">
-          {data.instruction || '모둠원과 협력하여 일상 속 풍경 사진에 창의적 드로잉을 더해 새로운 예술 작품을 만들어보세요.'}
+          {data.instruction || '모둠원과 협력하여 주어진 주제에 맞추어 멋진 모둠 협동 프로젝트를 완성해보세요.'}
         </p>
       </div>
 
@@ -93,6 +93,15 @@ export const WorkTogetherView: React.FC<WorkTogetherViewProps> = ({
                 <p className="text-[11px] italic bg-white p-2 rounded-lg border border-slate-200 text-slate-700">
                   {st.example}
                 </p>
+              )}
+              {st.exampleData && (
+                <div className="bg-white p-2.5 rounded-lg border border-slate-200 text-[11px] space-y-1 text-slate-700">
+                  <span className="font-bold text-emerald-800 block mb-0.5">예시 정보:</span>
+                  <p><span className="font-semibold text-slate-900">동물:</span> {st.exampleData.animal}</p>
+                  {st.exampleData.population && <p><span className="font-semibold text-slate-900">개체수:</span> {st.exampleData.population}</p>}
+                  {st.exampleData.habitats && <p><span className="font-semibold text-slate-900">서식지:</span> {st.exampleData.habitats}</p>}
+                  {st.exampleData.majorThreats && <p><span className="font-semibold text-slate-900">주요 위협:</span> {st.exampleData.majorThreats}</p>}
+                </div>
               )}
               {st.dialogue && (
                 <div className="space-y-1 bg-white p-2 rounded-lg border border-slate-200 text-[11px]">
