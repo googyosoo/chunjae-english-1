@@ -464,4 +464,97 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
       expect(wrapUpAct.partC.quiz2.answer).toBe('it had never been touched before');
     });
   });
+
+  describe('Special Lesson: Music and Everything Else 교과서 원문 무결성 전수 검증', () => {
+    let specLesson: any;
+
+    beforeAll(() => {
+      const filePath = path.resolve(process.cwd(), 'content/special-lesson.json');
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      specLesson = JSON.parse(raw);
+    });
+
+    it('1. Special Lesson JSON이 Zod 스키마를 100% 통과해야 한다', () => {
+      const parsed = LessonDataSchema.safeParse(specLesson);
+      expect(parsed.success).toBe(true);
+      expect(specLesson.school).toBe('심인고등학교');
+      expect(specLesson.lessonNumber).toBe(6);
+      expect(specLesson.title).toBe('Music and Everything Else');
+    });
+
+    it('2. Before You Read(pp.130-131) 인용문 3종과 Vocabulary Check 정답이 원문과 일치해야 한다', () => {
+      const introCorner = specLesson.corners.find((c: any) => c.id === 'introduction');
+      expect(introCorner).toBeDefined();
+
+      const quotesAct = introCorner.activities.find((a: any) => a.activityId === 'spec_intro_quotes').data;
+      expect(quotesAct.quotes).toHaveLength(3);
+      expect(quotesAct.quotes[0].author).toBe('Bono');
+      expect(quotesAct.quotes[0].quote).toContain('Music can change the world');
+      expect(quotesAct.quotes[1].author).toBe('Paulo Coelho');
+      expect(quotesAct.quotes[1].quote).toContain('it’s an ideology'.replace('’', "'"));
+      expect(quotesAct.quotes[2].author).toBe('Confucius');
+      expect(quotesAct.quotes[2].quote).toContain('pleasure which human nature cannot do without');
+
+      const vocabAct = introCorner.activities.find((a: any) => a.activityId === 'spec_intro_vocab').data;
+      expect(vocabAct.items.map((it: any) => it.answer)).toEqual(['precision', 'demonstration', 'ominous', 'release']);
+      expect(vocabAct.phraseItems.map((it: any) => it.answer)).toEqual(['pulled off', 'take a front seat', 'When it comes to']);
+    });
+
+    it('3. Read 1(pp.132-133) Music & Math: Pi Song(Lullapi) 본문이 원문과 일치해야 한다', () => {
+      const readCorner = specLesson.corners.find((c: any) => c.id === 'read');
+      expect(readCorner).toBeDefined();
+
+      const viewer = readCorner.activities.find((a: any) => a.activityId === 'spec_read1_main').data;
+      expect(viewer.sections).toHaveLength(2);
+      expect(viewer.sections[0].page).toBe(132);
+      expect(viewer.sections[1].page).toBe(133);
+
+      const sec1Sentences = viewer.sections[0].paragraphs.flatMap((p: any) => p.sentences);
+      expect(sec1Sentences.some((s: any) => s.en.includes('100 trillion digits'))).toBe(true);
+      expect(sec1Sentences.some((s: any) => s.en.includes('March 14 became the annual holiday'))).toBe(true);
+
+      const sec2Sentences = viewer.sections[1].paragraphs.flatMap((p: any) => p.sentences);
+      expect(sec2Sentences.some((s: any) => s.en.includes('Devin Powell was once challenged'))).toBe(true);
+      expect(sec2Sentences.some((s: any) => s.en.includes('He ended up calling it Lullapi.'))).toBe(true);
+    });
+
+    it('4. Read 2(pp.134-137) Music & Nature: Sharks & BGM 본문 4개 섹션이 원문과 일치해야 한다', () => {
+      const afterCorner = specLesson.corners.find((c: any) => c.id === 'after_read');
+      expect(afterCorner).toBeDefined();
+
+      const viewer = afterCorner.activities.find((a: any) => a.activityId === 'spec_read2_main').data;
+      expect(viewer.sections).toHaveLength(4);
+      expect(viewer.sections[0].page).toBe(134);
+      expect(viewer.sections[1].page).toBe(135);
+      expect(viewer.sections[2].page).toBe(136);
+      expect(viewer.sections[3].page).toBe(137);
+
+      const allSentences = viewer.sections.flatMap((s: any) => s.paragraphs.flatMap((p: any) => p.sentences));
+      expect(allSentences.some((s: any) => s.en.includes('some 100 million sharks are killed every year'))).toBe(true);
+      expect(allSentences.some((s: any) => s.en.includes('Dah-na dah-na dah-na!'))).toBe(true);
+      expect(allSentences.some((s: any) => s.en.includes('recruited 2,181 participants'))).toBe(true);
+      expect(allSentences.some((s: any) => s.en.includes('Andrew P. Nosal'))).toBe(true);
+      expect(allSentences.some((s: any) => s.en.includes('Elizabeth Keenan'))).toBe(true);
+    });
+
+    it('5. Work Together(pp.138-139) 음악 치료 대본, 조사 Q&A, 스토리보드 3장면이 원문과 일치해야 한다', () => {
+      const wtCorner = specLesson.corners.find((c: any) => c.id === 'work_together');
+      expect(wtCorner).toBeDefined();
+
+      const act1 = wtCorner.activities.find((a: any) => a.activityId === 'spec_work_together_p138').data;
+      expect(act1.dialogue).toHaveLength(4);
+      expect(act1.dialogue[0].en).toContain('Have you ever heard about music therapy?');
+      expect(act1.researchQA).toHaveLength(3);
+      expect(act1.researchQA[0].answer).toContain('the clinical use of music to accomplish individualized goals');
+
+      const act2 = wtCorner.activities.find((a: any) => a.activityId === 'spec_work_together_p139').data;
+      expect(act2.storyboard).toHaveLength(3);
+      expect(act2.storyboard[0].time).toBe('1 min');
+      expect(act2.storyboard[1].time).toBe('3 min');
+      expect(act2.storyboard[2].time).toBe('3 min');
+      expect(act2.comments).toHaveLength(2);
+      expect(act2.checkPoint).toHaveLength(3);
+    });
+  });
 });
+

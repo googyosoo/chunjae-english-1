@@ -123,71 +123,189 @@ export const WorkTogetherView: React.FC<WorkTogetherViewProps> = ({
         </div>
       </section>
 
-      {/* Role Selection & Personal Brainstorming Memo */}
-      <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
-        <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-          <FileText className="w-4 h-4 text-indigo-600" />
-          <span>개인 기획 및 모둠 역할 메모 (Brainstorming Note)</span>
-        </h2>
+      {/* Special Lesson Activities: Step 1~4 (Dialogue, Research QA, Storyboard, Comments, CheckPoint) */}
+      {lesson?.lessonNumber === 6 && (
+        <div className="space-y-6">
+          {/* Step 1 & 2: 4-Member Group Dialogue & Research QA */}
+          {data.dialogue && (
+            <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
+              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Users className="w-4 h-4 text-teal-600" />
+                <span>모둠 대화 및 아이디어 교환 (Step 1 & 2 Dialogue)</span>
+              </h2>
+              <div className="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                {data.dialogue.map((d: any, idx: number) => (
+                  <div key={idx} className="flex gap-2.5">
+                    <span className="w-6 h-6 rounded-full bg-teal-100 text-teal-800 font-bold flex items-center justify-center shrink-0 text-xs">
+                      {d.speaker}
+                    </span>
+                    <div className="space-y-0.5">
+                      <p className="font-semibold text-slate-800">{d.en}</p>
+                      {d.ko && <p className="text-[11px] text-slate-500">{d.ko}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-        {/* Role Choice */}
-        <div className="space-y-1.5">
-          <label className="block text-xs font-bold text-slate-700">모둠 내 나의 역할 선택:</label>
-          <div className="grid grid-cols-3 gap-2 text-xs">
-            {[
-              { key: 'photographer', label: '사진 촬영/선정' },
-              { key: 'artist', label: '아이디어/드로잉' },
-              { key: 'presenter', label: '작품 해설/발표' },
-            ].map(r => (
+          {/* Research Q&A Cards */}
+          {data.researchQA && (
+            <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
+              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-indigo-600" />
+                <span>음악 치료(Music Therapy) 조사 질문 및 답변 (Research Q&A)</span>
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {data.researchQA.map((qa: any, idx: number) => (
+                  <div key={idx} className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-2">
+                    <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-[10px] font-bold">
+                      Q{qa.qNum || idx + 1}
+                    </span>
+                    <h3 className="font-bold text-xs text-indigo-950">{qa.question}</h3>
+                    <div className="bg-white p-2.5 rounded-lg border border-indigo-100/80 text-[11px] text-slate-700 leading-relaxed">
+                      {qa.answer}
+                    </div>
+                    {qa.ko && <p className="text-[10px] text-slate-500">{qa.ko}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Step 3: Storyboard (p.139) */}
+          {lesson.corners.find(c => c.id === 'work_together')?.activities[1]?.data?.storyboard && (
+            <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
+              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Camera className="w-4 h-4 text-emerald-600" />
+                <span>영상 스토리보드 3장면 (Video Storyboard)</span>
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {lesson.corners.find(c => c.id === 'work_together')?.activities[1]?.data?.storyboard.map((sb: any, idx: number) => (
+                  <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2.5">
+                    <div className="flex justify-between items-center">
+                      <span className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-xs">
+                        Scene {sb.scene}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 text-[10px] font-bold">
+                        {sb.time}
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-xs text-slate-900">{sb.heading}</h3>
+                    <div className="p-2.5 bg-white rounded-lg border border-slate-200 text-xs text-slate-700 leading-relaxed min-h-[80px]">
+                      {sb.script}
+                    </div>
+                    {sb.figureNote && (
+                      <p className="text-[10px] text-amber-700 font-medium">📖 {sb.figureNote}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Step 4: Comments & Self Check Point (p.139) */}
+          {lesson.corners.find(c => c.id === 'work_together')?.activities[1]?.data && (
+            <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
+              <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-teal-600" />
+                <span>동료 피드백 및 자기 점검 (Comments & Check Point)</span>
+              </h2>
+              
+              {/* Comments */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {lesson.corners.find(c => c.id === 'work_together')?.activities[1]?.data?.comments?.map((c: any, idx: number) => (
+                  <div key={idx} className="p-3 bg-teal-50/60 rounded-xl border border-teal-200/60 text-xs space-y-1">
+                    <span className="font-bold text-teal-900">{c.student}의 감상평:</span>
+                    <p className="text-slate-700 italic">"{c.comment}"</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Check Point */}
+              <div className="pt-2 border-t border-slate-100 space-y-2">
+                <h3 className="text-xs font-bold text-slate-800">Check Point (자기 평가)</h3>
+                <div className="space-y-1.5">
+                  {lesson.corners.find(c => c.id === 'work_together')?.activities[1]?.data?.checkPoint?.map((cp: any, idx: number) => (
+                    <label key={idx} className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 hover:bg-indigo-50/40 cursor-pointer">
+                      <input type="checkbox" className="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
+                      <span>{cp.num}. {cp.statement}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+
+      {/* Role Selection & Personal Brainstorming Memo (일반 단원) */}
+      {lesson?.lessonNumber !== 6 && (
+        <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
+          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <FileText className="w-4 h-4 text-indigo-600" />
+            <span>개인 기획 및 모둠 역할 메모 (Brainstorming Note)</span>
+          </h2>
+
+          {/* Role Choice */}
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold text-slate-700">모둠 내 나의 역할 선택:</label>
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              {[
+                { key: 'photographer', label: '사진 촬영/선정' },
+                { key: 'artist', label: '아이디어/드로잉' },
+                { key: 'presenter', label: '작품 해설/발표' },
+              ].map(r => (
+                <button
+                  key={r.key}
+                  type="button"
+                  onClick={() => setRole(r.key as any)}
+                  className={`py-2 px-3 rounded-xl border font-bold text-center transition-all ${
+                    role === r.key
+                      ? 'bg-indigo-50 border-indigo-500 text-indigo-700 ring-2 ring-indigo-500/20'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {r.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Memo Input */}
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-slate-700">
+              작품 아이디어 및 모둠 회의 메모:
+            </label>
+            <textarea
+              value={personalMemo}
+              onChange={e => setPersonalMemo(e.target.value)}
+              placeholder="어떤 사진을 사용하고 어떤 드로잉을 추가할지 자유롭게 아이디어를 적어보세요. (예: 운동장 벤치 사진에 거인의 의자 드로잉)"
+              rows={4}
+              className="w-full p-3 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500"
+            />
+            <div className="flex justify-between items-center">
+              {savedMemo && (
+                <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                  <CheckCircle2 className="w-4 h-4" /> 메모가 저장되었습니다!
+                </span>
+              )}
               <button
-                key={r.key}
                 type="button"
-                onClick={() => setRole(r.key as any)}
-                className={`py-2 px-3 rounded-xl border font-bold text-center transition-all ${
-                  role === r.key
-                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700 ring-2 ring-indigo-500/20'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                }`}
+                onClick={handleSaveMemo}
+                disabled={!personalMemo.trim()}
+                className="ml-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5"
               >
-                {r.label}
+                <Send className="w-3.5 h-3.5" />
+                <span>메모 저장</span>
               </button>
-            ))}
+            </div>
           </div>
-        </div>
+        </section>
+      )}
 
-        {/* Memo Input */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-700">
-            작품 아이디어 및 모둠 회의 메모:
-          </label>
-          <textarea
-            value={personalMemo}
-            onChange={e => setPersonalMemo(e.target.value)}
-            placeholder="어떤 사진을 사용하고 어떤 드로잉을 추가할지 자유롭게 아이디어를 적어보세요. (예: 운동장 벤치 사진에 거인의 의자 드로잉)"
-            rows={4}
-            className="w-full p-3 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500"
-          />
-          <div className="flex justify-between items-center">
-            {savedMemo && (
-              <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4" /> 메모가 저장되었습니다!
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={handleSaveMemo}
-              disabled={!personalMemo.trim()}
-              className="ml-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>메모 저장</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Wrap Up & Lesson Summary (pp. 54-55) */}
-      {lesson && (
+      {/* Wrap Up & Lesson Summary (L1~L5 단원만 렌더링) */}
+      {lesson && lesson.lessonNumber !== 6 && (
         <div className="pt-4 border-t border-slate-200">
           <WrapUpView
             lesson={lesson}

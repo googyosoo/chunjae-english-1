@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LessonData } from '../../types/lesson';
 import { StorageService } from '../../services/storageService';
-import { Sparkles, MessageSquare, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Sparkles, MessageSquare, ArrowRight, CheckCircle2, Quote, BookOpen, Check } from 'lucide-react';
 
 import { UserProfile } from '../../types/auth';
 
@@ -12,11 +12,18 @@ interface IntroViewProps {
 }
 
 export const IntroView: React.FC<IntroViewProps> = ({ lesson, showTeacherAnswers, user = null }) => {
-  const introData = lesson.corners.find(c => c.id === 'introduction')?.activities[0].data;
+  const introCorner = lesson.corners.find(c => c.id === 'introduction');
+  const introData = introCorner?.activities[0]?.data;
+  const vocabData = introCorner?.activities?.find(a => a.type === 'vocabulary_check' || a.activityId === 'spec_intro_vocab')?.data;
   const progress = StorageService.getProgress(lesson.lessonNumber);
 
   const [preAnswer, setPreAnswer] = useState<string>(progress.topicAnswers.preAnswer || '');
   const [isSaved, setIsSaved] = useState<boolean>(!!progress.topicAnswers.preAnswer);
+
+  // Vocabulary Check 학생 답변 상태
+  const [vocabInput, setVocabInput] = useState<{ [num: number]: string }>({});
+  const [phraseInput, setPhraseInput] = useState<{ [num: number]: string }>({});
+  const [showVocabAnswers, setShowVocabAnswers] = useState<boolean>(false);
 
   const handleSaveAnswer = () => {
     progress.topicAnswers.preAnswer = preAnswer;
@@ -139,6 +146,179 @@ export const IntroView: React.FC<IntroViewProps> = ({ lesson, showTeacherAnswers
           ))}
         </div>
       </div>
+
+      {/* Special Lesson: Before You Read Quotes & Areas (p.130) */}
+      {introData?.quotes && (
+        <div className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-5">
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">A</span>
+            <h3 className="font-bold text-slate-900 text-base">Before You Read: Quotes about Music</h3>
+          </div>
+          <p className="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200">
+            {introData.instruction || "교과서 음악 인용문을 읽고 의미를 생각해 보세요."}
+          </p>
+
+          {/* Quotes Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {introData.quotes.map((q: any, idx: number) => (
+              <div key={idx} className="p-4 rounded-xl bg-gradient-to-br from-slate-50 to-indigo-50/30 border border-slate-200/80 flex flex-col justify-between space-y-3">
+                <div className="space-y-2">
+                  <Quote className="w-5 h-5 text-indigo-400" />
+                  <p className="text-xs font-semibold text-slate-800 leading-relaxed italic">
+                    "{q.quote}"
+                  </p>
+                </div>
+                <div className="pt-2 border-t border-slate-200/60">
+                  <span className="text-xs font-bold text-indigo-700 block">- {q.author}</span>
+                  {q.ko && <span className="text-[11px] text-slate-500 mt-1 block">{q.ko}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Music Areas Chips */}
+          {introData.areas && (
+            <div className="pt-4 border-t border-slate-100 space-y-2">
+              <span className="text-xs font-bold text-slate-700 block">
+                {introData.discussionPrompt || "음악이 사용될 수 있는 다양한 분야를 탐구해 보세요."}
+              </span>
+              <div className="flex flex-wrap gap-2 pt-1">
+                {introData.areas.map((area: string, idx: number) => (
+                  <span key={idx} className="px-3 py-1 rounded-full bg-slate-100 hover:bg-indigo-100 text-slate-700 hover:text-indigo-800 text-xs font-semibold border border-slate-200 transition-colors">
+                    🎵 {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Special Lesson: Vocabulary Check (p.131) */}
+      {vocabData && (
+        <div className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs">B</span>
+              <h3 className="font-bold text-slate-900 text-base">Vocabulary Check (p.131)</h3>
+            </div>
+            <button
+              onClick={() => setShowVocabAnswers(!showVocabAnswers)}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
+            >
+              {showVocabAnswers ? '정답 숨기기' : '정답 확인'}
+            </button>
+          </div>
+
+          {/* Part 1: Words from Box */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <span>1. {vocabData.instruction || "상자 안의 단어로 빈칸을 채우세요."}</span>
+            </h4>
+            {vocabData.boxWords && (
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap gap-2 text-xs font-semibold text-slate-700 justify-center">
+                {vocabData.boxWords.map((w: string, idx: number) => (
+                  <span key={idx} className="px-3 py-1 rounded-lg bg-white border border-slate-200 shadow-2xs font-mono">
+                    {w}
+                  </span>
+                ))}
+              </div>
+            )}
+            <div className="space-y-3">
+              {vocabData.items?.map((item: any) => {
+                const userAns = vocabInput[item.num] || '';
+                const isCorrect = userAns.trim().toLowerCase() === item.answer.toLowerCase();
+                return (
+                  <div key={item.num} className="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200 space-y-2">
+                    <div className="flex items-start gap-2">
+                      <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        {item.num}
+                      </span>
+                      <p className="text-xs text-slate-800 leading-relaxed flex-1">
+                        {item.sentence}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 pl-7">
+                      <input
+                        type="text"
+                        placeholder="정답 입력"
+                        value={userAns}
+                        onChange={(e) => setVocabInput({ ...vocabInput, [item.num]: e.target.value })}
+                        className="px-3 py-1 rounded-lg border border-slate-300 text-xs bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 w-44"
+                      />
+                      {(showVocabAnswers || showTeacherAnswers) && (
+                        <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                          정답: {item.answer}
+                        </span>
+                      )}
+                      {userAns && isCorrect && (
+                        <span className="text-xs font-semibold text-emerald-600 flex items-center gap-0.5">
+                          <Check className="w-3.5 h-3.5" /> 일치
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Part 2: Phrases */}
+          {vocabData.phraseItems && (
+            <div className="space-y-4 pt-4 border-t border-slate-100">
+              <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span>2. {vocabData.phrasesInstruction || "아래의 표현으로 빈칸을 채우세요."}</span>
+              </h4>
+              {vocabData.boxPhrases && (
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap gap-2 text-xs font-semibold text-slate-700 justify-center">
+                  {vocabData.boxPhrases.map((p: string, idx: number) => (
+                    <span key={idx} className="px-3 py-1 rounded-lg bg-white border border-slate-200 shadow-2xs font-mono">
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div className="space-y-3">
+                {vocabData.phraseItems.map((item: any) => {
+                  const userAns = phraseInput[item.num] || '';
+                  const isCorrect = userAns.trim().toLowerCase() === item.answer.toLowerCase();
+                  return (
+                    <div key={item.num} className="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200 space-y-2">
+                      <div className="flex items-start gap-2">
+                        <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          {item.num}
+                        </span>
+                        <p className="text-xs text-slate-800 leading-relaxed flex-1">
+                          {item.sentence}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 pl-7">
+                        <input
+                          type="text"
+                          placeholder="구문 입력"
+                          value={userAns}
+                          onChange={(e) => setPhraseInput({ ...phraseInput, [item.num]: e.target.value })}
+                          className="px-3 py-1 rounded-lg border border-slate-300 text-xs bg-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500 w-44"
+                        />
+                        {(showVocabAnswers || showTeacherAnswers) && (
+                          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                            정답: {item.answer}
+                          </span>
+                        )}
+                        {userAns && isCorrect && (
+                          <span className="text-xs font-semibold text-emerald-600 flex items-center gap-0.5">
+                            <Check className="w-3.5 h-3.5" /> 일치
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

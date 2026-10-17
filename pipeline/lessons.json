@@ -53,5 +53,16 @@
       "answers": [161, 163],
       "sources": [168, 171]
     }
+  },
+  "special-lesson": {
+    "lessonNumber": 6,
+    "title": "Music and Everything Else",
+    "pdfPath": "C:/Users/user/Desktop/고등_영어1(강상구)_교과서.pdf",
+    "pages": {
+      "main": [128, 139],
+      "scripts": [142, 142],
+      "answers": [163, 163],
+      "sources": [171, 171]
+    }
   }
 }

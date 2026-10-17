@@ -30,6 +30,7 @@ const getInitialLessonId = (): string => {
   if (typeof window !== 'undefined') {
     const params = new URLSearchParams(window.location.search);
     const l = params.get('lesson');
+    if (l === 'special' || l === 'special-lesson' || l === '06' || l === '6') return 'special-lesson';
     if (l === '05' || l === 'lesson-05' || l === '5') return 'lesson-05';
     if (l === '04' || l === 'lesson-04' || l === '4') return 'lesson-04';
     if (l === '03' || l === 'lesson-03' || l === '3') return 'lesson-03';
@@ -145,7 +146,7 @@ export const App: React.FC = () => {
   }, [user, selectedLessonId]);
 
   // 3. 진도 데이터 로드 및 역할 분기
-  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'lesson-05' ? 5 : selectedLessonId === 'lesson-04' ? 4 : selectedLessonId === 'lesson-03' ? 3 : selectedLessonId === 'lesson-02' ? 2 : 1);
+  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'special-lesson' ? 6 : selectedLessonId === 'lesson-05' ? 5 : selectedLessonId === 'lesson-04' ? 4 : selectedLessonId === 'lesson-03' ? 3 : selectedLessonId === 'lesson-02' ? 2 : 1);
   useEffect(() => {
     if (user) {
       StorageService.getProgressAsync(user, currentLessonNum).then((progress) => {
@@ -280,6 +281,16 @@ export const App: React.FC = () => {
       completedCornersCount: selectedLessonId === 'lesson-05' ? completedCorners.length : 0,
       totalCornersCount: 8,
     },
+    {
+      id: 'special-lesson',
+      lessonNumber: 6,
+      title: 'Music and Everything Else',
+      topic: 'Music Math Ecology',
+      pageRange: 'pp. 128-139',
+      description: '음악과 수학(원주율과 Lullapi 작곡), 음악과 생태(죠스 영화음악과 상어 인식 실험)를 융합 탐구하고, 음악을 활용한 정보 전달 영상 제작 모둠 프로젝트를 수행합니다.',
+      completedCornersCount: selectedLessonId === 'special-lesson' ? completedCorners.length : 0,
+      totalCornersCount: 4,
+    },
   ];
 
   return (
@@ -379,7 +390,23 @@ export const App: React.FC = () => {
                   />
                 )}
                 {activeCornerId === 'after_read' && (
-                  <AfterReadView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  lessonData.lessonNumber === 6 ? (
+                    <ReadView
+                      lesson={{
+                        ...lessonData,
+                        corners: [
+                          {
+                            ...lessonData.corners.find(c => c.id === 'after_read')!,
+                            id: 'read' as any,
+                          }
+                        ]
+                      }}
+                      showTeacherAnswers={showTeacherAnswers}
+                      onSelectSentence={setSelectedSentence}
+                    />
+                  ) : (
+                    <AfterReadView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                  )
                 )}
                 {activeCornerId === 'share_thoughts' && (
                   <ShareThoughtsView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />

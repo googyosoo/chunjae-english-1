@@ -22,6 +22,10 @@ const lessonData5 = JSON.parse(
   fs.readFileSync(path.resolve(process.cwd(), 'content/lesson-05.json'), 'utf-8')
 );
 
+const lessonDataSpecial = JSON.parse(
+  fs.readFileSync(path.resolve(process.cwd(), 'content/special-lesson.json'), 'utf-8')
+);
+
 const MOCK_STUDENT_USER = {
   uid: 'e2e_student_01',
   email: 'student1@simin.hs.kr',
@@ -92,7 +96,15 @@ const L5_CORNERS = [
   { id: 'go_global', name: '8. 세계 문화 & Wrap Up', requiredTexts: ['Guardian (2016)', 'movies based on books'] },
 ];
 
-test.describe('Lesson 1 ~ Lesson 5 8개 코너 교과서 원문 매칭 및 undefined 0건 검증', () => {
+// Special Lesson: 4개 코너별 필수 검증 교과서 원문 문장
+const SPEC_CORNERS = [
+  { id: 'introduction', name: '1. 도입 및 배경 지식', requiredTexts: ['Music can change the world', 'precision', 'pull off'] },
+  { id: 'read', name: '2. 본문 1: 음악과 수학', requiredTexts: ['100 trillion digits', 'Lullapi'] },
+  { id: 'after_read', name: '3. 본문 2: 음악과 생태', requiredTexts: ['some 100 million sharks are killed', 'Dah-na dah-na dah-na!'] },
+  { id: 'work_together', name: '4. 모둠 협동 프로젝트', requiredTexts: ['Making a Video About Music & Something Else', 'music therapy', 'Scene #1'] },
+];
+
+test.describe('Lesson 1 ~ Lesson 5 및 Special Lesson 교과서 원문 매칭 및 undefined 0건 검증', () => {
   test('Lesson 1: 8개 탭 순회 시 원문 문장 노출 및 undefined 0건', async ({ page }) => {
     const pageErrors: string[] = [];
     const consoleErrors: string[] = [];
@@ -419,5 +431,81 @@ test.describe('Lesson 1 ~ Lesson 5 8개 코너 교과서 원문 매칭 및 undef
     expect(pageErrors, '페이지 런타임 오류가 발생하지 않아야 합니다').toEqual([]);
     expect(consoleErrors, '브라우저 콘솔 오류가 발생하지 않아야 합니다').toEqual([]);
   });
+
+  test('Special Lesson: 4개 탭 순회 시 원문 문장 노출 및 undefined 0건', async ({ page }) => {
+    const pageErrors: string[] = [];
+    const consoleErrors: string[] = [];
+
+    page.on('pageerror', (err) => {
+      console.log('>>> [BROWSER PAGE ERROR]', err.message);
+      pageErrors.push(err.message);
+    });
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') {
+        const text = msg.text();
+        if (!text.includes('favicon') && !text.includes('net::ERR_') && !text.includes('X-Frame-Options') && !text.includes('youtube.com')) {
+          console.log('>>> [BROWSER CONSOLE ERROR]', text);
+          consoleErrors.push(text);
+        }
+      }
+    });
+
+    await page.addInitScript((mockUser) => {
+      (window as any).__E2E_USER__ = mockUser;
+    }, MOCK_STUDENT_USER);
+
+    await page.route('**/api/lesson*', async (route) => {
+      const url = route.request().url();
+      const body = (url.includes('special') || url.includes('lesson-06'))
+        ? lessonDataSpecial
+        : url.includes('lesson-05')
+        ? lessonData5
+        : url.includes('lesson-04')
+        ? lessonData4
+        : url.includes('lesson-03')
+        ? lessonData3
+        : url.includes('lesson-02')
+        ? lessonData2
+        : lessonData1;
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: JSON.stringify(body),
+      });
+    });
+
+    await page.goto('/?lesson=special');
+    const mainLocator = page.locator('main');
+    await expect(mainLocator).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=인증된 교과서 데이터를 안전하게 불러오는 중입니다...')).toBeHidden({ timeout: 10000 });
+
+    for (const corner of SPEC_CORNERS) {
+      const tabButton = page.locator(`[data-testid="corner-tab-${corner.id}"]`);
+      await expect(tabButton).toBeAttached({ timeout: 10000 });
+      await tabButton.scrollIntoViewIfNeeded().catch(() => {});
+      await tabButton.evaluate((el: HTMLElement) => el.click());
+
+      for (const reqText of corner.requiredTexts) {
+        await expect.poll(async () => {
+          const content = await mainLocator.innerText();
+          return content.includes(reqText);
+        }, {
+          message: `[Special-${corner.id}] ${corner.name} 탭에 교과서 원문 "${reqText}"이(가) 나타나야 합니다.`,
+          timeout: 8000,
+          intervals: [200, 400, 600],
+        }).toBe(true);
+      }
+
+      const fullContent = await mainLocator.innerText();
+      expect(fullContent, `[Special-${corner.id}] 화면에 'undefined' 문자열이 포함되어서는 안 됩니다`).not.toContain('undefined');
+
+      // 교과서 이미지 전면 배제 검증: 화면 내 <img> 태그는 반드시 0개여야 함
+      await expect(page.locator('img'), `[Special-${corner.id}] 화면에 <img> 태그가 0개여야 합니다`).toHaveCount(0);
+    }
+
+    expect(pageErrors, '페이지 런타임 오류가 발생하지 않아야 합니다').toEqual([]);
+    expect(consoleErrors, '브라우저 콘솔 오류가 발생하지 않아야 합니다').toEqual([]);
+  });
 });
+
 
