@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { getAiProvider } from './services/aiProvider';
 import fs from 'fs';
 import path from 'path';
 import { verifyAuthToken } from './middleware/auth';
@@ -46,16 +46,11 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: '학생 초안(studentDraft) 내용이 필요합니다.' });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return res.status(500).json({ error: '서버 환경 변수 GEMINI_API_KEY가 설정되지 않았습니다.' });
-    }
-
     // 2. Load Rubric from Server's Lesson Data or fallback to client
     const serverRubric = loadServerRubric(lessonId || 'lesson-01');
     const targetRubric = serverRubric.length > 0 ? serverRubric : (clientRubric || []);
 
-    const ai = new GoogleGenAI({ apiKey });
+    const provider = getAiProvider();
     const systemInstruction = `당신은 심인고등학교 영어 쓰기(Write & Present) 전문 평가 AI 교사입니다.
 [절대 원칙]
 1. 학생의 글을 대신 다시 써주는 행위(대필)는 절대 금지됩니다.
@@ -84,18 +79,7 @@ ${studentDraft}
   ]
 }`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-      config: {
-        systemInstruction,
-        temperature: 0.2,
-      },
-    });
-
-    const text = response.text || '';
-    const cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(cleanJson);
+    const parsed = await provider.generateJson(prompt, systemInstruction, { temperature: 0.2 });
     return res.status(200).json(parsed);
   } catch (error: any) {
     console.error('Gemini Rubric API Error:', error);

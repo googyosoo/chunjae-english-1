@@ -1,25 +1,65 @@
 {
-  "timestamp": "2026-10-17T21:54:20.377747+00:00",
+  "timestamp": "2026-10-17T22:44:38.321599+00:00",
   "files": {
-    "src/services/teacherService.ts": {
-      "sha256": "e0f2b2beee8a59c17fc838a8d423b4fbb8d8ebe597a120ad91c6a3abdd67f428",
-      "bytes": 16929
+    "src/types/ai.ts": {
+      "sha256": "ab5ecb53d1afbb466106e4cda16b51e05370d3ff86c74f2984cfbe887787fe91",
+      "bytes": 1523
     },
-    "src/services/teacherService.test.ts": {
-      "sha256": "c3c204de825c46e83ec063b7d9ccb01938d572d1af93e8d5534b0890f69ac20d",
-      "bytes": 9595
+    "src/services/aiService.ts": {
+      "sha256": "0b58826905c31b96b78a254b2ba976bcc3a5f9f0dda2715ef294c38a617cf55b",
+      "bytes": 6355
     },
-    "src/types/teacher.ts": {
-      "sha256": "7871ad2e54ce94b105873c5d137d739402a93cc511e29aa84c2c251fe1ec4404",
-      "bytes": 2830
+    "src/services/aiService.test.ts": {
+      "sha256": "b20ca12574f428b491cf2f29e16141c68c8c37ed2bf33be8bcac7727e3792915",
+      "bytes": 6719
+    },
+    "src/components/ai/RoleplayModal.tsx": {
+      "sha256": "cd2057b454d94b7c5af8fd41a18186e7255d3897ab1f8eff692bb6b011898d7c",
+      "bytes": 10232
+    },
+    "src/components/ai/GrammarVariantModal.tsx": {
+      "sha256": "be7d9fea937d382dd377b86f6fe1dfb59ac073d9eedc9b7574dc4057c1deb200",
+      "bytes": 9771
+    },
+    "src/components/corners/CommunicateView.tsx": {
+      "sha256": "abd9e6dddabd47391043f2f1c9612c15eb1e66641b8d230ed67b6a5438dd5481",
+      "bytes": 29732
+    },
+    "src/components/corners/LanguageFocusView.tsx": {
+      "sha256": "66b92f367064400994ecf6386f7374fdf4269e0e9e61ab8d2f3faab22e609bcb",
+      "bytes": 16863
     },
     "src/components/teacher/TeacherDashboardModal.tsx": {
-      "sha256": "16606b8095e0c925666994050bf622fc91265b79919f792846fa3eea524ab7b7",
-      "bytes": 45048
+      "sha256": "adfd57669c0e27b7fcd80fecf40cf2a758a5a05b251551f3f8b79c6912b8a14d",
+      "bytes": 63482
     },
-    "tests/teacher-studio.spec.ts": {
-      "sha256": "88f21db75552812276965201188ff84588e448be6d68f8c2849077cf673974ff",
-      "bytes": 8675
+    "api/services/aiProvider.ts": {
+      "sha256": "4e1dd58ccaf03dbc9d1c5eb5ac0a4cf3dbcd331c75b903841da05e2d2c150eb8",
+      "bytes": 8283
+    },
+    "api/ai/roleplay.ts": {
+      "sha256": "43a7e87a2cfcc9a52f4524e2f9abf782af1614cc0aa1f7c8cb91c5b647f9d2e0",
+      "bytes": 2638
+    },
+    "api/ai/grammar-variants.ts": {
+      "sha256": "3743eacddab419d670eff58a3f4364c9f8e047df0afa81137e5eea0aaa0e706f",
+      "bytes": 2506
+    },
+    "api/ai/exam-generator.ts": {
+      "sha256": "01ab2d92494db57deaa10360071f58ee37ff5cf2e8f43ca355dea277bee1d323",
+      "bytes": 3613
+    },
+    "api/tutor.ts": {
+      "sha256": "adbd9de7d600a9892705b268da69a6422d14e6a7cb23afbd880cf72d0fef9e3a",
+      "bytes": 3155
+    },
+    "api/rubric.ts": {
+      "sha256": "ac89b0296240a542c83af55fad1c50fa4c0e0934ce38991b1c560325a1ebcb84",
+      "bytes": 3560
+    },
+    "tests/ai-features.spec.ts": {
+      "sha256": "6e631c121b134c928b296c029ef6f695a0e9d98ec316368e2a1f358017415755",
+      "bytes": 10339
     }
   }
 }

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { LessonData } from '../../types/lesson';
 import { TTSService } from '../../services/ttsService';
 import { StorageService } from '../../services/storageService';
-import { Volume2, Play, CheckCircle2, XCircle, Sparkles, MessageSquare } from 'lucide-react';
+import { Volume2, Play, CheckCircle2, XCircle, Sparkles, MessageSquare, Bot } from 'lucide-react';
+import { RoleplayModal } from '../ai/RoleplayModal';
 
 interface CommunicateViewProps {
   lesson: LessonData;
@@ -38,6 +39,7 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
   // D. Write and Talk 상태
   const [talkOpinion, setTalkOpinion] = useState<'useful' | 'harmful' | ''>('');
   const [talkReason, setTalkReason] = useState<string>('');
+  const [isRoleplayOpen, setIsRoleplayOpen] = useState<boolean>(false);
 
   const handleSpeak = (text: string, id: string) => {
     setActiveUtteranceId(id);
@@ -205,9 +207,19 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
 
       {/* B. Listen and Answer */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">B</span>
-          <h2 className="text-base font-bold text-slate-900">Listen and Answer: 핵심 회화 롤플레이</h2>
+        <div className="flex items-center justify-between gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">B</span>
+            <h2 className="text-base font-bold text-slate-900">Listen and Answer: 핵심 회화 롤플레이</h2>
+          </div>
+          <button
+            onClick={() => setIsRoleplayOpen(true)}
+            aria-label="AI 롤플레이 회화 연습 열기"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-xs shadow-2xs transition-all cursor-pointer"
+          >
+            <Bot className="w-3.5 h-3.5" />
+            <span>AI와 롤플레이 대화하기</span>
+          </button>
         </div>
 
         <div className="space-y-6">
@@ -540,6 +552,14 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
           />
         </div>
       </section>
+
+      {/* AI 대화 롤플레이 모달 */}
+      <RoleplayModal
+        isOpen={isRoleplayOpen}
+        onClose={() => setIsRoleplayOpen(false)}
+        lessonNumber={lesson.lessonNumber}
+        initialContext={`Lesson ${lesson.lessonNumber} Communicate Dialogue`}
+      />
     </div>
   );
 };

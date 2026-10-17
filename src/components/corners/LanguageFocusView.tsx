@@ -3,6 +3,7 @@ import { LessonData } from '../../types/lesson';
 import { StorageService } from '../../services/storageService';
 import { UserProfile } from '../../types/auth';
 import { BookMarked, Sparkles, CheckCircle2 } from 'lucide-react';
+import { GrammarVariantModal } from '../ai/GrammarVariantModal';
 
 interface LanguageFocusViewProps {
   lesson: LessonData;
@@ -11,6 +12,7 @@ interface LanguageFocusViewProps {
 }
 
 export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, showTeacherAnswers, user = null }) => {
+  const [isVariantModalOpen, setIsVariantModalOpen] = useState<boolean>(false);
   const langCorner = lesson.corners.find(c => c.id === 'language_focus');
   const activities = langCorner?.activities || [];
 
@@ -22,6 +24,12 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
 
   const grammarActs = activities.filter(a => a.type.includes('grammar') || a.activityId.includes('grammar'));
   const grammarData = (grammarActs.length > 0 && grammarActs[0]?.data?.grammarInContext ? grammarActs[0].data.grammarInContext : null) as any;
+
+  const currentGrammarRule =
+    grammarData?.part1?.ruleName ||
+    grammarActs[0]?.data?.ruleName ||
+    grammarActs[0]?.data?.structures?.[0]?.title ||
+    `${lesson.title} 핵심 어법`;
 
   // A. Word Uses 상태
   const [wordAnswers, setWordAnswers] = useState<{ [id: string]: string }>({});
@@ -179,9 +187,18 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
       {/* L1 Grammar In Context */}
       {grammarData && (
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">C</span>
-            <h2 className="text-base font-bold text-slate-900">Grammar in Context</h2>
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">C</span>
+              <h2 className="text-base font-bold text-slate-900">Grammar in Context</h2>
+            </div>
+            <button
+              onClick={() => setIsVariantModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-bold shadow-xs hover:shadow-sm transition-all"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>AI 문법 변형 문제</span>
+            </button>
           </div>
 
           <div className="space-y-4">
@@ -199,9 +216,18 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
       {/* L2 & L4 Grammar Points */}
       {grammarActs.length > 0 && !grammarData && (
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">C</span>
-            <h2 className="text-base font-bold text-slate-900">Grammar in Context: 핵심 문법 구조</h2>
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">C</span>
+              <h2 className="text-base font-bold text-slate-900">Grammar in Context: 핵심 문법 구조</h2>
+            </div>
+            <button
+              onClick={() => setIsVariantModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-bold shadow-xs hover:shadow-sm transition-all"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>AI 문법 변형 문제</span>
+            </button>
           </div>
 
           {grammarActs.map((act, gIdx) => {
@@ -294,6 +320,14 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
           채점 및 결과 확인
         </button>
       </div>
+
+      {/* AI 문법 변형 문제 풀이 모달 */}
+      <GrammarVariantModal
+        isOpen={isVariantModalOpen}
+        onClose={() => setIsVariantModalOpen(false)}
+        lessonNumber={lesson.lessonNumber}
+        grammarPoint={currentGrammarRule}
+      />
     </div>
   );
 };

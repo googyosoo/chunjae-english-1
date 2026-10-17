@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { getAiProvider } from './services/aiProvider';
 import fs from 'fs';
 import path from 'path';
 import { verifyAuthToken } from './middleware/auth';
@@ -50,15 +50,10 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: '질문(question) 내용이 필요합니다.' });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return res.status(500).json({ error: '서버 환경 변수 GEMINI_API_KEY가 설정되지 않았습니다.' });
-    }
-
     // 2. Load Textbook Context securely on Server
     const textbookContext = loadLessonContext(lessonId || 'lesson-01');
 
-    const ai = new GoogleGenAI({ apiKey });
+    const provider = getAiProvider();
     const systemInstruction = `당신은 심인고등학교 영어I 교과서 전담 친절한 AI 영어 튜터입니다.
 [가드레일 원칙]
 1. 반드시 아래 제공된 [교과서 본문 컨텍스트] 내용에 기반해서만 답변하십시오. 교과서 밖의 불필요한 과도한 배경지식은 배제합니다.
@@ -74,16 +69,7 @@ ${question}
 
 [답변]:`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-      config: {
-        systemInstruction,
-        temperature: 0.3,
-      },
-    });
-
-    const text = response.text || '';
+    const text = await provider.generateText(prompt, systemInstruction, { temperature: 0.3 });
     return res.status(200).json({ answer: text });
   } catch (error: any) {
     console.error('Tutor API Error:', error);
