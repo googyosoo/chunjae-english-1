@@ -6,7 +6,7 @@ import glob
 import subprocess
 from datetime import datetime
 
-# 검증 제외 대상 키 (화이트리스트: 한국어 번역, 해설, 피드백, 식별자, 링크, 템플릿 태그, UI 레이블, 문항 안내 등)
+# 검증 제외 대상 키 (화이트리스트: 한국어 번역, 해설, 식별자, UI 메타데이터 등)
 WHITELIST_KEYS = {
     'ko', 'korean', 'translation', 'explanation', 'feedback', 'instruction_ko',
     'title_ko', 'tip', 'koreanMeaning', 'description', 'notes', 'teacherNotes',
@@ -14,12 +14,11 @@ WHITELIST_KEYS = {
     'sourceUrl', 'speaker', 'label', 'timestamp', 'alt', 'image', 'imageUrl',
     'sourceCitation', 'sourceRef', 'page', 'pageRange', 'school',
     'title', 'subtitle', 'heading', 'titleEn', 'titleKo', 'topic',
-    'step', 'cornerTitle', 'priority', 'template', 'rubric', 'example',
+    'step', 'cornerTitle', 'priority', 'template', 'rubric',
     'writingTip', 'usefulExpressions', 'positiveAnswer', 'negativeAnswer',
-    'sampleAnswer', 'grammarTip', 'meaning', 'category', 'categories',
-    'sample', 'dialogueTemplate', 'videoTitle', 'instruction', 'expression',
-    'statement', 'fullAnswer', 'prompt', 'question_ko', 'invitingRemarks',
-    'ruleExplanation', 'ruleName', 'reason', 'corrections', 'target'
+    'grammarTip', 'meaning', 'category', 'categories',
+    'dialogueTemplate', 'videoTitle', 'fullAnswer', 'question_ko',
+    'invitingRemarks', 'ruleExplanation', 'ruleName', 'reason', 'figureNote'
 }
 
 def clean_invisible_chars(text):

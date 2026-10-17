@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "qa": "python -X utf8 qa/audit.py --all --dist dist",
+    "verify:all": "npm run build && npm test && npm run qa"
   },
   "dependencies": {
     "@google/genai": "^2.30.0",
