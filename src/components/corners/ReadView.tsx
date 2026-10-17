@@ -23,8 +23,15 @@ export const ReadView: React.FC<ReadViewProps> = ({
   const backgroundCheck = beforeData?.backgroundCheck;
   const vocabularyCheck = beforeData?.vocabularyCheck;
 
-  const readingAct = activities.find(a => a.type === 'interactive_reader' || a.type === 'passage' || a.activityId.includes('passage') || a.activityId === 'read_interactive_viewer');
-  const readingData = (readingAct?.data?.reading || readingAct?.data) as any;
+  const readingAct = activities.find(a => 
+    a.type === 'interactive_reader' || 
+    a.type === 'passage' || 
+    a.type === 'reading_viewer' || 
+    a.activityId.includes('passage') || 
+    a.activityId.includes('main') || 
+    a.activityId === 'read_interactive_viewer'
+  );
+  const readingData = (readingAct?.data?.readingViewer || readingAct?.data?.reading || readingAct?.data) as any;
 
   const readFurtherAct = activities.find(a => a.type === 'read_further' || a.activityId.includes('further'));
   const readFurtherData = (readFurtherAct?.data?.readFurther || readFurtherAct?.data) as any;
@@ -46,24 +53,38 @@ export const ReadView: React.FC<ReadViewProps> = ({
     TTSService.speak(fullText);
   };
 
-  // L1: paragraphs, L2: sections
+  // L1: paragraphs, L2/L3: sections
   const rawSections: any[] = readingData?.sections || [];
   const rawParagraphs: any[] = readingData?.paragraphs || [];
 
   const unifiedSections = rawSections.length > 0
-    ? rawSections.map((sec, idx) => ({
-        id: sec.sectionId || `sec_${idx}`,
-        heading: sec.title,
-        day: sec.title,
-        part: `Section ${idx + 1}`,
-        asset: sec.asset,
-        sentences: sec.sentences || [],
-        marginalQuestions: (sec.questions || []).map((q: any) => ({
-          qNumber: q.id,
+    ? rawSections.map((sec, idx) => {
+        const sentences = sec.sentences && sec.sentences.length > 0
+          ? sec.sentences
+          : sec.paragraphs
+          ? sec.paragraphs.flatMap((p: any) => p.sentences || [])
+          : [];
+
+        const questions = (sec.marginalQuestions || sec.questions || []).map((q: any) => ({
+          qNumber: q.id || `q_${idx}`,
           question: q.question,
           sampleAnswer: q.answer,
-        })),
-      }))
+        }));
+
+        const title = sec.title || sec.titleEn || `Section ${idx + 1}`;
+
+        return {
+          id: sec.sectionId || `sec_${idx}`,
+          heading: title,
+          day: title,
+          part: `Section ${idx + 1}`,
+          pageRef: sec.pageRef,
+          figureNote: sec.figureNote,
+          asset: sec.asset,
+          sentences,
+          marginalQuestions: questions,
+        };
+      })
     : rawParagraphs;
 
   const filteredSections = activeTab === 'all'
@@ -203,8 +224,11 @@ export const ReadView: React.FC<ReadViewProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div>
               <span className="text-xs font-bold text-indigo-600 uppercase tracking-wide">
-                Lesson {lesson.lessonNumber} Main Text: {lesson.title}
+                Lesson {lesson.lessonNumber} Main Text
               </span>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+                {readingData?.titleEn || readingData?.title || lesson.title}
+              </h2>
               {readingData?.subtitle && (
                 <p className="text-xs text-slate-500 mt-0.5">{readingData.subtitle}</p>
               )}
@@ -220,7 +244,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
           <div className="p-6 border-b border-slate-200 bg-indigo-50/40 space-y-4">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-xs font-bold">Read Further</span>
-              <h3 className="font-bold text-slate-900 text-base">{readFurtherData.title || readFurtherData.articleTitle}</h3>
+              <h3 className="font-bold text-slate-900 text-base">
+                {readFurtherData.titleEn || readFurtherData.title || readFurtherData.articleTitle}
+              </h3>
               {readFurtherData.author && <span className="text-xs text-slate-600">- {readFurtherData.author}</span>}
             </div>
 
@@ -232,19 +258,24 @@ export const ReadView: React.FC<ReadViewProps> = ({
             )}
 
             <div className="space-y-2 pt-2 text-xs sm:text-sm text-slate-800 leading-relaxed">
-              {(readFurtherData.paragraphs || readFurtherData.sentences || []).map((p: any, idx: number) => (
-                <p key={idx} className="p-3 bg-white rounded-xl border border-indigo-100">
-                  {p.text || p.en}
-                </p>
-              ))}
+              {(readFurtherData.paragraphs || readFurtherData.sentences || []).map((p: any, idx: number) => {
+                const text = p.text || p.en || (p.sentences ? p.sentences.map((s: any) => s.en).join(' ') : '');
+                return (
+                  <p key={idx} className="p-3 bg-white rounded-xl border border-indigo-100">
+                    {text}
+                  </p>
+                );
+              })}
             </div>
 
-            {readFurtherData.question && (
+            {(readFurtherData.question || readFurtherData.marginalQuestion?.question) && (
               <div className="pt-2 border-t border-indigo-200 text-xs">
-                <p className="font-bold text-slate-900 mb-1">Q. {readFurtherData.question}</p>
-                {showTeacherAnswers && readFurtherData.sampleAnswer && (
+                <p className="font-bold text-slate-900 mb-1">
+                  Q. {readFurtherData.question || readFurtherData.marginalQuestion?.question}
+                </p>
+                {showTeacherAnswers && (readFurtherData.sampleAnswer || readFurtherData.marginalQuestion?.answer) && (
                   <p className="text-emerald-800 bg-emerald-50 p-2.5 rounded-lg">
-                    🔑 [교과서 예시답안]: {readFurtherData.sampleAnswer}
+                    🔑 [교과서 예시답안]: {readFurtherData.sampleAnswer || readFurtherData.marginalQuestion?.answer}
                   </p>
                 )}
               </div>

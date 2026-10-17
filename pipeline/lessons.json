@@ -20,5 +20,16 @@
       "answers": [154, 156],
       "sources": [168, 171]
     }
+  },
+  "lesson-03": {
+    "lessonNumber": 3,
+    "title": "Healthy Plate, Healthy Planet",
+    "pdfPath": "C:/Users/user/Desktop/고등_영어1(강상구)_교과서.pdf",
+    "pages": {
+      "main": [56, 79],
+      "scripts": [146, 147],
+      "answers": [157, 159],
+      "sources": [168, 171]
+    }
   }
 }

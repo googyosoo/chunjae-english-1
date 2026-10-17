@@ -30,6 +30,7 @@ const getInitialLessonId = (): string => {
   if (typeof window !== 'undefined') {
     const params = new URLSearchParams(window.location.search);
     const l = params.get('lesson');
+    if (l === '03' || l === 'lesson-03' || l === '3') return 'lesson-03';
     if (l === '02' || l === 'lesson-02' || l === '2') return 'lesson-02';
     if (l === '01' || l === 'lesson-01' || l === '1') return 'lesson-01';
   }
@@ -142,7 +143,7 @@ export const App: React.FC = () => {
   }, [user, selectedLessonId]);
 
   // 3. 진도 데이터 로드 및 역할 분기
-  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'lesson-02' ? 2 : 1);
+  const currentLessonNum = lessonData?.lessonNumber || (selectedLessonId === 'lesson-03' ? 3 : selectedLessonId === 'lesson-02' ? 2 : 1);
   useEffect(() => {
     if (user) {
       StorageService.getProgressAsync(user, currentLessonNum).then((progress) => {
@@ -245,6 +246,16 @@ export const App: React.FC = () => {
       pageRange: 'pp. 32-55',
       description: '공공의 이익을 위한 일상 속 기발한 예술과 디자인 아이디어를 탐구하고, Su Blackwell의 페이퍼 아트 및 3인 모둠 협동 작품을 완성합니다.',
       completedCornersCount: selectedLessonId === 'lesson-02' ? completedCorners.length : 0,
+      totalCornersCount: 8,
+    },
+    {
+      id: 'lesson-03',
+      lessonNumber: 3,
+      title: 'Healthy Plate, Healthy Planet',
+      topic: 'Environment & Food',
+      pageRange: 'pp. 56-79',
+      description: '지속 가능한 식문화를 위한 미래 식량(배양육, 곤충, 3D 프린팅 푸드, 조류)과 푸드 업사이클링을 탐구하고 친환경 급식 제안서를 작성합니다.',
+      completedCornersCount: selectedLessonId === 'lesson-03' ? completedCorners.length : 0,
       totalCornersCount: 8,
     },
   ];

@@ -82,6 +82,22 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+      {/* Title Header */}
+      <div className="bg-gradient-to-r from-violet-900 to-indigo-900 text-white rounded-3xl p-6 sm:p-8 shadow-lg">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
+            Corner 7
+          </span>
+          <span className="text-xs text-indigo-200">{writingCorner?.pageRange || 'pp. 74-76'}</span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+          {writingCorner?.titleEn || 'Write & Present'}: {lesson.title}
+        </h1>
+        <p className="text-xs sm:text-sm text-indigo-200 mt-1">
+          {activities[0]?.title || lesson.topic}
+        </p>
+      </div>
+
       {/* Model Writing */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
         <div className="flex items-center gap-2 mb-3">

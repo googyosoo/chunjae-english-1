@@ -67,17 +67,38 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
           <h2 className="text-base font-bold text-slate-900">Watch and Think: {watchData?.videoTitle}</h2>
         </div>
 
-        {/* Real YouTube Video Embed */}
+        {/* Real YouTube Video Embed or External Official Video Link */}
         {watchData?.youtubeUrl && (
-          <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-video bg-black">
-            <iframe
-              src={watchData.youtubeUrl}
-              title={watchData.videoTitle || 'Video player'}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          watchData.youtubeUrl.includes('youtube.com') || watchData.youtubeUrl.includes('youtu.be') ? (
+            <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-video bg-black">
+              <iframe
+                src={watchData.youtubeUrl}
+                title={watchData.videoTitle || 'Video player'}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : (
+            <div className="rounded-2xl p-6 bg-gradient-to-r from-indigo-900 to-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+              <div className="space-y-1 text-center sm:text-left">
+                <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-[10px] font-bold uppercase tracking-wider">
+                  Official Documentary Video
+                </span>
+                <h3 className="font-bold text-sm sm:text-base">{watchData.videoTitle}</h3>
+                <p className="text-xs text-slate-300">교과서 Sources(p.169) 공식 제공 다큐멘터리 영상</p>
+              </div>
+              <a
+                href={watchData.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 font-bold text-xs text-white shadow-xs transition-colors shrink-0 flex items-center gap-2"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>공식 영상 시청하기</span>
+              </a>
+            </div>
+          )
         )}
         {watchData?.sourceCitation && (
           <p className="text-[11px] text-slate-500 italic">

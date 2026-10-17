@@ -15,10 +15,11 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
   const activities = afterCorner?.activities || [];
   
   const summaryAct = activities.find(a => a.type === 'summary' || a.activityId.includes('summary'));
-  const summaryData = (summaryAct?.data?.summaryFillBlanks || summaryAct?.data) as any;
+  const summaryData = (summaryAct?.data?.summaryFillIn || summaryAct?.data?.summaryFillBlanks || summaryAct?.data) as any;
 
   const tfAct = activities.find(a => a.type.includes('details') || a.activityId.includes('details'));
-  const tfData = (tfAct?.data?.detailsTF || tfAct?.data) as any;
+  const tfList = (tfAct?.data?.detailsTf || tfAct?.data?.detailsTF || (Array.isArray(tfAct?.data) ? tfAct?.data : null)) as any[] | null;
+  const tfData = (tfList || tfAct?.data) as any;
 
   const skillAct = activities.find(a => a.type.includes('skill') || a.activityId.includes('skill'));
   const skillData = (skillAct?.data?.readingSkill || skillAct?.data) as any;
@@ -46,7 +47,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
     await StorageService.logObservation(user, lesson.lessonNumber, 'After Read 퀴즈 채점', '요약 빈칸, 세부 사실 퀴즈 및 독해 스킬 제출');
   };
 
-  const wordBox = summaryData?.wordBox || summaryData?.options || [];
+  const wordBox = summaryData?.wordsBox || summaryData?.wordBox || summaryData?.options || [];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -154,6 +155,68 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
           </div>
         )}
 
+        {/* L3: Food Categories Summary */}
+        {summaryData?.categories && (
+          <div className="space-y-4 mb-4">
+            {summaryData.categories.map((cat: any, cIdx: number) => (
+              <div key={cIdx} className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+                <span className="font-bold text-indigo-700 block text-xs sm:text-sm">{cat.category}</span>
+                <ul className="space-y-2">
+                  {cat.items?.map((item: any, iIdx: number) => {
+                    const blankKey = `cat_${cIdx}_${iIdx}`;
+                    const isSelected = selectedWords[blankKey] || '';
+                    const isCorrect = item.answer ? isSelected.toLowerCase() === item.answer.toLowerCase() : true;
+                    const hasBlank = item.text.includes('[');
+
+                    if (!hasBlank) {
+                      return (
+                        <li key={iIdx} className="text-slate-800 list-disc list-inside leading-relaxed">
+                          {item.text}
+                        </li>
+                      );
+                    }
+
+                    const parts = item.text.split(/\[.*?\]/);
+
+                    return (
+                      <li key={iIdx} className="text-slate-800 list-disc list-inside leading-relaxed flex flex-wrap items-center gap-1">
+                        <span>{parts[0]}</span>
+                        <select
+                          value={isSelected}
+                          onChange={e => handleSelectWord(blankKey, e.target.value)}
+                          aria-label={`${cat.category} 빈칸 선택`}
+                          className={`mx-1 px-2.5 py-1 border rounded-md font-bold text-xs ${
+                            summaryChecked
+                              ? isCorrect
+                                ? 'bg-emerald-50 border-emerald-500 text-emerald-800'
+                                : 'bg-rose-50 border-rose-500 text-rose-800'
+                              : 'bg-white border-slate-300 text-indigo-700'
+                          }`}
+                        >
+                          <option value="">선택</option>
+                          {wordBox.map((w: string) => (
+                            <option key={w} value={w}>{w}</option>
+                          ))}
+                        </select>
+                        <span>{parts[1]}</span>
+                        {summaryChecked && item.answer && (
+                          <span className="text-[11px] font-bold ml-2">
+                            {isCorrect ? (
+                              <span className="text-emerald-600">✓ 정답</span>
+                            ) : (
+                              <span className="text-rose-600">✗ 정답: {item.answer}</span>
+                            )}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
         {showTeacherAnswers && summaryData?.items && (
           <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
             🔑 [교과서 정답키]: {summaryData.items.map((it: any, idx: number) => `(${idx + 1}) ${it.answer}`).join(', ')}
@@ -168,8 +231,8 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
           <h2 className="text-base font-bold text-slate-900">Details Check: 세부 내용 이해 확인</h2>
         </div>
 
-        {/* L1: Array of T/F */}
-        {Array.isArray(tfData) && (
+        {/* L1 & L3: Array of T/F */}
+        {Array.isArray(tfList) && (
           <div className="space-y-3">
             {tfData.map((item: any, idx: number) => {
               const chosen = detailsAnswers[item.id];
@@ -296,6 +359,67 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
                     </button>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* L3: Transitional Expressions Types Table */}
+          {skillData.types && (
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-3">
+              <h3 className="font-bold text-slate-800">Transitional Expressions by Type (연결사 유형)</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {skillData.types.map((t: any, idx: number) => (
+                  <div key={idx} className="p-2.5 bg-white rounded-lg border border-slate-200">
+                    <span className="font-bold text-indigo-700 block mb-1">{t.type}</span>
+                    <span className="text-slate-600 italic">{t.expressions}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* L3: Reading Skill Passage & Exercises */}
+          {skillData.passage && skillData.exercises && (
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-4">
+              <div className="p-3.5 bg-white rounded-lg border border-slate-200 text-slate-800 leading-relaxed">
+                <p className="font-semibold text-slate-700 mb-2">지문을 읽고 문맥에 맞는 가장 적절한 연결사를 선택하세요:</p>
+                <p className="italic">{skillData.passage}</p>
+              </div>
+              <div className="space-y-2">
+                {skillData.exercises.map((ex: any, idx: number) => {
+                  const chosen = skillAnswers[ex.id];
+                  const isCorrect = chosen === ex.answer;
+
+                  return (
+                    <div key={ex.id} className="p-3 bg-white rounded-lg border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                      <span className="font-bold text-slate-800">문항 ({idx + 1}):</span>
+                      <div className="flex gap-2">
+                        {ex.options.map((opt: string) => (
+                          <button
+                            key={opt}
+                            onClick={() => setSkillAnswers(prev => ({ ...prev, [ex.id]: opt }))}
+                            className={`px-3 py-1.5 rounded-lg border font-bold text-xs transition-all ${
+                              chosen === opt
+                                ? skillChecked
+                                  ? isCorrect
+                                    ? 'bg-emerald-600 text-white border-emerald-600'
+                                    : 'bg-rose-600 text-white border-rose-600'
+                                  : 'bg-indigo-600 text-white border-indigo-600'
+                                : 'bg-white text-slate-700 border-slate-300 hover:border-indigo-300'
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                      {skillChecked && (
+                        <span className={`text-[11px] font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600'}`}>
+                          {isCorrect ? '✓ 정답!' : `✗ 정답: ${ex.answer}`}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

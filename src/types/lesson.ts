@@ -251,6 +251,9 @@ export interface ActivityPayload {
 
   // 8. Go Global & Wrap Up
   goGlobal?: {
+    intro?: string;
+    recipes?: { name: string; steps: string[] }[];
+    sourceCitation?: string;
     dialogue1?: string;
     dialogue2?: string;
     exercises?: { id: string; text: string; answer: string }[];
@@ -258,17 +261,18 @@ export interface ActivityPayload {
   };
   partA?: {
     question: string;
-    options: { label: string; text: string }[];
+    options: ({ label: string; text: string } | string)[];
     answer: string;
-    script: string;
+    script: string | { speaker: string; en?: string; text?: string }[];
   };
   partB?: {
-    dialogue: { speaker: string; text: string }[];
+    instruction?: string;
+    dialogue: { speaker: string; text?: string; en?: string }[];
   };
   partC?: {
-    passage: string;
-    quiz1: { question: string; options: { label: string; text: string }[]; answer: string };
-    quiz2: { prompt: string; sampleAnswer: string };
+    passage?: string;
+    quiz1?: { question: string; options: ({ label: string; text: string } | string)[]; answer: string };
+    quiz2?: { prompt?: string; question?: string; sampleAnswer?: string; answer?: string };
   };
   selfCheck?: {
     corner: string;
@@ -278,6 +282,7 @@ export interface ActivityPayload {
   thinkBack?: {
     q1: string;
     q2: string;
+    sampleAnswer?: string;
     topicSampleAnswer?: string;
   };
 }
@@ -286,6 +291,9 @@ export interface ActivityItem {
   activityId: string;
   type: string;
   title?: string;
+  page?: number | string;
+  pageRange?: string;
+  sourceRef?: string;
   data: ActivityPayload;
 }
 

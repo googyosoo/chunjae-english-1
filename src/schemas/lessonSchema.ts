@@ -372,8 +372,11 @@ export const ActivityItemSchema = z.object({
   activityId: z.string(),
   type: z.string(),
   title: z.string().optional(),
+  page: z.union([z.number(), z.string()]).optional(),
+  pageRange: z.string().optional(),
+  sourceRef: z.string().optional(),
   data: z.record(z.any()),
-});
+}).passthrough();
 
 // Corner Schema
 export const CornerItemSchema = z.object({
@@ -382,9 +385,11 @@ export const CornerItemSchema = z.object({
   titleKo: z.string().optional(),
   titleEn: z.string().optional(),
   page: z.string().optional(),
+  pageRange: z.string().optional(),
+  priority: z.string().optional(),
   description: z.string().optional(),
   activities: z.array(ActivityItemSchema),
-});
+}).passthrough();
 
 // Vocabulary Item Schema
 export const VocabItemSchema = z.object({
@@ -404,9 +409,9 @@ export const LessonDataSchema = z.object({
   topicQuestion: z.string(),
   hashtags: z.array(z.string()),
   pageRange: z.string(),
-  school: z.string(),
+  school: z.string().optional(),
   corners: z.array(CornerItemSchema),
-  vocabulary: z.array(VocabItemSchema),
-});
+  vocabulary: z.array(VocabItemSchema).optional().default([]),
+}).passthrough();
 
 export type LessonDataParsed = z.infer<typeof LessonDataSchema>;

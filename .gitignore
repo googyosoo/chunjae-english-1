@@ -29,3 +29,4 @@ playwright-report/
 __pycache__/
 tools/
 *-debug.log
+tmp/

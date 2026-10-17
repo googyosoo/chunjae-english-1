@@ -174,4 +174,88 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
       expect(project.steps[1].dialogue[2].en).toContain('patbingsu');
     });
   });
+
+  describe('Lesson 3 교과서 PDF 원문 무결성 테스트', () => {
+    const l3 = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../content/lesson-03.json'), 'utf-8'));
+
+    it('1. Lesson 3 기본 정보 및 토픽 질문이 원문과 일치해야 한다', () => {
+      expect(l3.lessonNumber).toBe(3);
+      expect(l3.title).toBe('Healthy Plate, Healthy Planet');
+      expect(l3.topicQuestion).toBe('How can we make our food culture sustainable?');
+      expect(l3.hashtags).toContain('#food_culture');
+      expect(l3.hashtags).toContain('#future_foods');
+      expect(l3.hashtags).toContain('#vertical_farming');
+      expect(l3.hashtags).toContain('#eco-friendly_recipes');
+    });
+
+    it('2. Watch and Think(p.58) 대본과 DW Documentary 출처가 일치해야 한다', () => {
+      const commCorner = l3.corners.find((c: any) => c.id === 'communicate');
+      const wt = commCorner.activities.find((a: any) => a.activityId === 'l3_comm_watch_think').data.watchAndThink;
+      expect(wt.youtubeUrl).toBe('https://www.dw.com/en/food-for-everyone-farming-in-the-future/video-63543942');
+      expect(wt.script[0].en).toBe('We need to feed more and more people globally.');
+      expect(wt.script[3].en).toBe("It's time to switch to sustainable farming practices and new food sources.");
+      expect(wt.answer).toBe('sustainable');
+    });
+
+    it('3. Listen and Answer(p.58) Dialogue 1과 2가 Scripts p.146 원문과 일치해야 한다', () => {
+      const commCorner = l3.corners.find((c: any) => c.id === 'communicate');
+      const la = commCorner.activities.find((a: any) => a.activityId === 'l3_comm_listen_answer').data.listenAndAnswer;
+      expect(la.dialogues[0].script[0].en).toContain('I need something sweet.');
+      expect(la.dialogues[0].quiz.answer).toBe('c');
+      expect(la.dialogues[1].script[0].en).toContain("What's in My Dish?");
+      expect(la.dialogues[1].quiz.answer).toBe('(ⓑ) very different from → similar to');
+    });
+
+    it('4. Before You Read(p.60)의 Background Check 4종과 Vocabulary Check 4문항이 일치해야 한다', () => {
+      const readCorner = l3.corners.find((c: any) => c.id === 'read');
+      const before = readCorner.activities.find((a: any) => a.activityId === 'l3_read_before').data.readBefore;
+      expect(before.backgroundCheck[0].options).toHaveLength(4);
+      expect(before.backgroundCheck[0].figureNote).toContain('교과서 60쪽 음식 사진 4종');
+      expect(before.vocabularyCheck.map((v: any) => v.answer)).toEqual(['accelerate', 'conventional', 'convert', 'habitat']);
+    });
+
+    it('5. 본문(pp.61-66) 5개 섹션 및 미래 식량 4종(배양육, 곤충, 3D 프린팅, 조류)이 일치해야 한다', () => {
+      const readCorner = l3.corners.find((c: any) => c.id === 'read');
+      const viewer = readCorner.activities.find((a: any) => a.activityId === 'l3_read_main').data.readingViewer;
+      expect(viewer.sections).toHaveLength(5);
+      expect(viewer.sections[0].titleEn).toBe('Introduction & Environmental Impact');
+      expect(viewer.sections[1].titleEn).toBe('Lab-grown Meat');
+      expect(viewer.sections[2].titleEn).toBe('Insects');
+      expect(viewer.sections[3].titleEn).toBe('3D Printed Food');
+      expect(viewer.sections[4].titleEn).toBe('Algae');
+      // 그림/도표 쪽수 안내 확인 (이미지 태그 미사용)
+      expect(viewer.sections[0].figureNote).toContain('교과서 62쪽 식품 1kg당 온실가스 배출량 차트 참고');
+      expect(viewer.sections[1].figureNote).toContain('교과서 63쪽 배양육 생산 과정 그림');
+    });
+
+    it('6. Read Further(p.69) Indoor Vertical Farming 본문이 원문과 일치해야 한다', () => {
+      const readCorner = l3.corners.find((c: any) => c.id === 'read');
+      const rf = readCorner.activities.find((a: any) => a.activityId === 'l3_read_further').data.readFurther;
+      expect(rf.titleEn).toBe('No Sunlight, No Soil - Indoor Vertical Farming');
+      expect(rf.paragraphs[0].sentences[0].en).toBe('Perfectly shaped tomatoes grow under purple lighting.');
+      expect(rf.marginalQuestion.answer).toContain('Green peppers and strawberries');
+    });
+
+    it('7. Share Your Thoughts(pp.70-71) 푸드 업사이클링 및 유튜브 URL이 일치해야 한다', () => {
+      const stCorner = l3.corners.find((c: any) => c.id === 'share_thoughts');
+      const step1 = stCorner.activities.find((a: any) => a.activityId === 'l3_share_step1').data.step1;
+      expect(step1.video.youtubeUrl).toBe('https://www.youtube.com/watch?v=fCl0-lMsCxc');
+      expect(step1.quiz.answer).toBe('c');
+      expect(step1.reviewFillIn.boxWords).toEqual(['reduce', 'waste', 'upcycled']);
+    });
+
+    it('8. Go Global(p.77) 및 Wrap Up(p.78) 친환경 레시피와 총괄 평가가 일치해야 한다', () => {
+      const ggCorner = l3.corners.find((c: any) => c.id === 'go_global');
+      const recipesAct = ggCorner.activities.find((a: any) => a.activityId === 'l3_go_global_recipes').data.goGlobal;
+      expect(recipesAct.recipes).toHaveLength(3);
+      expect(recipesAct.recipes[0].name).toBe('Bibimbap with Crispy Tofu');
+      expect(recipesAct.recipes[1].name).toBe('Vegan Burritos');
+      expect(recipesAct.recipes[2].name).toBe('Spring Rolls');
+
+      const wrapUpAct = ggCorner.activities.find((a: any) => a.activityId === 'l3_wrap_up_activities').data;
+      expect(wrapUpAct.partA.answer).toBe('c. watermelon juice');
+      expect(wrapUpAct.partC.quiz1.answer).toBe('a');
+      expect(wrapUpAct.partC.quiz2.answer).toContain('benefits of algae as a source of food');
+    });
+  });
 });
