@@ -150,9 +150,13 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
       const readCorner = l2.corners.find((c: any) => c.id === 'read');
       const passage = readCorner.activities.find((a: any) => a.activityId === 'l2_read_passage').data;
       expect(passage.sections).toHaveLength(5);
-      expect(passage.sections[1].title).toContain('Robin Yayla');
-      expect(passage.sections[2].title).toContain('Rob Gonsalves');
-      expect(passage.sections[3].title).toContain('Vincent Bal');
+      // 교과서 원문 표기 소제목 검증
+      expect(passage.sections[1].title).toBe('Beyond the Scene');
+      expect(passage.sections[3].title).toBe('Fun Shadows');
+      // 본문 내 3명의 예술가 등장 검증
+      expect(passage.sections[1].sentences.some((s: any) => s.en.includes('Robin Yayla'))).toBe(true);
+      expect(passage.sections[2].sentences.some((s: any) => s.en.includes('Rob Gonsalves'))).toBe(true);
+      expect(passage.sections[3].sentences.some((s: any) => s.en.includes('Vincent Bal'))).toBe(true);
     });
 
     it('5. Read Further(p.45)에 Su Blackwell 본문 및 질문이 포함되어야 한다', () => {

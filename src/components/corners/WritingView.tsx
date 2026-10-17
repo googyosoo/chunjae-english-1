@@ -115,9 +115,10 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-indigo-900 text-sm">{modelData.item} ({modelData.topic})</h3>
             </div>
-            {modelData.asset && (
-              <div className="max-w-md mx-auto rounded-xl overflow-hidden shadow-sm border border-slate-200 my-2">
-                <img src={modelData.asset} alt={modelData.item} className="w-full h-auto object-cover" />
+            {(modelData.pageRef || modelData.figureNote) && (
+              <div className="p-3 my-2 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+                <span>📖</span>
+                <span>{modelData.figureNote || `교과서 p.${modelData.pageRef}의 그림을 보세요`}</span>
               </div>
             )}
             <div className="space-y-2 pt-2">

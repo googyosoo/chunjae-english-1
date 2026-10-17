@@ -34,14 +34,14 @@ const L1_CORNERS = [
 
 // Lesson 2: 8개 코너별 필수 검증 교과서 원문 문장
 const L2_CORNERS = [
-  { id: 'introduction', name: '1. 도입', requiredText: 'How can you come up with creative ideas?' },
-  { id: 'communicate', name: '2. 듣기·말하기', requiredText: 'Imagine you are hungry and all you have at home is a coconut' },
-  { id: 'read', name: '3. 본문 리더', requiredText: 'Robin Yayla' },
-  { id: 'after_read', name: '4. 읽기 후', requiredText: 'Robin Yayla creates his art by' },
-  { id: 'share_thoughts', name: '5. 생각 나누기', requiredText: 'Tom Bob' },
-  { id: 'language_focus', name: '6. 언어 탐구', requiredText: 'Whatever is begun in anger' },
-  { id: 'write_present', name: '7. 쓰기 스튜디오', requiredText: 'The Dancing House' },
-  { id: 'work_together', name: '8. 모둠 프로젝트', requiredText: 'patbingsu' },
+  { id: 'introduction', name: '1. 도입', requiredTexts: ['How can you come up with creative ideas?'] },
+  { id: 'communicate', name: '2. 듣기·말하기', requiredTexts: ['Imagine you are hungry and all you have at home is a coconut'] },
+  { id: 'read', name: '3. 본문 리더', requiredTexts: ['Robin Yayla', 'Fun Shadows'] },
+  { id: 'after_read', name: '4. 읽기 후', requiredTexts: ['Robin Yayla creates his art by'] },
+  { id: 'share_thoughts', name: '5. 생각 나누기', requiredTexts: ['Tom Bob'] },
+  { id: 'language_focus', name: '6. 언어 탐구', requiredTexts: ['Whatever is begun in anger'] },
+  { id: 'write_present', name: '7. 쓰기 스튜디오', requiredTexts: ['The Dancing House'] },
+  { id: 'work_together', name: '8. 모둠 프로젝트 & Wrap Up', requiredTexts: ['patbingsu', 'What is the purpose of the man’s call?', 'I learned about how creativity enriches our lives.'] },
 ];
 
 test.describe('Lesson 1 및 Lesson 2 8개 코너 교과서 원문 매칭 및 undefined 0건 검증', () => {
@@ -73,14 +73,6 @@ test.describe('Lesson 1 및 Lesson 2 8개 코너 교과서 원문 매칭 및 und
       });
     });
 
-    await page.route('**/api/asset*', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'image/png',
-        body: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64'),
-      });
-    });
-
     await page.goto('/?lesson=01');
     const mainLocator = page.locator('main');
     await expect(mainLocator).toBeVisible({ timeout: 10000 });
@@ -89,7 +81,8 @@ test.describe('Lesson 1 및 Lesson 2 8개 코너 교과서 원문 매칭 및 und
     for (const corner of L1_CORNERS) {
       const tabButton = page.locator(`[data-testid="corner-tab-${corner.id}"]`);
       await expect(tabButton).toBeAttached({ timeout: 10000 });
-      await tabButton.click({ force: true });
+      await tabButton.scrollIntoViewIfNeeded();
+      await tabButton.click();
 
       await expect.poll(async () => {
         const content = await mainLocator.innerText();
@@ -102,6 +95,9 @@ test.describe('Lesson 1 및 Lesson 2 8개 코너 교과서 원문 매칭 및 und
 
       const fullContent = await mainLocator.innerText();
       expect(fullContent, `[L1-${corner.id}] 화면에 'undefined' 문자열이 포함되어서는 안 됩니다`).not.toContain('undefined');
+
+      // 교과서 이미지 전면 배제 검증: 화면 내 <img> 태그는 반드시 0개여야 함
+      await expect(page.locator('img'), `[L1-${corner.id}] 화면에 <img> 태그가 0개여야 합니다`).toHaveCount(0);
     }
 
     expect(pageErrors, '페이지 런타임 오류가 발생하지 않아야 합니다').toEqual([]);
@@ -140,13 +136,6 @@ test.describe('Lesson 1 및 Lesson 2 8개 코너 교과서 원문 매칭 및 und
       });
     });
 
-    await page.route('**/api/asset*', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'image/png',
-        body: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64'),
-      });
-    });
 
     await page.goto('/?lesson=02');
     const mainLocator = page.locator('main');
@@ -156,19 +145,25 @@ test.describe('Lesson 1 및 Lesson 2 8개 코너 교과서 원문 매칭 및 und
     for (const corner of L2_CORNERS) {
       const tabButton = page.locator(`[data-testid="corner-tab-${corner.id}"]`);
       await expect(tabButton).toBeAttached({ timeout: 10000 });
-      await tabButton.click({ force: true });
+      await tabButton.scrollIntoViewIfNeeded();
+      await tabButton.click();
 
-      await expect.poll(async () => {
-        const content = await mainLocator.innerText();
-        return content.includes(corner.requiredText);
-      }, {
-        message: `[L2-${corner.id}] ${corner.name} 탭에 교과서 원문 "${corner.requiredText}"이(가) 나타나야 합니다.`,
-        timeout: 8000,
-        intervals: [200, 400, 600],
-      }).toBe(true);
+      for (const reqText of corner.requiredTexts) {
+        await expect.poll(async () => {
+          const content = await mainLocator.innerText();
+          return content.includes(reqText);
+        }, {
+          message: `[L2-${corner.id}] ${corner.name} 탭에 교과서 원문 "${reqText}"이(가) 나타나야 합니다.`,
+          timeout: 8000,
+          intervals: [200, 400, 600],
+        }).toBe(true);
+      }
 
       const fullContent = await mainLocator.innerText();
       expect(fullContent, `[L2-${corner.id}] 화면에 'undefined' 문자열이 포함되어서는 안 됩니다`).not.toContain('undefined');
+
+      // 교과서 이미지 전면 배제 검증: 화면 내 <img> 태그는 반드시 0개여야 함
+      await expect(page.locator('img'), `[L2-${corner.id}] 화면에 <img> 태그가 0개여야 합니다`).toHaveCount(0);
     }
 
     expect(pageErrors, '페이지 런타임 오류가 발생하지 않아야 합니다').toEqual([]);

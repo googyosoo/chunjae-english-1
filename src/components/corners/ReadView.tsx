@@ -147,6 +147,8 @@ export const ReadView: React.FC<ReadViewProps> = ({
                   const isSelected = vocabAnswers[key] || '';
                   const isCorrect = isSelected === item.answer;
 
+                  const options = item.options || vocabularyCheck?.wordBox;
+
                   return (
                     <div
                       key={key}
@@ -155,9 +157,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
                       <p className="font-medium text-slate-800 leading-relaxed">
                         {idx + 1}. {item.sentence}
                       </p>
-                      {item.options && (
+                      {options && options.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
-                          {item.options.map((opt: string) => (
+                          {options.map((opt: string) => (
                             <button
                               key={opt}
                               onClick={() => setVocabAnswers(prev => ({ ...prev, [key]: opt }))}
@@ -222,9 +224,10 @@ export const ReadView: React.FC<ReadViewProps> = ({
               {readFurtherData.author && <span className="text-xs text-slate-600">- {readFurtherData.author}</span>}
             </div>
 
-            {readFurtherData.asset && (
-              <div className="max-w-md mx-auto rounded-xl overflow-hidden shadow-sm border border-slate-200">
-                <img src={readFurtherData.asset} alt="Read Further artwork" className="w-full h-auto object-cover" />
+            {(readFurtherData.pageRef || readFurtherData.figureNote) && (
+              <div className="p-3 my-2 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+                <span>📖</span>
+                <span>{readFurtherData.figureNote || `교과서 p.${readFurtherData.pageRef}의 그림을 보세요`}</span>
               </div>
             )}
 
@@ -268,10 +271,11 @@ export const ReadView: React.FC<ReadViewProps> = ({
                 </button>
               </div>
 
-              {/* Artwork Asset Image (if any) */}
-              {para.asset && (
-                <div className="max-w-lg mx-auto rounded-xl overflow-hidden shadow-sm border border-slate-200 my-3">
-                  <img src={para.asset} alt={para.heading || 'Artwork'} className="w-full h-auto object-cover" />
+              {/* Artwork Page Reference Note (if any) */}
+              {(para.pageRef || para.figureNote) && (
+                <div className="p-3 my-2 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+                  <span>📖</span>
+                  <span>{para.figureNote || `교과서 p.${para.pageRef}의 그림을 보세요`}</span>
                 </div>
               )}
 

@@ -11,7 +11,7 @@ interface WrapUpViewProps {
 }
 
 export const WrapUpView: React.FC<WrapUpViewProps> = ({ lesson, showTeacherAnswers, user = null }) => {
-  const globalCorner = lesson.corners.find(c => c.id === 'go_global');
+  const globalCorner = lesson.corners.find(c => c.id === 'go_global' || c.id === 'work_together');
   
   // 1. Go Global (Texting Abbreviations)
   const textingAct = globalCorner?.activities.find(a => a.type === 'texting_abbreviations' || a.activityId === 'texting_abbreviations');

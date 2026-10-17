@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { Users, Camera, Palette, CheckCircle2, FileText, Send } from 'lucide-react';
+import { LessonData } from '../../types/lesson';
+import { UserProfile } from '../../types/auth';
+import { WrapUpView } from './WrapUpView';
 
 interface WorkTogetherViewProps {
   activityData?: any;
   showTeacherAnswers?: boolean;
+  lesson?: LessonData;
+  user?: UserProfile | null;
 }
 
 export const WorkTogetherView: React.FC<WorkTogetherViewProps> = ({
   activityData,
-  showTeacherAnswers,
+  showTeacherAnswers = false,
+  lesson,
+  user = null,
 }) => {
   const [personalMemo, setPersonalMemo] = useState<string>('');
   const [savedMemo, setSavedMemo] = useState<boolean>(false);
@@ -57,6 +64,14 @@ export const WorkTogetherView: React.FC<WorkTogetherViewProps> = ({
           {data.instruction || '모둠원과 협력하여 일상 속 풍경 사진에 창의적 드로잉을 더해 새로운 예술 작품을 만들어보세요.'}
         </p>
       </div>
+
+      {/* Page Reference Note */}
+      {(data.pageRef || data.figureNote) && (
+        <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+          <span>📖</span>
+          <span>{data.figureNote || `교과서 p.${data.pageRef}의 그림을 보세요`}</span>
+        </div>
+      )}
 
       {/* Step Guide */}
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-4">
@@ -161,6 +176,17 @@ export const WorkTogetherView: React.FC<WorkTogetherViewProps> = ({
           </div>
         </div>
       </section>
+
+      {/* Wrap Up & Lesson Summary (pp. 54-55) */}
+      {lesson && (
+        <div className="pt-4 border-t border-slate-200">
+          <WrapUpView
+            lesson={lesson}
+            showTeacherAnswers={showTeacherAnswers}
+            user={user}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -364,6 +364,8 @@ export const App: React.FC = () => {
                   <WorkTogetherView
                     activityData={lessonData.corners.find(c => c.id === 'work_together')?.activities?.[0]}
                     showTeacherAnswers={showTeacherAnswers}
+                    lesson={lessonData}
+                    user={user}
                   />
                 )}
               </>
