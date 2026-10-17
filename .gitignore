@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+dist-ssr/
+*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Editor & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Copyrighted Textbooks & PDFs
+*.pdf

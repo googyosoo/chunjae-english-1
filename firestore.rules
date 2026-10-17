@@ -1,0 +1,387 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model & Architecture Specifications
+// ===============================================================
+//
+// Platform: 심인고등학교(simin.hs.kr) 고등 영어I AI 디지털 교과서 플랫폼
+//
+// 1. Collection: /teachers/{teacherId}
+//    - Document ID: Firebase Auth UID of the teacher
+//    - Fields:
+//      * uid: string (required, immutable, 1..128 chars, matches teacherId)
+//      * email: string (required, simin.hs.kr domain, <= 100 chars)
+//      * name: string (required, 1..50 chars)
+//      * role: string (required, 'teacher')
+//      * department: string (optional, <= 50 chars)
+//      * subject: string (optional, <= 50 chars)
+//      * createdAt: timestamp (optional, immutable)
+//      * updatedAt: timestamp (optional)
+//    - Access: Managed exclusively by admin; teachers can read for authorization.
+//
+// 2. Collection: /classes/{classId}
+//    - Document ID: e.g. "g1_c3" (grade 1, class 3)
+//    - Fields:
+//      * grade: int (required, 1..3)
+//      * classNumber: int (required, 1..20)
+//      * name: string (required, 1..50 chars, e.g. "1학년 3반")
+//      * academicYear: int (optional, 2020..2100)
+//      * teacherId: string (optional, <= 128 chars)
+//      * createdAt: timestamp (optional, immutable)
+//      * updatedAt: timestamp (optional)
+//    - Access: Managed by teachers/admin; students can read only their enrolled class.
+//
+// 3. Subcollection: /classes/{classId}/students/{studentId}
+//    - Document ID: Firebase Auth UID of the student (must equal request.auth.uid)
+//    - Fields:
+//      * uid: string (required, immutable, 1..128 chars, matches studentId)
+//      * email: string (required, simin.hs.kr domain, <= 100 chars)
+//      * name: string (required, 1..50 chars)
+//      * grade: int (required, 1..3)
+//      * classNumber: int (required, 1..20)
+//      * studentNumber: int (required, 1..60)
+//      * role: string (required, immutable, 'student')
+//      * photoURL: string (optional, <= 500 chars)
+//      * createdAt: timestamp (optional, immutable)
+//      * updatedAt: timestamp (optional)
+//    - Access: Read by teachers/admin or student self; student cannot escalate roles.
+//
+// 4. Subcollection: /classes/{classId}/students/{studentId}/progress/{lessonId}
+//    - Document ID: e.g. "lesson_1" (lessonId)
+//    - Fields:
+//      * lessonNumber: int (required, 1..20)
+//      * completedCorners: list (required, <= 20 items, items <= 50 chars)
+//      * quizScores: map (required, <= 50 keys)
+//      * topicAnswers: map (required, <= 20 keys)
+//      * writingDrafts: map (required, <= 20 keys; teacherApproved/teacherComment protected)
+//      * observedLogs: list (required, <= 100 items of log entries)
+//      * createdAt: timestamp (optional, immutable)
+//      * updatedAt: timestamp (optional)
+//    - Access: Student creates/reads/updates own progress; teacher reads all and updates feedback.
+//
+// 5. Subcollection: /classes/{classId}/students/{studentId}/observations/{obsId}
+//    - Document ID: Auto-generated UUID or timestamp-based ID
+//    - Fields:
+//      * studentId: string (required, immutable, matches studentId)
+//      * lessonNumber: int (required, 1..20)
+//      * action: string (required, 1..100 chars, e.g. "코너 완료", "서술형 작성")
+//      * detail: string (required, 1..2000 chars, NEIS 세특 근거 관찰내용)
+//      * timestamp: string (optional, <= 50 chars)
+//      * status: string (optional, 'draft' | 'reviewed' | 'confirmed')
+//      * teacherNotes: string (optional, <= 2000 chars)
+//      * isConfirmed: bool (optional, student cannot set to true)
+//      * createdAt: timestamp (optional, immutable)
+//      * updatedAt: timestamp (optional)
+//    - Access: Student creates/reads; teacher reads, updates, and confirms for official NEIS records.
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Root Level Default Deny
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ===============================================================
+    // Authentication & Core Authorization Helpers
+    // ===============================================================
+
+    // Check if request is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Enforce official school domain (@simin.hs.kr) for all operations
+    function isSiminMember() {
+      return isAuthenticated() &&
+             request.auth.token.email != null &&
+             request.auth.token.email.matches('^[a-zA-Z0-9._%+-]+@simin[.]hs[.]kr$');
+    }
+
+    // Check if the user is a verified teacher via the /teachers collection
+    function isTeacher() {
+      return isSiminMember() &&
+             exists(/databases/$(database)/documents/teachers/$(request.auth.uid));
+    }
+
+    // Check if the user has platform administrator privileges
+    function isAdmin() {
+      return isSiminMember() &&
+             ((request.auth.token.keys().hasAny(['admin']) && request.auth.token.admin == true) ||
+              request.auth.token.email in ['admin@simin.hs.kr']);
+    }
+
+    // Check if the request is from the specific student owner
+    function isStudent(studentId) {
+      return isSiminMember() && request.auth.uid == studentId;
+    }
+
+    // Check if the student belongs to the specific class
+    function isStudentInClass(classId) {
+      return isSiminMember() &&
+             exists(/databases/$(database)/documents/classes/$(classId)/students/$(request.auth.uid));
+    }
+
+    // ===============================================================
+    // Schema & Immutability Helpers
+    // ===============================================================
+
+    // Check if all required fields are present in data
+    function hasRequiredFields(data, fields) {
+      return data.keys().hasAll(fields);
+    }
+
+    // Enforce strict schema with no extraneous fields
+    function hasOnlyAllowedFields(data, fields) {
+      return data.keys().hasOnly(fields);
+    }
+
+    // Protect immutable fields against tampering during updates
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Validate school email format and domain length
+    function isValidSchoolEmail(email) {
+      return email is string &&
+             email.size() <= 100 &&
+             email.matches('^[a-zA-Z0-9._%+-]+@simin[.]hs[.]kr$');
+    }
+
+    // Validate string presence, type, and length bounds (Anti-DoS)
+    function isValidBoundedString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    // Validate optional string field
+    function isValidOptionalString(data, field, maxLen) {
+      return !(field in data) || (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    // Validate optional timestamp field
+    function isValidOptionalTimestamp(data, field) {
+      return !(field in data) || data[field] is timestamp;
+    }
+
+    // Prevent student from tampering with teacher approval and comments
+    function isStudentNotTamperingTeacherFeedback() {
+      return (!('writingDrafts' in request.resource.data) ||
+              !('teacherApproved' in request.resource.data.writingDrafts) ||
+              (!('writingDrafts' in resource.data) && request.resource.data.writingDrafts.teacherApproved == false) ||
+              (resource.data.writingDrafts.get('teacherApproved', false) == request.resource.data.writingDrafts.teacherApproved)) &&
+             (!('writingDrafts' in request.resource.data) ||
+              !('teacherComment' in request.resource.data.writingDrafts) ||
+              (!('writingDrafts' in resource.data) && request.resource.data.writingDrafts.teacherComment == '') ||
+              (resource.data.writingDrafts.get('teacherComment', '') == request.resource.data.writingDrafts.teacherComment));
+    }
+
+    // ===============================================================
+    // Domain Validators (Applied to both create and update)
+    // ===============================================================
+
+    // 1. Teacher Entity Validator
+    function isValidTeacher(data) {
+      return hasRequiredFields(data, ['uid', 'email', 'name', 'role']) &&
+             hasOnlyAllowedFields(data, ['uid', 'email', 'name', 'role', 'department', 'subject', 'createdAt', 'updatedAt']) &&
+             isValidBoundedString(data.uid, 1, 128) &&
+             isValidSchoolEmail(data.email) &&
+             isValidBoundedString(data.name, 1, 50) &&
+             data.role == 'teacher' &&
+             isValidOptionalString(data, 'department', 50) &&
+             isValidOptionalString(data, 'subject', 50) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    // 2. Class Entity Validator
+    function isValidClass(data) {
+      return hasRequiredFields(data, ['grade', 'classNumber', 'name']) &&
+             hasOnlyAllowedFields(data, ['grade', 'classNumber', 'name', 'academicYear', 'teacherId', 'createdAt', 'updatedAt']) &&
+             data.grade is int && data.grade >= 1 && data.grade <= 3 &&
+             data.classNumber is int && data.classNumber >= 1 && data.classNumber <= 20 &&
+             isValidBoundedString(data.name, 1, 50) &&
+             (!(data.keys().hasAny(['academicYear'])) || (data.academicYear is int && data.academicYear >= 2020 && data.academicYear <= 2100)) &&
+             isValidOptionalString(data, 'teacherId', 128) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    // 3. Student Entity Validator
+    function isValidStudent(data) {
+      return hasRequiredFields(data, ['uid', 'email', 'name', 'grade', 'classNumber', 'studentNumber', 'role']) &&
+             hasOnlyAllowedFields(data, ['uid', 'email', 'name', 'grade', 'classNumber', 'studentNumber', 'role', 'photoURL', 'createdAt', 'updatedAt']) &&
+             isValidBoundedString(data.uid, 1, 128) &&
+             isValidSchoolEmail(data.email) &&
+             isValidBoundedString(data.name, 1, 50) &&
+             data.grade is int && data.grade >= 1 && data.grade <= 3 &&
+             data.classNumber is int && data.classNumber >= 1 && data.classNumber <= 20 &&
+             data.studentNumber is int && data.studentNumber >= 1 && data.studentNumber <= 60 &&
+             data.role == 'student' &&
+             isValidOptionalString(data, 'photoURL', 500) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    // 4. Progress Entity Validator
+    function isValidProgress(data) {
+      return hasRequiredFields(data, ['lessonNumber', 'completedCorners', 'quizScores', 'topicAnswers', 'writingDrafts', 'observedLogs']) &&
+             hasOnlyAllowedFields(data, ['lessonNumber', 'completedCorners', 'quizScores', 'topicAnswers', 'writingDrafts', 'observedLogs', 'createdAt', 'updatedAt']) &&
+             data.lessonNumber is int && data.lessonNumber >= 1 && data.lessonNumber <= 20 &&
+             data.completedCorners is list && data.completedCorners.size() <= 20 &&
+             data.quizScores is map && data.quizScores.size() <= 50 &&
+             data.topicAnswers is map && data.topicAnswers.size() <= 20 &&
+             data.writingDrafts is map && data.writingDrafts.size() <= 20 &&
+             data.observedLogs is list && data.observedLogs.size() <= 100 &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    // 5. Observation Entity Validator (NEIS 세특 근거 자료)
+    function isValidObservation(data) {
+      return hasRequiredFields(data, ['studentId', 'lessonNumber', 'action', 'detail']) &&
+             hasOnlyAllowedFields(data, ['studentId', 'lessonNumber', 'action', 'detail', 'timestamp', 'status', 'teacherNotes', 'isConfirmed', 'createdAt', 'updatedAt']) &&
+             isValidBoundedString(data.studentId, 1, 128) &&
+             data.lessonNumber is int && data.lessonNumber >= 1 && data.lessonNumber <= 20 &&
+             isValidBoundedString(data.action, 1, 100) &&
+             isValidBoundedString(data.detail, 1, 2000) &&
+             isValidOptionalString(data, 'timestamp', 50) &&
+             (!(data.keys().hasAny(['status'])) || data.status in ['draft', 'reviewed', 'confirmed']) &&
+             isValidOptionalString(data, 'teacherNotes', 2000) &&
+             (!(data.keys().hasAny(['isConfirmed'])) || data.isConfirmed is bool) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // ---------------------------------------------------------------
+    // 1. Teachers Collection (/teachers/{teacherId})
+    // ---------------------------------------------------------------
+    match /teachers/{teacherId} {
+      // Individual get: Authenticated members can check own UID during login, or teachers/admins can inspect
+      allow get: if isSiminMember() && (request.auth.uid == teacherId || isTeacher() || isAdmin());
+
+      // Query/List: Only verified teachers or administrators can list teacher profiles
+      allow list: if isTeacher() || isAdmin();
+
+      // Write operations are strictly restricted to administrators
+      allow create: if isAdmin() &&
+                       isValidTeacher(request.resource.data) &&
+                       request.resource.data.uid == teacherId;
+
+      allow update: if isAdmin() &&
+                       isValidTeacher(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['uid', 'createdAt']);
+
+      allow delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------
+    // 2. Classes Collection (/classes/{classId})
+    // ---------------------------------------------------------------
+    match /classes/{classId} {
+      // Teachers and admins can view all classes; students can only view their own class
+      allow read: if isTeacher() || isAdmin() || isStudentInClass(classId);
+
+      // Class management is restricted to teachers and administrators
+      allow create: if (isTeacher() || isAdmin()) &&
+                       isValidClass(request.resource.data);
+
+      allow update: if (isTeacher() || isAdmin()) &&
+                       isValidClass(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['createdAt']);
+
+      allow delete: if isAdmin() || isTeacher();
+
+      // -------------------------------------------------------------
+      // 3. Students Subcollection (/classes/{classId}/students/{studentId})
+      // -------------------------------------------------------------
+      match /students/{studentId} {
+        // Teachers/admins can read all; student can read only their own record
+        allow read: if isTeacher() || isAdmin() || isStudent(studentId);
+
+        // Student self-registration on first login or management by teachers/admins
+        allow create: if (isStudent(studentId) &&
+                         isValidStudent(request.resource.data) &&
+                         request.resource.data.uid == request.auth.uid &&
+                         request.resource.data.role == 'student') ||
+                        ((isTeacher() || isAdmin()) &&
+                         isValidStudent(request.resource.data) &&
+                         request.resource.data.uid == studentId);
+
+        // Updates enforce role immutability and UID integrity
+        allow update: if (isStudent(studentId) &&
+                         isValidStudent(request.resource.data) &&
+                         areImmutableFieldsUnchanged(['uid', 'role', 'createdAt'])) ||
+                        ((isTeacher() || isAdmin()) &&
+                         isValidStudent(request.resource.data) &&
+                         areImmutableFieldsUnchanged(['uid', 'createdAt']));
+
+        allow delete: if isTeacher() || isAdmin();
+
+        // -----------------------------------------------------------
+        // 4. Progress Subcollection (.../progress/{lessonId})
+        // -----------------------------------------------------------
+        match /progress/{lessonId} {
+          // Read: Student self-inspection or teacher/admin review
+          allow read: if isTeacher() || isAdmin() || isStudent(studentId);
+
+          // Create: Student self-progress or teacher provisioning
+          allow create: if (isStudent(studentId) &&
+                           isValidProgress(request.resource.data) &&
+                           (!('writingDrafts' in request.resource.data) ||
+                            !('teacherApproved' in request.resource.data.writingDrafts) ||
+                            request.resource.data.writingDrafts.teacherApproved == false)) ||
+                          ((isTeacher() || isAdmin()) &&
+                           isValidProgress(request.resource.data));
+
+          // Update: Student updates progress without altering teacher feedback;
+          //         Teachers update feedback and approval status
+          allow update: if (isStudent(studentId) &&
+                           isValidProgress(request.resource.data) &&
+                           areImmutableFieldsUnchanged(['createdAt']) &&
+                           isStudentNotTamperingTeacherFeedback()) ||
+                          ((isTeacher() || isAdmin()) &&
+                           isValidProgress(request.resource.data) &&
+                           areImmutableFieldsUnchanged(['createdAt']));
+
+          // Deletion reserved for teachers and administrators
+          allow delete: if isTeacher() || isAdmin();
+        }
+
+        // -----------------------------------------------------------
+        // 5. Observations Subcollection (.../observations/{obsId})
+        // -----------------------------------------------------------
+        match /observations/{obsId} {
+          // Read: Student reads own observations; teachers/admins review all records
+          allow read: if isTeacher() || isAdmin() || isStudent(studentId);
+
+          // Create: Student records learning activity (isConfirmed locked to false);
+          //         Teacher creates authoritative observation log
+          allow create: if (isStudent(studentId) &&
+                           isValidObservation(request.resource.data) &&
+                           request.resource.data.studentId == studentId &&
+                           (!('isConfirmed' in request.resource.data) ||
+                            request.resource.data.isConfirmed == false)) ||
+                          ((isTeacher() || isAdmin()) &&
+                           isValidObservation(request.resource.data) &&
+                           request.resource.data.studentId == studentId);
+
+          // Update: Exclusively restricted to teachers/admins (SETEK observation lock)
+          allow update: if (isTeacher() || isAdmin()) &&
+                           isValidObservation(request.resource.data) &&
+                           areImmutableFieldsUnchanged(['studentId', 'createdAt']);
+
+          // Delete: Exclusively restricted to teachers/admins
+          allow delete: if isTeacher() || isAdmin();
+        }
+      }
+    }
+  }
+}

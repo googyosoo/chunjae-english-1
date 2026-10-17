@@ -1,0 +1,1842 @@
+{
+  "lessonNumber": 1,
+  "title": "Digital Well-being",
+  "topic": "Social Media and Digital Detox",
+  "topicQuestion": "How can we promote our digital well-being?",
+  "hashtags": [
+    "#social_media",
+    "#JOMO",
+    "#digital_detox",
+    "#digital_volunteering",
+    "#digital_citizen"
+  ],
+  "pageRange": "pp. 8-31",
+  "school": "심인고등학교",
+  "corners": [
+    {
+      "id": "introduction",
+      "cornerNumber": 1,
+      "titleKo": "단원 도입 & 토픽 질문",
+      "titleEn": "Introduction",
+      "pageRange": "pp. 8-9",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "intro_topic_question",
+          "type": "topic_reflection",
+          "title": "Topic Question 사전·사후 성찰",
+          "data": {
+            "topicQuestion": "How can we promote our digital well-being?",
+            "topicSampleAnswer": "We can promote our digital well-being by being mindful of others and being cautious not to get carried away while engaging in online activities.",
+            "hashtags": [
+              "#social_media",
+              "#JOMO",
+              "#digital_detox",
+              "#digital_volunteering",
+              "#digital_citizen"
+            ],
+            "lessonFlow": [
+              {
+                "step": 1,
+                "title": "Communicate on Topic: Social Media",
+                "pageRange": "pp. 10-11"
+              },
+              {
+                "step": 2,
+                "title": "Read: Joy of Missing Out",
+                "pageRange": "pp. 12-21"
+              },
+              {
+                "step": 3,
+                "title": "Share Your Thoughts: A Good Digital Citizen",
+                "pageRange": "pp. 22-23"
+              },
+              {
+                "step": 4,
+                "title": "Language Focus: Word Uses & Grammar",
+                "pageRange": "pp. 24-25"
+              },
+              {
+                "step": 5,
+                "title": "Write & Present: Promoting a School Club Online",
+                "pageRange": "pp. 26-28"
+              },
+              {
+                "step": 6,
+                "title": "Go Global & Wrap Up",
+                "pageRange": "pp. 29-31"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "communicate",
+      "cornerNumber": 2,
+      "titleKo": "의사소통 역량 (듣기·말하기)",
+      "titleEn": "Communicate on Topic",
+      "pageRange": "pp. 10-11",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "comm_watch_think",
+          "type": "video_watch",
+          "title": "A. Watch and Think (영상 시청 & 생각 나누기)",
+          "data": {
+            "watchAndThink": {
+              "videoTitle": "CBS, Kids on the pressures of having a cell phone, social media at an early age",
+              "youtubeUrl": "https://www.youtube.com/embed/-YXK2vy8Y90",
+              "sourceCitation": "CBS, Kids on the pressures of having a cell phone, social media at an early age, 2022 (교과서 p.169 Sources)",
+              "script": [
+                {
+                  "speaker": "M",
+                  "en": "Have you ever felt separation anxiety, when you didn’t have your phone in your hand or you didn’t have access to it?",
+                  "ko": "손에 휴대폰이 없거나 사용할 수 없을 때 분리 불안을 느껴본 적이 있나요?"
+                },
+                {
+                  "speaker": "G1",
+                  "en": "In the past few years, it was like, when I would get my phone taken, I’d be like “Oh, I miss my phone. What am I going to do now?” I felt like I couldn’t live without it.",
+                  "ko": "지난 몇 년 동안은 휴대폰을 빼앗기면 '아, 내 폰 그리워. 이제 뭐 하지?'라는 기분이었어요. 폰 없이 살 수 없을 것 같았죠."
+                },
+                {
+                  "speaker": "B",
+                  "en": "I’ve definitely felt that, like, now my friends have, like, taken my phone when I was younger, and I would always get a little nervous about, like, “Where is my phone?” Like, that was the only thing on my mind when they took it.",
+                  "ko": "저도 분명 그런 걸 느꼈어요. 어렸을 때 친구들이 폰을 가져가면 '내 폰 어디 있지?' 하고 항상 조금 불안해지곤 했죠. 친구들이 폰을 가져갔을 땐 머릿속에 그 생각뿐이었어요."
+                },
+                {
+                  "speaker": "G2",
+                  "en": "I think I realized how impatient I’ve gotten when I don’t have it. And I can’t fill up the time with games or social media, things like that. And you’re just like “Oh, just stand and look around.”",
+                  "ko": "휴대폰이 없을 때 제가 얼마나 안달하고 조급해지는지 깨달았어요. 게임이나 SNS 같은 것들로 시간을 채울 수도 없고요. 그냥 '아, 그냥 서서 주변이나 둘러보자' 하게 돼요."
+                }
+              ],
+              "checkQuestion": "The girl who spoke last realized how relaxed / impatient she became when she didn’t have her phone.",
+              "options": [
+                "relaxed",
+                "impatient"
+              ],
+              "answer": "impatient",
+              "yourThoughtsPrompt": "When was the last time you felt separation anxiety because of your phone?",
+              "yourThoughtsSample": "Last Wednesday, I forgot to bring my phone to school. I felt nervous the whole day."
+            }
+          }
+        },
+        {
+          "activityId": "comm_listen_answer",
+          "type": "dialogue_roleplay",
+          "title": "B. Listen and Answer (핵심 의사소통 대화)",
+          "data": {
+            "listenAndAnswer": {
+              "dialogues": [
+                {
+                  "id": "dial_1",
+                  "title": "Dialogue 1: Where did the speakers decide to meet?",
+                  "utterances": [
+                    {
+                      "speaker": "B",
+                      "text": "Hey, Jess, I’ve been meaning to ask you. When would be a good time to discuss promoting our club?",
+                      "translation": "안녕, 제스, 물어보려던 참이었어. 우리 동아리 홍보 논의하기에 언제가 좋을까?"
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "We’d better do it as soon as possible. I’m free after nine tonight.",
+                      "translation": "가능한 한 빨리 하는 게 좋겠어. 난 오늘 밤 9시 이후에 시간 돼."
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "That’s pretty late, isn’t it? How about meeting tomorrow morning at school?",
+                      "translation": "꽤 늦은 시간이네, 그렇지 않아? 내일 아침에 학교에서 만나는 건 어때?"
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "I don’t really feel like coming to school on the weekends. Why don’t we meet online tonight?",
+                      "translation": "주말에 학교에 오고 싶진 않은데. 오늘 밤에 온라인으로 만나는 게 어때?"
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "I’m not sure about that. You know, when you talk online, it’s often hard to pay attention to what the other person is saying.",
+                      "translation": "글쎄 잘 모르겠어. 온라인으로 이야기하면 상대방이 하는 말에 집중하기 어려울 때가 많잖아."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "I know what you mean, but by meeting online, we can discuss things comfortably at home late at night.",
+                      "translation": "네가 무슨 말 하는지 이해하지만, 온라인으로 만나면 밤늦게 집에서 편하게 이야기할 수 있잖아."
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "Well, you’re right. I guess we’ll have to do it online this time.",
+                      "translation": "음, 네 말이 맞아. 이번엔 온라인으로 해야겠네."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "Great. See you at nine.",
+                      "translation": "좋아. 9시에 봐."
+                    }
+                  ],
+                  "quiz": {
+                    "question": "Where did the speakers decide to meet?",
+                    "options": [
+                      {
+                        "label": "a",
+                        "text": "They decided to meet online."
+                      },
+                      {
+                        "label": "b",
+                        "text": "They decided to meet at a cafe."
+                      },
+                      {
+                        "label": "c",
+                        "text": "They decided to meet at school."
+                      }
+                    ],
+                    "answer": "a"
+                  }
+                },
+                {
+                  "id": "dial_2",
+                  "title": "Dialogue 2: What is the boy’s attitude toward working on his social media page?",
+                  "utterances": [
+                    {
+                      "speaker": "B",
+                      "text": "This chocolate cake looks fantastic!",
+                      "translation": "이 초콜릿 케이크 정말 환상적이다!"
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "Yeah, let’s dig in. I’m starving.",
+                      "translation": "응, 어서 먹자. 나 배고파 죽겠어."
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "Wait a second! I need to take some pictures.",
+                      "translation": "잠깐만! 사진 좀 찍어야 해."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "Wow, you’re taking a lot of photos. Are you going to use all of them?",
+                      "translation": "와, 사진 진짜 많이 찍네. 그거 다 쓸 거야?"
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "Of course not. I’m just going to keep the best ones for social media.",
+                      "translation": "당연히 아니지. SNS용으로 제일 잘 나온 것만 남길 거야."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "You seem to be putting a lot of effort into it.",
+                      "translation": "거기에 정말 공을 많이 들이는 것 같네."
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "Yeah, it’s not easy, but it really pays off when my photos get a lot of likes.",
+                      "translation": "응, 쉽진 않지만 내 사진이 '좋아요'를 많이 받으면 정말 보람 있어."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "Which photo has gotten the most likes?",
+                      "translation": "어떤 사진이 좋아요를 제일 많이 받았어?"
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "Let me see .... So far, it’s the photo of my puppy wearing the sweater I made for him. Let me show you. Here.",
+                      "translation": "어디 보자... 지금까지는 내가 떠준 스웨터를 입은 강아지 사진이야. 보여줄게. 여기."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "It’s super cute. Wow, look at all those comments under it!",
+                      "translation": "엄청 귀엽다. 와, 밑에 댓글 달린 것 좀 봐!"
+                    },
+                    {
+                      "speaker": "B",
+                      "text": "I really like interacting with others on my social media site. That’s another reason I love social media.",
+                      "translation": "내 SNS에서 다른 사람들과 소통하는 게 참 좋아. 그게 내가 SNS를 사랑하는 또 다른 이유야."
+                    },
+                    {
+                      "speaker": "G",
+                      "text": "That’s nice. I just hope you don’t spend too much time on it.",
+                      "translation": "좋네. 너무 많은 시간만 쓰지 않길 바랄 뿐이야."
+                    }
+                  ],
+                  "quiz": {
+                    "question": "What is the boy’s attitude toward working on his social media page?",
+                    "options": [
+                      {
+                        "label": "a",
+                        "text": "regretful"
+                      },
+                      {
+                        "label": "b",
+                        "text": "enthusiastic"
+                      },
+                      {
+                        "label": "c",
+                        "text": "uninterested"
+                      }
+                    ],
+                    "answer": "b"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "comm_listen_write",
+          "type": "listening_fill_blank",
+          "title": "C. Listen and Write (설문조사 5대 항목 그래프)",
+          "data": {
+            "listenAndWrite": {
+              "title": "Main Reasons Why Social Media Is Considered Positive (Pew Research Center, 2022)",
+              "script": [
+                {
+                  "speaker": "W",
+                  "en": "In our earlier survey, 420 teenagers in the U.S. said social media was mostly positive in their experience. We asked them why that was the case.",
+                  "ko": "이전 설문조사에서 미국 십 대 420명은 SNS가 주로 긍정적인 경험이었다고 답했습니다. 우리는 그 이유를 물어보았습니다."
+                },
+                {
+                  "speaker": "W",
+                  "en": "Nearly half mentioned the ability to build or maintain connections with others or to socialize on these platforms.",
+                  "ko": "거의 절반이 타인과의 유대 관계를 형성하거나 유지하는 능력, 혹은 이러한 플랫폼에서 교류하는 능력을 언급했습니다."
+                },
+                {
+                  "speaker": "W",
+                  "en": "A quarter of those said social media helped them learn or find information.",
+                  "ko": "그중 4분의 1은 SNS가 정보를 배우거나 찾는 데 도움이 되었다고 말했습니다."
+                },
+                {
+                  "speaker": "W",
+                  "en": "Meanwhile, 14% pointed to the entertainment value they saw in social media.",
+                  "ko": "한편, 14%는 SNS에서 본 오락적 가치를 지목했습니다."
+                },
+                {
+                  "speaker": "W",
+                  "en": "7% of them explained that they used social media because they could focus on positive things on these platforms.",
+                  "ko": "그들 중 7%는 이러한 플랫폼에서 긍정적인 것들에 집중할 수 있기 때문에 SNS를 사용한다고 설명했습니다."
+                }
+              ],
+              "chartData": [
+                {
+                  "label": "building or maintaining connections / socializing",
+                  "percentage": 46,
+                  "isBlank": true,
+                  "correctWord": "connections"
+                },
+                {
+                  "label": "learning or finding information",
+                  "percentage": 25,
+                  "isBlank": true,
+                  "correctWord": "information"
+                },
+                {
+                  "label": "entertainment",
+                  "percentage": 14,
+                  "isBlank": false
+                },
+                {
+                  "label": "other reasons",
+                  "percentage": 13,
+                  "isBlank": false
+                },
+                {
+                  "label": "focusing on positive things online",
+                  "percentage": 7,
+                  "isBlank": true,
+                  "correctWord": "positive"
+                }
+              ],
+              "answerKey": [
+                "connections",
+                "information",
+                "positive"
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "comm_write_talk",
+          "type": "write_and_talk",
+          "title": "D. Write and Talk (Chance to Express)",
+          "data": {
+            "writeAndTalk": {
+              "dialogueModel": {
+                "question": "Do you think social media is harmful?",
+                "positiveAnswer": "Of course not. I think it’s useful because it helps me keep in touch with my friends.",
+                "negativeAnswer": "Yes, I do. I think it’s harmful because it makes it easy to spread misinformation."
+              },
+              "usefulExpressions": [
+                "I don’t think so.",
+                "Not really."
+              ],
+              "prompts": [
+                {
+                  "opinion": "useful",
+                  "reason": "helps me keep in touch with my friends"
+                },
+                {
+                  "opinion": "harmful",
+                  "reason": "makes it easy to spread misinformation"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "cornerNumber": 3,
+      "titleKo": "교과서 본문 리더 (인터랙티브 리더)",
+      "titleEn": "Read: Joy of Missing Out",
+      "pageRange": "pp. 12-21",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "read_before",
+          "type": "before_you_read",
+          "title": "Before you read (Background & Vocabulary Check)",
+          "data": {
+            "backgroundCheck": [
+              {
+                "id": "bg_1",
+                "statement": "I check my phone while I eat.",
+                "options": [
+                  "rarely",
+                  "often",
+                  "always"
+                ]
+              },
+              {
+                "id": "bg_2",
+                "statement": "I immediately check my phone when I get up.",
+                "options": [
+                  "rarely",
+                  "often",
+                  "always"
+                ]
+              },
+              {
+                "id": "bg_3",
+                "statement": "I feel anxious when I can’t access my phone.",
+                "options": [
+                  "rarely",
+                  "often",
+                  "always"
+                ]
+              },
+              {
+                "id": "bg_4",
+                "statement": "I use my phone in the bathroom.",
+                "options": [
+                  "rarely",
+                  "often",
+                  "always"
+                ]
+              },
+              {
+                "id": "bg_5",
+                "statement": "I fall asleep at night while looking at my phone.",
+                "options": [
+                  "rarely",
+                  "often",
+                  "always"
+                ]
+              },
+              {
+                "id": "bg_6",
+                "statement": "I keep my eyes on my phone while walking on the street.",
+                "options": [
+                  "rarely",
+                  "often",
+                  "always"
+                ]
+              }
+            ],
+            "vocabularyCheck": [
+              {
+                "id": "vc_1",
+                "sentence": "People can feel [blank] to certain types of food if they are dependent on them.",
+                "options": [
+                  "addicted",
+                  "gaze",
+                  "swayed",
+                  "remove"
+                ],
+                "answer": "addicted"
+              },
+              {
+                "id": "vc_2",
+                "sentence": "Before you give someone a present, it is wise to [blank] the price tag.",
+                "options": [
+                  "addicted",
+                  "gaze",
+                  "swayed",
+                  "remove"
+                ],
+                "answer": "remove"
+              },
+              {
+                "id": "vc_3",
+                "sentence": "The girl’s eyes were fixed on the ball. Her [blank] didn’t leave it.",
+                "options": [
+                  "addicted",
+                  "gaze",
+                  "swayed",
+                  "remove"
+                ],
+                "answer": "gaze"
+              },
+              {
+                "id": "vc_4",
+                "sentence": "The crowd at the concert [blank] their hands from side to side.",
+                "options": [
+                  "addicted",
+                  "gaze",
+                  "swayed",
+                  "remove"
+                ],
+                "answer": "swayed"
+              }
+            ]
+          }
+        },
+        {
+          "activityId": "read_interactive_viewer",
+          "type": "interactive_reader",
+          "title": "본문 인터랙티브 리더 (Joy of Missing Out)",
+          "data": {
+            "reading": {
+              "title": "Joy of Missing Out",
+              "subtitle": "A Student's Digital Detox Diary",
+              "readingTip": {
+                "title": "Identifying with the writer (글쓴이와 동화되기)",
+                "desc": "Try to put yourself in the writer’s position. Relating to the writer’s emotions can help you better understand the text."
+              },
+              "paragraphs": [
+                {
+                  "id": "p_13",
+                  "part": "Part 1",
+                  "heading": "Part 1   FOMO (Fear of Missing Out)",
+                  "sentences": [
+                    {
+                      "id": "s_13_1",
+                      "en": "“Selena. SELENA!”",
+                      "ko": "“셀레나. 셀레나!”"
+                    },
+                    {
+                      "id": "s_13_2",
+                      "en": "“Yes,” I look up from my phone to discover my mom yelling at me.",
+                      "ko": "“네,” 나는 휴대폰에서 눈을 들어 엄마가 나에게 소리치고 계신 것을 발견한다."
+                    },
+                    {
+                      "id": "s_13_3",
+                      "en": "She seems to be searching for an answer to something.",
+                      "ko": "엄마는 무언가에 대한 답을 찾고 계신 듯하다."
+                    },
+                    {
+                      "id": "s_13_4",
+                      "en": "“What?” I asked.",
+                      "ko": "“뭐라고요?” 내가 물었다."
+                    },
+                    {
+                      "id": "s_13_5",
+                      "en": "She asked, “Did you not hear what I just said?”",
+                      "ko": "엄마는 “내가 방금 한 말 못 들었니?”라고 물으셨다."
+                    },
+                    {
+                      "id": "s_13_6",
+                      "en": "No, I didn’t. I didn’t hear anything she said.",
+                      "ko": "아니요, 못 들었어요. 엄마가 하신 말씀은 아무것도 듣지 못했다."
+                    },
+                    {
+                      "id": "s_13_7",
+                      "en": "I usually don’t hear a single word said to me by anyone.",
+                      "ko": "나는 평소에 누구라도 나에게 하는 말을 단 한 마디도 듣지 못한다."
+                    },
+                    {
+                      "id": "s_13_8",
+                      "en": "And why is that? It’s because my eyes are fixed on my phone.",
+                      "ko": "그리고 왜 그럴까? 내 두 눈이 휴대폰에 고정되어 있기 때문이다.",
+                      "keyWords": [
+                        "fixed on"
+                      ]
+                    },
+                    {
+                      "id": "s_13_9",
+                      "en": "My mom always asks me, “What is so interesting on your phone?”",
+                      "ko": "엄마는 항상 나에게 물으신다, “네 폰에 뭐가 그렇게 재미있니?”"
+                    },
+                    {
+                      "id": "s_13_10",
+                      "en": "I never know how to answer that because even I don’t know what’s so interesting on my phone.",
+                      "ko": "나조차도 내 폰에 뭐가 그리 재미있는지 모르기 때문에 나는 결코 어떻게 대답해야 할지 알지 못한다."
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q1",
+                      "question": "What is FOMO short for?",
+                      "sampleAnswer": "It is short for “fear of missing out.”"
+                    },
+                    {
+                      "qNumber": "Q2",
+                      "question": "Why does Selena usually not hear what is said to her?",
+                      "sampleAnswer": "It is because her eyes are fixed on her phone."
+                    }
+                  ]
+                },
+                {
+                  "id": "p_14",
+                  "part": "Part 1",
+                  "heading": "Anxiety and Addiction to Social Media",
+                  "sentences": [
+                    {
+                      "id": "s_14_1",
+                      "en": "I have a bad case of anxiety that comes from not checking my phone.",
+                      "ko": "나는 휴대폰을 확인하지 않는 데서 오는 심각한 불안 증세를 가지고 있다."
+                    },
+                    {
+                      "id": "s_14_2",
+                      "en": "I spend most of my day on social media.",
+                      "ko": "나는 하루의 대부분을 SNS를 하며 보낸다."
+                    },
+                    {
+                      "id": "s_14_3",
+                      "en": "I fear missing out on social media.",
+                      "ko": "나는 SNS에서 소외되는 것을 두려워한다."
+                    },
+                    {
+                      "id": "s_14_4",
+                      "en": "I fear not being in the know of what everyone is discussing.",
+                      "ko": "나는 모두가 논의하고 있는 것을 알지 못할까 봐 두려워한다.",
+                      "keyWords": [
+                        "be in the know"
+                      ]
+                    },
+                    {
+                      "id": "s_14_5",
+                      "en": "I fear not being in the know of what my friends are posting on social media.",
+                      "ko": "나는 내 친구들이 SNS에 올리는 글을 알지 못할까 봐 두려워한다."
+                    },
+                    {
+                      "id": "s_14_6",
+                      "en": "My mom thinks I’m addicted to my phone.",
+                      "ko": "엄마는 내가 휴대폰에 중독되었다고 생각하신다."
+                    },
+                    {
+                      "id": "s_14_7",
+                      "en": "Older people think teenagers like me have an addiction to their phones and computers.",
+                      "ko": "어른들은 나 같은 십 대들이 휴대폰과 컴퓨터에 중독되었다고 생각한다."
+                    },
+                    {
+                      "id": "s_14_8",
+                      "en": "But I wouldn’t say it’s an addiction to a device. It’s an addiction to social media.",
+                      "ko": "하지만 나는 그것이 기기에 대한 중독이라고 말하지는 않겠다. 그것은 SNS에 대한 중독이다."
+                    },
+                    {
+                      "id": "s_14_9",
+                      "en": "It’s an addiction to being online, or in other words, a fear of not being online.",
+                      "ko": "그것은 온라인 상태에 있는 것에 대한 중독이며, 다시 말해 온라인 상태가 아닌 것에 대한 두려움이다."
+                    },
+                    {
+                      "id": "s_14_10",
+                      "en": "Basically, I have severe FOMO, for which I’m in desperate need of a cure.",
+                      "ko": "기본적으로 나는 극심한 FOMO를 앓고 있으며, 이에 대한 치유책이 절실히 필요하다.",
+                      "isLanguageFocus": true,
+                      "grammarTip": "전치사 + 관계대명사: 'for which'는 앞의 severe FOMO를 수식하며 '그것에 대해 치료법이 절실히 필요한'으로 해석"
+                    },
+                    {
+                      "id": "s_14_11",
+                      "en": "Maybe this spring break could be a chance to find one.",
+                      "ko": "어쩌면 이번 봄방학이 치료책을 찾을 기회가 될 수 있을 것이다."
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q3",
+                      "question": "How do Selena and her mother feel differently about her addiction?",
+                      "sampleAnswer": "Selena thinks that it is an addiction to social media, but her mother thinks that it is an addiction to her phone."
+                    }
+                  ]
+                },
+                {
+                  "id": "p_15",
+                  "part": "Part 2",
+                  "day": "Day 1",
+                  "heading": "Part 2   My Two-week Detox - Day 1",
+                  "sentences": [
+                    {
+                      "id": "s_15_1",
+                      "en": "So it was time to pull the plug.",
+                      "ko": "그래서 이제 플러그를 뽑을(접속을 끊을) 때가 되었다."
+                    },
+                    {
+                      "id": "s_15_2",
+                      "en": "I grabbed my phone. I swiped it open and stared at the social media icons dotting the screen.",
+                      "ko": "나는 휴대폰을 집어 들었다. 밀어서 잠금을 해제하고 화면에 흩어져 있는 SNS 아이콘들을 응시했다."
+                    },
+                    {
+                      "id": "s_15_3",
+                      "en": "I removed the apps from my phone.",
+                      "ko": "나는 휴대폰에서 그 앱들을 삭제했다."
+                    },
+                    {
+                      "id": "s_15_4",
+                      "en": "Then I moved to my notebook computer. I logged out of all of the social media sites.",
+                      "ko": "그러고 나서 노트북 컴퓨터로 옮겨갔다. 나는 모든 SNS 사이트에서 로그아웃했다."
+                    },
+                    {
+                      "id": "s_15_5",
+                      "en": "I felt an immediate sense of relief.",
+                      "ko": "나는 즉각적인 안도감을 느꼈다."
+                    },
+                    {
+                      "id": "s_15_6",
+                      "en": "But soon after, I got restless.",
+                      "ko": "하지만 얼마 지나지 않아 마음이 안절부절못해졌다."
+                    },
+                    {
+                      "id": "s_15_7",
+                      "en": "I don’t remember how long it was, but I stared at my phone screen in complete confusion for quite a while.",
+                      "ko": "얼마나 걸렸는지는 기억나지 않지만, 꽤 오랫동안 완벽한 혼란 속에서 휴대폰 화면을 응시했다."
+                    },
+                    {
+                      "id": "s_15_8",
+                      "en": "I called Jamie, and we chatted for about an hour.",
+                      "ko": "나는 제이미에게 전화했고, 우리는 한 시간가량 수다를 떨었다."
+                    },
+                    {
+                      "id": "s_15_9",
+                      "en": "But there’s only so much you can do over a voice call. We decided to meet later in the afternoon for a bike ride.",
+                      "ko": "하지만 음성 통화로 할 수 있는 것에는 한계가 있었다. 우리는 오후 늦게 자전거를 타러 만나기로 했다."
+                    },
+                    {
+                      "id": "s_15_10",
+                      "en": "What else can I do on my phone? I lay on my bed even though I wasn’t sleepy.",
+                      "ko": "내 폰으로 또 뭘 할 수 있을까? 졸리지 않았는데도 나는 침대에 누웠다."
+                    },
+                    {
+                      "id": "s_15_11",
+                      "en": "I stayed there until I went out to meet Jamie.",
+                      "ko": "나는 제이미를 만나러 나갈 때까지 그곳에 머물렀다."
+                    },
+                    {
+                      "id": "s_15_12",
+                      "en": "Throughout the day, it felt like things slowed down considerably. What a long day!",
+                      "ko": "하루 종일 시간이 상당히 느리게 흘러가는 것 같았다. 참 긴 하루였다!"
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q4",
+                      "question": "What did Selena feel right after she “pulled the plug”?",
+                      "sampleAnswer": "She felt an immediate sense of relief."
+                    },
+                    {
+                      "qNumber": "Q5",
+                      "question": "What did Selena do right before going out to meet Jamie?",
+                      "sampleAnswer": "She lay on her bed even though she wasn’t sleepy."
+                    }
+                  ]
+                },
+                {
+                  "id": "p_16",
+                  "part": "Part 2",
+                  "day": "Day 4",
+                  "heading": "Day 4: Rediscovering the World and the Old Guitar",
+                  "sentences": [
+                    {
+                      "id": "s_16_1",
+                      "en": "I woke up late in the morning and reached for my phone.",
+                      "ko": "아침에 늦게 일어나 휴대폰으로 손을 뻗었다."
+                    },
+                    {
+                      "id": "s_16_2",
+                      "en": "I swiped my phone open only to remember my social media apps were no longer there.",
+                      "ko": "휴대폰을 밀어서 열었지만, 내 SNS 앱이 더는 그곳에 없다는 것을 기억하게 되었을 뿐이다."
+                    },
+                    {
+                      "id": "s_16_3",
+                      "en": "Old habits die hard.",
+                      "ko": "오래된 습관은 쉽게 고쳐지지 않는다."
+                    },
+                    {
+                      "id": "s_16_4",
+                      "en": "After breakfast, I felt a strong urge to go online, to which I didn’t want to give in.",
+                      "ko": "아침 식사 후 온라인에 접속하고 싶은 강한 충동을 느꼈지만, 굴복하고 싶지 않았다.",
+                      "isLanguageFocus": true,
+                      "grammarTip": "전치사 + 관계대명사: 'to which'는 앞의 urge(충동)를 수식하며 '그것에 굴복하고 싶지 않았던 충동'으로 해석"
+                    },
+                    {
+                      "id": "s_16_5",
+                      "en": "So, I decided to go out for a walk.",
+                      "ko": "그래서 산책을 나가기로 결심했다."
+                    },
+                    {
+                      "id": "s_16_6",
+                      "en": "While walking in the park, I probably glanced at my phone 20 times.",
+                      "ko": "공원을 걷는 동안 나는 아마도 휴대폰을 스무 번은 힐끔거렸을 것이다.",
+                      "isLanguageFocus": true,
+                      "grammarTip": "분사구문: 'While walking in the park'는 접속사가 생략되지 않은 분사구문으로 '공원을 걷는 동안'으로 해석"
+                    },
+                    {
+                      "id": "s_16_7",
+                      "en": "At one moment, I looked at the people around me, most of whom had their eyes glued to their phones.",
+                      "ko": "어느 순간 주위를 둘러보았는데, 사람들 대부분이 휴대폰에 눈을 떼지 못하고 있었다."
+                    },
+                    {
+                      "id": "s_16_8",
+                      "en": "I moved my gaze upward and noticed how purely blue the sky was, without a single cloud in sight.",
+                      "ko": "시선을 위로 옮겨 구름 한 점 없이 하늘이 얼마나 순수하게 푸른지 알아챘다."
+                    },
+                    {
+                      "id": "s_16_9",
+                      "en": "All around the park, trees slowly swayed back and forth. Soon I found myself taking a couple of pictures of the peaceful scene.",
+                      "ko": "공원 사방에서 나무들이 천천히 앞뒤로 흔들리고 있었다. 곧 나는 그 평화로운 풍경 사진을 몇 장 찍고 있는 자신을 발견했다."
+                    },
+                    {
+                      "id": "s_16_10",
+                      "en": "After lunch, I took out my old guitar from under my bed.",
+                      "ko": "점심 식사 후, 침대 밑에서 오래된 기타를 꺼냈다."
+                    },
+                    {
+                      "id": "s_16_11",
+                      "en": "At first, it was because I was bored, but I ended up playing it all afternoon.",
+                      "ko": "처음에는 지루해서였지만, 결국 오후 내내 기타를 치게 되었다."
+                    },
+                    {
+                      "id": "s_16_12",
+                      "en": "It didn’t matter that I’m not really good at it. It just felt great that I was lost in doing something for several hours without getting interrupted by my phone.",
+                      "ko": "내가 기타를 썩 잘 치지 못한다는 것은 중요하지 않았다. 휴대폰에 방해받지 않고 몇 시간 동안 무언가에 흠뻑 빠져 있었다는 것 자체가 너무 좋았다."
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q6",
+                      "question": "What is the old habit that Selena mentioned?",
+                      "sampleAnswer": "When she wakes up in the morning, she uses her social media apps first."
+                    },
+                    {
+                      "qNumber": "Q7",
+                      "question": "Have you recently done something for several hours on end without using your phone?",
+                      "sampleAnswer": "Yes, I have. Two weeks ago, I played basketball with my friends for three hours.",
+                      "isThinkAndTalk": true
+                    }
+                  ]
+                },
+                {
+                  "id": "p_17",
+                  "part": "Part 2",
+                  "day": "Day 7",
+                  "heading": "Day 7 & Day 11: A Momentary Slip and True Freedom",
+                  "sentences": [
+                    {
+                      "id": "s_17_1",
+                      "en": "I don’t know why, but today I momentarily let down my guard against social media.",
+                      "ko": "이유는 모르겠지만 오늘 순간적으로 SNS에 대한 경계를 늦추고 말았다."
+                    },
+                    {
+                      "id": "s_17_2",
+                      "en": "As if bound by a spell, I logged into one of the social media sites, only to find that there was nothing interesting.",
+                      "ko": "마치 마법에 걸린 것처럼 SNS 사이트 중 한 곳에 로그인했지만, 재미있는 것이 전혀 없다는 것을 알게 되었을 뿐이다."
+                    },
+                    {
+                      "id": "s_17_3",
+                      "en": "I had a weird feeling of being at a place where I didn’t belong, which was quickly replaced by a sense of guilt.",
+                      "ko": "내가 속하지 않은 곳에 와 있는 듯한 이상한 기분이 들었고, 그것은 이내 죄책감으로 바뀌었다."
+                    },
+                    {
+                      "id": "s_17_4",
+                      "en": "I really shouldn’t have gone back to a social media site in the middle of my detox.",
+                      "ko": "디톡스 중간에 결코 SNS 사이트에 다시 들어가지 말았어야 했다."
+                    },
+                    {
+                      "id": "s_17_5",
+                      "en": "This was the first day my phone felt more like a brick in my pocket than a digital device.",
+                      "ko": "이날은 내 주머니 속 휴대폰이 디지털 기기라기보다는 벽돌처럼 느껴진 첫날이었다."
+                    },
+                    {
+                      "id": "s_17_6",
+                      "en": "I could already feel free from worrying about posting something and hoping it would get some likes.",
+                      "ko": "나는 무언가를 게시하고 좋아요를 받기를 바라는 걱정으로부터 이미 자유로워졌음을 느낄 수 있었다."
+                    },
+                    {
+                      "id": "s_17_7",
+                      "en": "At a gathering with my friends, it was fun to get asked over and over again about how I was surviving without social media.",
+                      "ko": "친구들과의 모임에서, 내가 SNS 없이 어떻게 생존하고 있는지 반복해서 질문을 받는 것은 재미있었다."
+                    },
+                    {
+                      "id": "s_17_8",
+                      "en": "Sam said, “I don’t think I could give up social media for even one day.”",
+                      "ko": "샘이 “난 단 하루도 SNS를 끊을 수 없을 것 같아”라고 말했다."
+                    },
+                    {
+                      "id": "s_17_9",
+                      "en": "My immediate thought was: Then you really need to give it up! I didn’t actually say that, although I wanted to.",
+                      "ko": "내 즉각적인 생각은 '그렇다면 넌 정말로 끊어야 해!'였다. 비록 그러고 싶었지만 실제로 그렇게 말하지는 않았다."
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q8",
+                      "question": "When Selena visited a social media site, how did she feel?",
+                      "sampleAnswer": "She had a weird feeling of being at a place where she didn’t belong, and then she felt a sense of guilt."
+                    },
+                    {
+                      "qNumber": "Q9",
+                      "question": "At the gathering with friends, what was Selena repeatedly asked about?",
+                      "sampleAnswer": "She was asked about how she was surviving without social media."
+                    }
+                  ]
+                },
+                {
+                  "id": "p_18",
+                  "part": "Part 2",
+                  "day": "Day 14",
+                  "heading": "Day 14: Being in Control of My Own Life",
+                  "sentences": [
+                    {
+                      "id": "s_18_1",
+                      "en": "Toward the end of the day, I reflected on my social media break and what things had been like before.",
+                      "ko": "하루가 저물어 갈 무렵, 나는 SNS 중단 기간과 그 이전의 삶이 어떠했는지를 되돌아보았다."
+                    },
+                    {
+                      "id": "s_18_2",
+                      "en": "I realized that social media had taken some control of me.",
+                      "ko": "나는 SNS가 나를 어느 정도 지배하고 있었다는 사실을 깨달았다."
+                    },
+                    {
+                      "id": "s_18_3",
+                      "en": "It’s kind of silly that all I did was envy others for their perfectly happy moments in life, dress up my everyday events, and think up ways to get others to like my posts.",
+                      "ko": "인생에서 완벽하게 행복해 보이는 다른 사람들의 순간을 부러워하고, 내 일상의 사건들을 꾸며내고, 다른 사람들이 내 게시물에 좋아요를 누르게 할 방법들을 궁리한 것이 내가 한 일의 전부였다니 참 바보스럽다."
+                    },
+                    {
+                      "id": "s_18_4",
+                      "en": "From now on, I want to be in control of how I use something or do something, not the other way around.",
+                      "ko": "이제부터는 내가 무언가를 사용하거나 행하는 방식을 내가 스스로 통제하고 싶지, 그 반대가 되고 싶지는 않다."
+                    },
+                    {
+                      "id": "s_18_5",
+                      "en": "Tomorrow, I will return to my social media activities, but in more careful and controlled ways.",
+                      "ko": "내일 나는 SNS 활동으로 복귀할 것이지만, 훨씬 더 신중하고 절제된 방식으로 할 것이다."
+                    },
+                    {
+                      "id": "s_18_6",
+                      "en": "I’m going to stick to just a couple of sites that I really need, while making absolutely sure that my activities are in line with my well-being and happiness.",
+                      "ko": "나에게 정말 필요한 한두 개의 사이트만 이용할 것이며, 나의 활동이 나의 안녕과 행복에 반드시 부합하도록 확실히 할 것이다."
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q10",
+                      "question": "What did Selena realize about her life before the social media break?",
+                      "sampleAnswer": "She realized that social media had taken some control of her."
+                    },
+                    {
+                      "qNumber": "Q11",
+                      "question": "Have you ever felt that something is in control of you?",
+                      "sampleAnswer": "Yes, I have. I once felt that mobile games were in control of me.",
+                      "isThinkAndTalk": true
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "read_further",
+          "type": "read_further",
+          "title": "Read Further: Volunteering Online (p.21)",
+          "data": {
+            "readFurther": {
+              "title": "Volunteering Online",
+              "intro": "Volunteering has a great deal of benefits. Not only do you make a positive impact on someone’s life, but you gain valuable skills for your career. It even reduces stress and anxiety. With busy schedules, it can be hard to find the time to commit to volunteer work. These days, however, you can make a huge difference in the lives of others from your own home by virtually volunteering. Here are a few ways to virtually volunteer.",
+              "ways": [
+                {
+                  "step": 1,
+                  "title": "Phone Friends for Senior Citizens",
+                  "desc": "First, you could be a part of the effort to lend support to senior citizens who struggle with loneliness. Typically, volunteer “phone friends” make regular calls to chat and check in with these people."
+                },
+                {
+                  "step": 2,
+                  "title": "Visual Assistance via Live Video Call",
+                  "desc": "Second, you can help people with low or no vision with their everyday tasks. Through a live video call, you can offer visual assistance to those who need it with tasks such as reading “use by” dates and instructions on food packages, which helps them to lead more independent lives."
+                },
+                {
+                  "step": 3,
+                  "title": "Wildlife Monitoring and Conservation",
+                  "desc": "Finally, if you have an interest in wildlife and its conservation, you can help with animal monitoring work by watching live videos of animal habitats around the world. Monitoring these animals helps protect wildlife and develop methods of conserving them."
+                }
+              ],
+              "conclusion": "Helping others and giving back to the community can be very rewarding. It can make your day more meaningful and productive. It is also a great way to connect with new people and cultures. For those who believe in karma, if you do good things for others, good things will happen to you!",
+              "question": "Among the three ways of volunteering online, which would you like to try and why?",
+              "sampleAnswer": "I would like to become a phone friend for senior citizens because I like chatting with others and meeting new people."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "after_read",
+      "cornerNumber": 4,
+      "titleKo": "읽기 후 활동 (요약·T/F·이해도)",
+      "titleEn": "After You Read",
+      "pageRange": "pp. 19-20",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "after_summary_details",
+          "type": "drag_drop_summary",
+          "title": "A. Summary & B. Details T/F Check",
+          "data": {
+            "summaryFillBlanks": {
+              "wordBox": [
+                "free",
+                "FOMO",
+                "social media site",
+                "control",
+                "out of",
+                "guitar"
+              ],
+              "items": [
+                {
+                  "stage": "Before digital detox",
+                  "text": "Selena realized she had severe [blank].",
+                  "answer": "FOMO"
+                },
+                {
+                  "stage": "Digital detox Day 1",
+                  "text": "She removed the social media apps from her phone and logged [blank] the social media sites.",
+                  "answer": "out of"
+                },
+                {
+                  "stage": "Digital detox Day 4",
+                  "text": "She took a walk in the morning and played the [blank] in the afternoon.",
+                  "answer": "guitar"
+                },
+                {
+                  "stage": "Digital detox Day 7",
+                  "text": "She briefly visited a(n) [blank] and had a weird feeling and a sense of guilt.",
+                  "answer": "social media site"
+                },
+                {
+                  "stage": "Digital detox Day 11",
+                  "text": "She could feel [blank] from worrying about her social media activities.",
+                  "answer": "free"
+                },
+                {
+                  "stage": "Digital detox Day 14",
+                  "text": "She decided to take [blank] of how she uses something or does something.",
+                  "answer": "control"
+                }
+              ],
+              "answers": {
+                "blank_1": "FOMO",
+                "blank_2": "out of",
+                "blank_3": "guitar",
+                "blank_4": "social media site",
+                "blank_5": "free",
+                "blank_6": "control"
+              }
+            },
+            "detailsTF": [
+              {
+                "id": "tf_1",
+                "statement": "Before the digital detox, Selena feared not knowing what her friends were posting online.",
+                "answer": "T",
+                "evidenceSentenceId": "s_14_5",
+                "explanation": "본문 p.14에서 'I fear not being in the know of what my friends are posting on social media'라고 직접 서술했습니다."
+              },
+              {
+                "id": "tf_2",
+                "statement": "On the first day of the digital detox, Selena felt sad right after logging out of the social media sites on her computer.",
+                "answer": "F",
+                "evidenceSentenceId": "s_15_5",
+                "explanation": "본문 p.15에서 슬펐던 것이 아니라 'I felt an immediate sense of relief' 즉각적인 안도감을 느꼈다고 서술했습니다."
+              },
+              {
+                "id": "tf_3",
+                "statement": "On the fourth day of the digital detox, Selena took a video of the park where she was taking a walk.",
+                "answer": "F",
+                "evidenceSentenceId": "s_16_9",
+                "explanation": "본문 p.16에서 비디오를 찍은 것이 아니라 'taking a couple of pictures of the peaceful scene' 평화로운 풍경의 사진을 몇 장 찍었다고 서술했습니다."
+              },
+              {
+                "id": "tf_4",
+                "statement": "On the eleventh day of the digital detox, Selena wanted to tell Sam to give up social media.",
+                "answer": "T",
+                "evidenceSentenceId": "s_17_9",
+                "explanation": "본문 p.17에서 샘이 단 하루도 SNS를 끊을 수 없다고 하자 'My immediate thought was: Then you really need to give it up!'이라고 생각했습니다."
+              }
+            ],
+            "readingSkill": {
+              "skillName": "Figuring out the contextual meaning of an expression (맥락을 고려한 표현의 의미 파악)",
+              "skillDesc": "글에서 어떤 표현을 글자 그대로 해석하면 그 의미를 완전히 이해하기 어려울 때가 있습니다. 이러한 표현이 어떤 의미를 나타내는지 알려면 글의 맥락을 고려하는 것이 중요합니다.",
+              "example": {
+                "expression": "pull the plug (p. 20)",
+                "context": "So it was time to pull the plug. I grabbed my phone. I swiped it open and stared at the social media icons dotting the screen. I removed the apps from my phone...",
+                "options": [
+                  {
+                    "label": "a",
+                    "text": "to stop using social media"
+                  },
+                  {
+                    "label": "b",
+                    "text": "to ask other people for help"
+                  },
+                  {
+                    "label": "c",
+                    "text": "to disconnect an electronic device from a power outlet"
+                  }
+                ],
+                "answer": "a"
+              },
+              "questions": [
+                {
+                  "id": "rs_1",
+                  "passage": "After decades of talks, UN member countries have finally reached an agreement to ensure the conservation and sustainable use of diverse marine species. Ambassador Rena Lee said last night, “Ladies and gentlemen, (A) the ship has reached the shore,” announcing the agreement...",
+                  "target": "(A) the ship has reached the shore",
+                  "options": [
+                    {
+                      "label": "a",
+                      "text": "things remain uncertain"
+                    },
+                    {
+                      "label": "b",
+                      "text": "we need to get aboard the ship"
+                    },
+                    {
+                      "label": "c",
+                      "text": "they have reached an agreement"
+                    }
+                  ],
+                  "answer": "c"
+                },
+                {
+                  "id": "rs_2",
+                  "passage": "António Guterres, the UN chief, said, “This action is a victory for global efforts to counter the destructive trends the ocean faces, now and for generations to come. Today, we have (B) pumped new blood into the ocean and given it a fighting chance.”",
+                  "target": "(B) pumped new blood into the ocean and given it a fighting chance",
+                  "options": [
+                    {
+                      "label": "a",
+                      "text": "had the planet go through a tough surgery"
+                    },
+                    {
+                      "label": "b",
+                      "text": "provided medical treatments for sea animals"
+                    },
+                    {
+                      "label": "c",
+                      "text": "made efforts to prevent the destruction of the ocean"
+                    }
+                  ],
+                  "answer": "c"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "share_thoughts",
+      "cornerNumber": 5,
+      "titleKo": "생각 나누기 (올바른 디지털 시민)",
+      "titleEn": "Share Your Thoughts",
+      "pageRange": "pp. 22-23",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "share_digital_citizen",
+          "type": "share_digital_citizen",
+          "title": "A Good Digital Citizen (pp. 22-23)",
+          "data": {
+            "videoTitle": "GCFGlobal, Being a good digital citizen",
+            "youtubeUrl": "https://www.youtube.com/embed/ybCoDEZ8sP8",
+            "sourceCitation": "CGFGlobal, Being a good digital citizen, 2023 (교과서 p.169 Sources)",
+            "step1": {
+              "quiz1": {
+                "question": "What is the topic of the video?",
+                "options": [
+                  {
+                    "label": "a",
+                    "text": "being a good digital citizen"
+                  },
+                  {
+                    "label": "b",
+                    "text": "how to make friends online"
+                  },
+                  {
+                    "label": "c",
+                    "text": "the negative effects of social media"
+                  }
+                ],
+                "answer": "a"
+              },
+              "quiz2": {
+                "instruction": "Fill in the blanks with the expressions from the box: arguing, real people, digital citizen",
+                "sentence1": "Here are some things you can do to be a good [blank_1].",
+                "sentence2": "• Treat others as you’d like to be treated: You’re interacting with [blank_2].",
+                "sentence3": "• Don’t feed the trolls, those who enjoy annoying or [blank_3] with others online.",
+                "answers": {
+                  "blank_1": "digital citizen",
+                  "blank_2": "real people",
+                  "blank_3": "arguing"
+                }
+              },
+              "talkAboutVideo": {
+                "prompt": "Have you had a negative experience while interacting with others online?",
+                "example": "Yes, I have. I sometimes got rude comments from some people on my social media channel. When that happened, it really hurt my feelings, making me want to quit keeping my channel.",
+                "sampleAnswer": "No, I haven’t. It has been all positive for me."
+              }
+            },
+            "step2": {
+              "prompt": "What are some other actions you could take to become a better digital citizen?",
+              "categories": {
+                "weShould": [
+                  "use clean language in our posts",
+                  "be careful with personal information"
+                ],
+                "weShouldNot": [
+                  "believe everything we read online",
+                  "use others’ online content without their permission"
+                ]
+              }
+            },
+            "step3": {
+              "dialogueModel": [
+                {
+                  "speaker": "A",
+                  "text": "What do you think we should do to be better digital citizens?"
+                },
+                {
+                  "speaker": "B",
+                  "text": "I think we should use clean language in our posts."
+                },
+                {
+                  "speaker": "A",
+                  "text": "I totally agree."
+                },
+                {
+                  "speaker": "B",
+                  "text": "What about you?"
+                },
+                {
+                  "speaker": "A",
+                  "text": "Well, I think we shouldn’t believe everything we read online."
+                },
+                {
+                  "speaker": "B",
+                  "text": "You said it. That would make our online experience more pleasant."
+                }
+              ],
+              "checkPoint": [
+                "1. I can talk about what actions we can take to become better digital citizens.",
+                "2. I expressed my ideas clearly.",
+                "3. I listened to others carefully."
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "language_focus",
+      "cornerNumber": 6,
+      "titleKo": "언어 집중 탐구 (어휘 & 문법)",
+      "titleEn": "Language Focus",
+      "pageRange": "pp. 24-25",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "lang_word_grammar",
+          "type": "word_polysemy_match",
+          "title": "Word Uses (reflect) & Grammar in Context",
+          "data": {
+            "wordUses": {
+              "word": "reflect",
+              "meanings": [
+                {
+                  "label": "a",
+                  "definition": "to throw back light, heat, sound, etc., from a surface",
+                  "example": "You can see yourself in glass because it reflects light."
+                },
+                {
+                  "label": "b",
+                  "definition": "to show the nature of someone or something",
+                  "example": "Your body gestures can reflect your state of mind."
+                },
+                {
+                  "label": "c",
+                  "definition": "to think carefully and deeply",
+                  "example": "The students reflected on the lessons they learned from the class."
+                }
+              ],
+              "sentences": [
+                {
+                  "id": "wu_1",
+                  "text": "Those who do not reflect on the past, ignore the present, and fear the future will live in constant anxiety. - Seneca",
+                  "answer": "c"
+                },
+                {
+                  "id": "wu_2",
+                  "text": "The artist signed her works as Dulah Marie Evans, Dulah Llan Evans, or Dulah Evans Krehbiel, perhaps to reflect the diversity of her art.",
+                  "answer": "b"
+                },
+                {
+                  "id": "wu_3",
+                  "text": "When water is still, its surface can reflect as much as 80% of the light hitting it. This is why you can see your reflection on it.",
+                  "answer": "a"
+                }
+              ]
+            },
+            "commonPhrases": {
+              "boxPhrases": [
+                "think up",
+                "in line with",
+                "ended up"
+              ],
+              "bookExamples": [
+                "At first, it was because I was bored, but I ended up playing the guitar all afternoon.",
+                "All I did was think up ways to get others to like my posts.",
+                "I’m going to make sure that my activities are in line with my well-being and happiness."
+              ],
+              "exercises": [
+                {
+                  "id": "cp_1",
+                  "sentence": "I tried hard to [blank] an excuse for being late to school for the third time this month, but I couldn’t.",
+                  "answer": "think up"
+                },
+                {
+                  "id": "cp_2",
+                  "sentence": "This year, farmers grew a lot more carrots than last year, so the supply is not [blank] the demand.",
+                  "answer": "in line with"
+                },
+                {
+                  "id": "cp_3",
+                  "sentence": "I just bounced around the world like a ball, spending three months here and two months there, and I [blank] visiting 30 countries in total.",
+                  "answer": "ended up"
+                }
+              ]
+            },
+            "grammarInContext": {
+              "part1": {
+                "ruleName": "전치사 + 관계대명사",
+                "explanation": "관계대명사가 전치사의 목적어일 때 전치사는 관계대명사 바로 앞에 올 수 있습니다.",
+                "mainTextExamples": [
+                  "Basically, I have severe FOMO, for which I’m in desperate need of a cure. (p. 14)",
+                  "After breakfast, I felt a strong urge to go online, to which I didn’t want to give in. (p. 16)"
+                ],
+                "passage": "“Did you enjoy the show?” is possibly one of the worst questions to ask someone who just saw your show. By asking this question, you essentially prevent honest opinions. I recently saw a high school play, after which some of the performers came by to chat. One of them asked the question, to which I responded “yes,” with a hint of hesitation.",
+                "exercises": [
+                  {
+                    "id": "g1_1",
+                    "instruction": "Complete the sentences with the given words (which / with / tomatoes):",
+                    "template": "She had a garden of [blank_1], [blank_2] she made marvelous soup.",
+                    "answerWords": "tomatoes, with which",
+                    "fullAnswer": "She had a garden of tomatoes, with which she made marvelous soup."
+                  },
+                  {
+                    "id": "g1_2",
+                    "instruction": "Complete the sentences with the given words (with / cousin / whom):",
+                    "template": "I go to the same school as my [blank_1], [blank_2] I have a very close bond.",
+                    "answerWords": "cousin, with whom",
+                    "fullAnswer": "I go to the same school as my cousin, with whom I have a very close bond."
+                  }
+                ]
+              },
+              "part2": {
+                "ruleName": "분사구문",
+                "explanation": "부사절의 접속사와 주어를 생략하고 동사를 현재분사(-ing) 또는 과거분사(-ed) 형태로 바꾸어 부사구를 만듭니다.",
+                "mainTextExamples": [
+                  "While walking in the park, I probably glanced at my phone 20 times. (p. 16)"
+                ],
+                "passage": "With Mom away, we tried making dinner on our own, but none of us knew what we were doing. While making the iced tea, my little brother stirred it with his bare hands, so it wasn’t drinkable. My older brother forgot to take the plastic wrap off the roast beef before he put it in the oven. The meat came out shiny as if covered with wax.",
+                "exercises": [
+                  {
+                    "id": "g2_1",
+                    "original": "When you wipe your glasses, be sure not to use paper as it will leave scratches.",
+                    "template": "= When [blank] your glasses, be sure not to use paper as it will leave scratches.",
+                    "answer": "wiping"
+                  },
+                  {
+                    "id": "g2_2",
+                    "original": "People leaned forward as if they were attracted by magnets.",
+                    "template": "= People leaned forward as if [blank] by magnets.",
+                    "answer": "attracted"
+                  },
+                  {
+                    "id": "g2_3",
+                    "original": "When she was asked to take off her hat, she politely declined.",
+                    "template": "= When [blank] to take off her hat, she politely declined.",
+                    "answer": "asked"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "write_present",
+      "cornerNumber": 7,
+      "titleKo": "쓰기 & 발표 스튜디오 (4단계 작문)",
+      "titleEn": "Write & Present",
+      "pageRange": "pp. 26-28",
+      "priority": "P2",
+      "activities": [
+        {
+          "activityId": "write_studio_six_strings",
+          "type": "step_writing_workspace",
+          "title": "Promoting a School Club Online (Six Strings, pp. 26-28)",
+          "data": {
+            "writingWorkspace": {
+              "modelWriting": {
+                "clubName": "Six Strings",
+                "title": "Six Strings",
+                "text": "Six Strings is a cool place where students can learn to play the guitar, discuss music, show their skills, and teach others. The club performs at school events at least twice a year, so you could get a chance to play on stage. How exciting is that? The club also sometimes participates in community events. You don’t have to bring a guitar; all you need is the willingness to interact with others. Don’t you want to make new friends while having fun playing the guitar and singing along? Come on and sign up now! You won’t regret it. #Six_Strings #school_club #fun_club #guitar #best_club For more information, contact 6strings@simin.hs.kr.",
+                "sections": [
+                  {
+                    "label": "Club information",
+                    "text": "Six Strings is a cool place where students can learn to play the guitar, discuss music, show their skills, and teach others."
+                  },
+                  {
+                    "label": "(A) Main activities",
+                    "text": "The club performs at school events at least twice a year, so you could get a chance to play on stage. How exciting is that? The club also sometimes participates in community events."
+                  },
+                  {
+                    "label": "(B) Requirements",
+                    "text": "You don’t have to bring a guitar; all you need is the willingness to interact with others."
+                  },
+                  {
+                    "label": "(C) Inviting remarks",
+                    "text": "Don’t you want to make new friends while having fun playing the guitar and singing along? Come on and sign up now! You won’t regret it."
+                  },
+                  {
+                    "label": "Contact information",
+                    "text": "For more information, contact 6strings@simin.hs.kr."
+                  }
+                ],
+                "headingsBox": [
+                  "Requirements",
+                  "Inviting remarks",
+                  "Main activities"
+                ]
+              },
+              "step1Analyze": {
+                "instruction": "Analyze the text and label each part with an appropriate heading from the box.",
+                "answers": {
+                  "A": "Main activities",
+                  "B": "Requirements",
+                  "C": "Inviting remarks"
+                }
+              },
+              "step2Outline": {
+                "example": {
+                  "clubInformation": "a place where students can learn to play the guitar, discuss music, show their skills, and teach others",
+                  "mainActivities": "• performs at school events at least twice a year\n• participates in community events",
+                  "requirements": "the willingness to interact with others",
+                  "invitingRemarks": "Come on and sign up now! You won’t regret it.",
+                  "contactInformation": "6strings@simin.hs.kr"
+                },
+                "writingTip": "소개하는 동아리의 활동과 목적, 자격 요건과 같은 정보를 넣고, 학생들의 흥미를 끌 효과적인 홍보 문구를 활용합니다."
+              },
+              "step3Draft": {
+                "template": "[Club Name] is a place where [Information]. The club [Main activities 1]. The club also [Main activities 2]. You don’t have to [Requirement 1]; all you need is [Requirement 2]. Don’t you want to [Question]? Come on and [Inviting remarks]! For more information, [Contact].",
+                "rubric": [
+                  {
+                    "criterion": "내용 충실성 (Content)",
+                    "weight": 40,
+                    "guideline": "동아리 소개, 주요 활동, 가입 요건, 초대의 말, 연락처가 빠짐없이 포함되었는가?"
+                  },
+                  {
+                    "criterion": "어법 및 문법 (Grammar)",
+                    "weight": 30,
+                    "guideline": "주어-동사 수일치, 관계대명사(where/which), 조동사 표현이 정확한가?"
+                  },
+                  {
+                    "criterion": "어휘 및 표현 (Vocabulary)",
+                    "weight": 30,
+                    "guideline": "적절한 어휘와 효과적인 홍보 문구가 매력적으로 활용되었는가?"
+                  }
+                ]
+              },
+              "step4Revise": {
+                "selfChecklist": [
+                  "Does the post make the club look attractive to others?",
+                  "Is the writing well organized?",
+                  "Are there any grammatical mistakes?"
+                ],
+                "editingPractice": {
+                  "tip": "문장의 첫 글자는 항상 대문자로 시작합니다. 특정한 사람, 장소, 기관 등을 나타내는 고유명사의 각 단어 역시 첫 글자를 대문자로 시작합니다.",
+                  "textWithErrors": "Kobe bryant inspired a generation of basketball players worldwide with his skills and enthusiasm. He earned Los angeles’ endless love during his two decades as the fierce soul of the LA Lakers, and He was respected by basketball fans from every place with a basketball and a dream, including his native Philadelphia and italy, where he was raised as a child. less than four years into his retirement, bryant was seizing new challenges and working to inspire his daughters’ generation through sports and storytelling.",
+                  "corrections": [
+                    {
+                      "original": "bryant",
+                      "corrected": "Bryant",
+                      "rule": "인명의 고유명사는 대문자로 시작"
+                    },
+                    {
+                      "original": "Los angeles’",
+                      "corrected": "Los Angeles’",
+                      "rule": "지명의 고유명사는 대문자로 시작"
+                    },
+                    {
+                      "original": "and He was",
+                      "corrected": "and he was",
+                      "rule": "문장 중간의 일반 대명사는 소문자"
+                    },
+                    {
+                      "original": "italy",
+                      "corrected": "Italy",
+                      "rule": "국가명의 고유명사는 대문자로 시작"
+                    },
+                    {
+                      "original": "less than",
+                      "corrected": "Less than",
+                      "rule": "문장의 첫 단어는 대문자로 시작"
+                    },
+                    {
+                      "original": "bryant was",
+                      "corrected": "Bryant was",
+                      "rule": "인명의 고유명사는 대문자로 시작"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "go_global",
+      "cornerNumber": 8,
+      "titleKo": "글로벌 문화 & 단원 총괄평가",
+      "titleEn": "Go Global & Wrap Up",
+      "pageRange": "pp. 29-31",
+      "priority": "P1",
+      "activities": [
+        {
+          "activityId": "global_texting",
+          "type": "texting_abbreviations",
+          "title": "Go Global: Texting Abbreviations (p. 29)",
+          "data": {
+            "goGlobal": {
+              "dialogue1": "Hey, just checking that ill CU l8r? Was gonna get some pizza but IDK what you wanted. LMK ur preference ASAP so I can order B4 2nite. Im starving BTW LOL! LY.",
+              "dialogue2": "Hi, yep. pizza sounds gr8, thx. Sry 4 the l8 reply. Im rly hungry 2. w8 4 me outside plz? TTYL xoxo",
+              "exercises": [
+                {
+                  "id": "ga_1",
+                  "text": "1. ill CU l8r",
+                  "answer": "I’ll see you later"
+                },
+                {
+                  "id": "ga_2",
+                  "text": "2. LMK",
+                  "answer": "Let me know"
+                },
+                {
+                  "id": "ga_3",
+                  "text": "3. B4 2nite",
+                  "answer": "before tonight"
+                },
+                {
+                  "id": "ga_4",
+                  "text": "4. Im rly hungry 2.",
+                  "answer": "I’m really hungry, too."
+                }
+              ],
+              "abbreviationsList": [
+                {
+                  "abbr": "ill",
+                  "meaning": "I’ll"
+                },
+                {
+                  "abbr": "CU",
+                  "meaning": "see you"
+                },
+                {
+                  "abbr": "l8r",
+                  "meaning": "later"
+                },
+                {
+                  "abbr": "IDK",
+                  "meaning": "I don’t know"
+                },
+                {
+                  "abbr": "LMK",
+                  "meaning": "let me know"
+                },
+                {
+                  "abbr": "ur",
+                  "meaning": "your"
+                },
+                {
+                  "abbr": "ASAP",
+                  "meaning": "as soon as possible"
+                },
+                {
+                  "abbr": "B4",
+                  "meaning": "before"
+                },
+                {
+                  "abbr": "2nite",
+                  "meaning": "tonight"
+                },
+                {
+                  "abbr": "Im",
+                  "meaning": "I’m"
+                },
+                {
+                  "abbr": "BTW",
+                  "meaning": "by the way"
+                },
+                {
+                  "abbr": "LOL",
+                  "meaning": "laughing out loud"
+                },
+                {
+                  "abbr": "LY",
+                  "meaning": "love you"
+                },
+                {
+                  "abbr": "gr8",
+                  "meaning": "great"
+                },
+                {
+                  "abbr": "thx",
+                  "meaning": "thanks"
+                },
+                {
+                  "abbr": "sry",
+                  "meaning": "sorry"
+                },
+                {
+                  "abbr": "4",
+                  "meaning": "for"
+                },
+                {
+                  "abbr": "l8",
+                  "meaning": "late"
+                },
+                {
+                  "abbr": "rly",
+                  "meaning": "really"
+                },
+                {
+                  "abbr": "2",
+                  "meaning": "too"
+                },
+                {
+                  "abbr": "w8",
+                  "meaning": "wait"
+                },
+                {
+                  "abbr": "plz",
+                  "meaning": "please"
+                },
+                {
+                  "abbr": "TTYL",
+                  "meaning": "talk to you later"
+                },
+                {
+                  "abbr": "xoxo",
+                  "meaning": "hugs and kisses"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "activityId": "wrap_up_activities",
+          "type": "wrap_up_activities",
+          "title": "Wrap Up (p. 30)",
+          "data": {
+            "partA": {
+              "question": "What are the speakers mainly talking about?",
+              "options": [
+                {
+                  "label": "a",
+                  "text": "making friends online"
+                },
+                {
+                  "label": "b",
+                  "text": "meeting people face to face"
+                },
+                {
+                  "label": "c",
+                  "text": "learning about a foreign country"
+                }
+              ],
+              "answer": "a",
+              "script": "G: I don’t understand how people can make friends online.\nB: What don’t you understand about it?\nG: I believe friendship is not something you can maintain without hanging out face to face.\nB: But online friends can see each other on the screen.\nG: You know what I mean. I’m talking about meeting someone in person.\nB: I know what you mean, but maybe online friends have a different kind of relationship than you think.\nG: Hmm, that’s interesting.\nB: I actually made friends with a high school student in Australia, who I met online last year. We’ve regularly chatted online and have gotten really close.\nG: I see your point."
+            },
+            "partB": {
+              "dialogue": [
+                {
+                  "speaker": "A",
+                  "text": "Do you think it is okay to share a photo of someone else on social media without that person knowing about it?"
+                },
+                {
+                  "speaker": "B",
+                  "text": "Of course not. I think you should get permission from that person before you do that."
+                }
+              ]
+            },
+            "partC": {
+              "passage": "But soon after, I got restless. I don’t remember how long it was, but I stared at my phone screen in complete confusion for quite a while. I called Jamie, and we chatted for about an hour. But there’s only so much you can do over a voice call. We decided to meet later in the afternoon for a bike ride. What else can I do on my phone? I lay on my bed even though I wasn’t sleepy. I stayed there until I went out to meet Jamie. Throughout the day, it felt like things slowed down considerably. What a long day!",
+              "quiz1": {
+                "question": "Why did the writer decide to meet Jamie for a bike ride?",
+                "options": [
+                  {
+                    "label": "a",
+                    "text": "It was because she got restless after the phone call."
+                  },
+                  {
+                    "label": "b",
+                    "text": "It was because she had made plans with Jamie the other day."
+                  },
+                  {
+                    "label": "c",
+                    "text": "It was because there was only so much they could do over the voice call."
+                  }
+                ],
+                "answer": "c"
+              },
+              "quiz2": {
+                "prompt": "Write about what it would be like to live a few days without using digital devices.",
+                "sampleAnswer": "I can’t imagine such a situation. Maybe I will get by for a few days without using a computer, but I don’t think I can last more than a few hours without using my cell phone."
+              }
+            }
+          }
+        },
+        {
+          "activityId": "lesson_summary",
+          "type": "lesson_summary",
+          "title": "Lesson Summary (p. 31)",
+          "data": {
+            "selfCheck": [
+              {
+                "corner": "Communicate on Topic",
+                "statement": "I learned about the positive and negative sides of social media.",
+                "targetExpressions": [
+                  "이해 상태 표현하기: I know what you mean.",
+                  "부인하기: Of course not."
+                ]
+              },
+              {
+                "corner": "Read",
+                "statement": "I read a personal story about digital detox.",
+                "targetExpressions": [
+                  "• I felt a strong urge to go online, to which I didn’t want to give in.",
+                  "• While walking in the park, I probably glanced at my phone 20 times."
+                ]
+              },
+              {
+                "corner": "Share Your Thoughts",
+                "statement": "I talked about how to become a better digital citizen."
+              },
+              {
+                "corner": "Write & Present",
+                "statement": "I wrote an online post promoting a school club."
+              },
+              {
+                "corner": "Go Global",
+                "statement": "I learned about abbreviations used in texting."
+              }
+            ],
+            "thinkBack": {
+              "q1": "What was the most interesting part of this lesson? Why?",
+              "q2": "How can we promote our digital well-being?",
+              "topicSampleAnswer": "We can promote our digital well-being by being mindful of others and being cautious not to get carried away while engaging in online activities."
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "addict",
+      "meaning": "중독자",
+      "page": 12
+    },
+    {
+      "word": "addiction",
+      "meaning": "중독",
+      "page": 14
+    },
+    {
+      "word": "anxiety",
+      "meaning": "불안, 염려",
+      "page": 10
+    },
+    {
+      "word": "be in the know",
+      "meaning": "잘 알고 있다",
+      "page": 14
+    },
+    {
+      "word": "considerably",
+      "meaning": "상당히, 꽤",
+      "page": 15
+    },
+    {
+      "word": "desperate",
+      "meaning": "절실한, 필사적인",
+      "page": 14
+    },
+    {
+      "word": "detox",
+      "meaning": "해독, 디톡스",
+      "page": 15
+    },
+    {
+      "word": "glance",
+      "meaning": "힐끔 보다",
+      "page": 16
+    },
+    {
+      "word": "give in",
+      "meaning": "굴복하다, 항복하다",
+      "page": 16
+    },
+    {
+      "word": "in line with",
+      "meaning": "~에 부합하는",
+      "page": 18
+    },
+    {
+      "word": "matter",
+      "meaning": "중요하다, 문제",
+      "page": 16
+    },
+    {
+      "word": "pull the plug",
+      "meaning": "플러그를 뽑다, 중단하다",
+      "page": 15
+    },
+    {
+      "word": "reflect",
+      "meaning": "반사하다, 반영하다, 깊이 생각하다",
+      "page": 24
+    },
+    {
+      "word": "restless",
+      "meaning": "안절부절못하는",
+      "page": 15
+    },
+    {
+      "word": "sway",
+      "meaning": "흔들리다",
+      "page": 12
+    },
+    {
+      "word": "swipe",
+      "meaning": "손가락으로 화면을 쓸어 넘기다",
+      "page": 15
+    }
+  ]
+}
