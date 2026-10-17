@@ -60,16 +60,7 @@ export const ProjectorToolbar: React.FC<ProjectorToolbarProps> = ({
   };
 
   const handleExportNeisCSV = () => {
-    const csv = StorageService.exportNeisObservationsToCSV(user, lessonNumber);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    const dateStr = new Date().toISOString().split('T')[0];
-    link.setAttribute('download', `심인고_영어1_단원${lessonNumber}_세특관찰기록_${dateStr}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    StorageService.exportObservationsCSV(user, lessonNumber);
   };
 
   const formatTimer = (secs: number) => {

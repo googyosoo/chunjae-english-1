@@ -18,6 +18,7 @@ export interface SentenceItem {
   id: string;
   en: string;
   ko: string;
+  speaker?: string;
   grammarTip?: string;
   keyWords?: string[];
   isLanguageFocus?: boolean; // 문법 타깃 문장 여부
@@ -41,7 +42,7 @@ export interface ReadingParagraph {
 }
 
 export interface DialogueUtterance {
-  speaker: string; // "B", "G", "M", "W", "Selena", etc.
+  speaker: string; // "B", "G", "M", "W", etc.
   text: string;
   translation: string;
 }
@@ -62,19 +63,19 @@ export interface VocabularyItem {
 }
 
 export interface RubricItem {
-  criterion: string; // 평가 항목 (예: 내용 충실성, 문법 정확성, 어휘 다양성)
+  criterion: string; // 평가 항목
   weight: number; // 배점 비율 (0~100)
   guideline: string; // AI 및 교사 평가 가이드
 }
 
 export interface ActivityPayload {
-  // Introduction
+  // 1. Introduction
   topicQuestion?: string;
   topicSampleAnswer?: string;
   hashtags?: string[];
   lessonFlow?: { step: number; title: string; pageRange: string }[];
 
-  // Communicate on Topic
+  // 2. Communicate on Topic
   watchAndThink?: {
     videoTitle: string;
     youtubeUrl: string;
@@ -114,10 +115,10 @@ export interface ActivityPayload {
     }[];
   };
 
-  // Read
+  // 3. Read
   beforeYouRead?: {
-    backgroundCheck: { id: string; prompt: string; frequencyOptions: string[] }[];
-    vocabularyCheck: { sentence: string; blankIndex: number; options: string[]; answer: string }[];
+    backgroundCheck: { id: string; statement?: string; prompt?: string; options?: string[]; frequencyOptions?: string[] }[];
+    vocabularyCheck: { id?: string; sentence: string; blankIndex?: number; options: string[]; answer: string }[];
   };
   reading?: {
     title: string;
@@ -127,24 +128,20 @@ export interface ActivityPayload {
   };
   readFurther?: {
     title: string;
-    subtitle: string;
-    readingTip?: { title: string; desc: string };
-    paragraphs: ReadingParagraph[];
-    comprehensionCheck?: { question: string; options: string[]; answer: string }[];
-  };
-  shareThoughts?: {
-    videoTitle: string;
-    youtubeUrl: string;
-    sourceCitation?: string;
-    script: SentenceItem[];
-    reflectionQuestions: string[];
-    sampleDraft: string;
+    source?: string;
+    intro?: string;
+    paragraphs?: { paragraphNumber: number; text: string }[];
+    conclusion?: string;
+    question: string;
+    sampleAnswer: string;
   };
 
-  // After You Read
+  // 4. After You Read
   summaryFillBlanks?: {
-    textTemplate: string; // "[blank_1] is short for fear..."
-    options: string[];
+    textTemplate?: string;
+    options?: string[];
+    wordBox?: string[];
+    items?: { stage: string; text: string; answer: string }[];
     answers: { [key: string]: string };
   };
   detailsTF?: {
@@ -156,41 +153,96 @@ export interface ActivityPayload {
   }[];
   readingSkill?: {
     skillName: string;
-    questions: { id: string; question: string; options: { label: string; text: string }[]; answer: string }[];
+    skillDesc?: string;
+    example?: {
+      expression: string;
+      context: string;
+      options: { label: string; text: string }[];
+      answer: string;
+    };
+    questions: {
+      id: string;
+      passage?: string;
+      target?: string;
+      question?: string;
+      options: { label: string; text: string }[];
+      answer: string;
+    }[];
   };
 
-  // Language Focus
+  // 5. Share Thoughts
+  shareThoughts?: {
+    videoTitle: string;
+    youtubeUrl: string;
+    sourceCitation?: string;
+    script: SentenceItem[];
+    reflectionQuestions: string[];
+    sampleDraft: string;
+  };
+
+  // 6. Language Focus
   wordUses?: {
     word: string;
     meanings: { label: string; meaningKo: string }[];
     sentences: { id: string; en: string; ko: string; answerLabel: string }[];
   };
+  commonPhrases?: {
+    boxPhrases: string[];
+    exercises: { id: string; sentence: string; answer: string; ko: string }[];
+  };
   grammarInContext?: {
-    patternName: string; // e.g. "전치사 + 관계대명사", "분사구문"
-    explanation: string;
-    examples: { en: string; ko: string }[];
-    practiceQuestions: { id: string; instruction: string; originalSentence: string; answer: string }[];
+    patternName?: string;
+    explanation?: string;
+    examples?: { en: string; ko: string }[];
+    practiceQuestions?: { id: string; instruction: string; originalSentence: string; answer: string }[];
+    part1?: {
+      patternName: string;
+      explanation: string;
+      examples: { en: string; ko: string }[];
+      exercises: { id: string; instruction?: string; template?: string; prompt?: string; options?: string[]; answerWords?: string; fullAnswer?: string }[];
+    };
+    part2?: {
+      patternName: string;
+      explanation: string;
+      examples: { en: string; ko: string }[];
+      exercises: { id: string; original?: string; template?: string; sentence?: string; baseVerb?: string; answer: string; ko?: string }[];
+    };
   };
 
-  // Write & Present
+  // 7. Write & Present
   writingWorkspace?: {
     modelWriting: {
-      type: string;
+      clubName?: string;
+      type?: string;
       title: string;
       text: string;
-      sections: { name: string; text: string }[];
+      sections: { label?: string; name?: string; text: string }[];
+      headingsBox?: string[];
     };
-    step1Analyze: { instruction: string; questions: string[] };
+    step1Analyze: {
+      instruction: string;
+      answers?: { [key: string]: string };
+      questions?: string[];
+    };
     step2Outline: {
-      formFields: { fieldName: string; labelKo: string; placeholder: string; sample: string }[];
+      example?: {
+        clubInformation: string;
+        mainActivities: string;
+        requirements: string;
+        invitingRemarks: string;
+        contactInformation: string;
+      };
+      writingTip?: string;
+      formFields?: { fieldName: string; labelKo: string; placeholder: string; sample: string }[];
     };
     step3Draft: {
-      guidelines: string[];
+      template?: string;
+      guidelines?: string[];
       rubric: RubricItem[];
-      sampleDraft: string;
+      sampleDraft?: string;
     };
     step4Revise: {
-      checklist: string[];
+      checklist?: string[];
       editingPractice: {
         textWithErrors: string;
         corrections: { original: string; corrected: string; explanation: string }[];
@@ -198,19 +250,43 @@ export interface ActivityPayload {
     };
   };
 
-  // Go Global / Wrap Up
+  // 8. Go Global / Wrap Up
   goGlobal?: {
     title: string;
-    content: { abbreviation: string; fullText: string; meaningKo: string }[];
+    description?: string;
+    exercises?: { id: string; textMessage: string; abbreviation: string; answer: string }[];
+    commonAbbreviations?: { abbr: string; full: string; meaningKo: string }[];
+    content?: { abbreviation: string; fullText: string; meaningKo: string }[];
   };
   wrapUp?: {
-    quizzes: {
+    partA_crosswordOrVocab?: {
+      instructions: string;
+      items: { id: string; clue: string; answer: string }[];
+    };
+    partB_summary?: {
+      title: string;
+      textTemplate: string;
+      blanks: { id: string; hint: string; answer: string }[];
+    };
+    quizzes?: {
       id: string;
       question: string;
       options: { label: string; text: string }[];
       answer: string;
       explanation: string;
     }[];
+  };
+  lessonSummary?: {
+    selfCheck?: {
+      corner: string;
+      statement: string;
+      targetExpressions?: string[];
+    }[];
+    thinkBack?: {
+      q1: string;
+      q2: string;
+      topicSampleAnswer?: string;
+    };
   };
 }
 
@@ -231,6 +307,7 @@ export interface CornerItem {
 
 export interface LessonData {
   lessonNumber: number;
+  school?: string;
   title: string;
   topic: string;
   topicQuestion: string;

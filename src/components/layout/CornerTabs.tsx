@@ -35,6 +35,8 @@ export const CornerTabs: React.FC<CornerTabsProps> = ({
           return (
             <button
               key={corner.id}
+              data-testid={`corner-tab-${corner.id}`}
+              aria-label={`${corner.title} ${corner.subtitle}`}
               onClick={() => onSelectCorner(corner.id)}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all select-none ${
                 isActive

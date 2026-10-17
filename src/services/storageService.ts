@@ -1,12 +1,11 @@
 /**
- * Firestore 및 LocalStorage 하이브리드 영속성 관리자
+ * Firestore 및 LocalStorage 하이브리드 영속성 관리자 (동적 Firebase 코드 분할)
  * - 심인고등학교 Firestore 데이터베이스 실시간 동기화
  * - 학생 진도, 답안, NEIS 세특 관찰기록
- * - CSV Export 시 로그인된 학생의 실제 프로필 데이터 바인딩 (하드코딩 제거)
+ * - CSV Export 시 로그인된 학생의 실제 프로필 데이터 바인딩
  */
 
-import { doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs } from 'firebase/firestore';
-import { db } from './firebase';
+import { getFirebase, isFirebaseConfigured } from './firebase';
 import { UserProfile } from '../types/auth';
 
 export interface StudentProgress {
@@ -36,8 +35,10 @@ export class StorageService {
    * 학생 진도 조회 (Firestore 우선, 실패 시 LocalStorage fallback)
    */
   static async getProgressAsync(user: UserProfile | null, lessonNumber: number): Promise<StudentProgress> {
-    if (user && user.uid) {
+    if (user && user.uid && isFirebaseConfigured()) {
       try {
+        const { db } = await getFirebase();
+        const { doc, getDoc } = await import('firebase/firestore');
         const classId = `g${user.grade}_c${user.classNumber}`;
         const ref = doc(db, 'classes', classId, 'students', user.uid, 'progress', `lesson_${lessonNumber}`);
         const snap = await getDoc(ref);
@@ -96,8 +97,10 @@ export class StorageService {
 
     this.saveLocalProgress(progress);
 
-    if (user && user.uid) {
+    if (user && user.uid && isFirebaseConfigured()) {
       try {
+        const { db } = await getFirebase();
+        const { doc, setDoc } = await import('firebase/firestore');
         const classId = `g${user.grade}_c${user.classNumber}`;
         const ref = doc(db, 'classes', classId, 'students', user.uid, 'progress', `lesson_${progress.lessonNumber}`);
         await setDoc(ref, progress, { merge: true });
@@ -112,7 +115,7 @@ export class StorageService {
   }
 
   /**
-   * 코너 완료 체크 (user는 옵셔널)
+   * 코너 완료 체크
    */
   static async markCornerComplete(
     userOrLesson: UserProfile | null | number,
@@ -141,91 +144,116 @@ export class StorageService {
   }
 
   /**
-   * 관찰 기록(세특 근거) 누적 (user는 옵셔널)
+   * NEIS 세특 관찰 기록 로깅
    */
   static async logObservation(
-    userOrLesson: UserProfile | null | number,
-    lessonOrAction: number | string,
-    actionOrDetail?: string,
-    maybeDetail?: string
+    user: UserProfile | null,
+    lessonNumber: number,
+    action: string,
+    detail: string
   ): Promise<void> {
-    let user: UserProfile | null = null;
-    let lessonNumber = 1;
-    let action = '';
-    let detail = '';
-
-    if (typeof userOrLesson === 'number') {
-      lessonNumber = userOrLesson;
-      action = lessonOrAction as string;
-      detail = actionOrDetail || '';
-    } else {
-      user = userOrLesson;
-      lessonNumber = lessonOrAction as number;
-      action = actionOrDetail || '';
-      detail = maybeDetail || '';
-    }
-
+    const timestamp = new Date().toISOString();
     const progress = this.getProgress(lessonNumber);
-    const logItem = {
-      timestamp: new Date().toISOString(),
-      action,
-      detail,
-    };
-    progress.observedLogs.push(logItem);
-    await this.saveProgress(user, progress);
+    progress.observedLogs.push({ timestamp, action, detail });
+    this.saveLocalProgress(progress);
+
+    if (user && user.uid && isFirebaseConfigured()) {
+      try {
+        const { db } = await getFirebase();
+        const { collection, addDoc } = await import('firebase/firestore');
+        const classId = `g${user.grade}_c${user.classNumber}`;
+        const ref = collection(db, 'classes', classId, 'students', user.uid, 'observations');
+        await addDoc(ref, {
+          lessonNumber,
+          action,
+          detail,
+          timestamp,
+          studentName: user.name,
+          studentNumber: user.studentNumber,
+          teacherApproved: false,
+        });
+      } catch (e) {
+        console.warn('Firestore logObservation fallback:', e);
+      }
+    }
   }
 
   /**
-   * 내 단어장 저장
+   * 단어장 조회
+   */
+  static getVocabulary(): SavedWord[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.VOCAB);
+      if (data) return JSON.parse(data);
+    } catch {}
+    return [];
+  }
+
+  /**
+   * 단어 저장
    */
   static saveWord(word: string, meaning: string, contextSentence?: string): void {
-    const list = this.getSavedWords();
-    const existing = list.find(w => w.word.toLowerCase() === word.toLowerCase());
-    if (!existing) {
-      list.unshift({
+    const words = this.getVocabulary();
+    if (!words.some(w => w.word.toLowerCase() === word.toLowerCase())) {
+      words.push({
         word,
         meaning,
         savedAt: new Date().toISOString(),
         contextSentence,
         memorized: false,
       });
-      localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(list));
-    }
-  }
-
-  static getSavedWords(): SavedWord[] {
-    try {
-      const data = localStorage.getItem(STORAGE_KEYS.VOCAB);
-      return data ? JSON.parse(data) : [];
-    } catch {
-      return [];
+      localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(words));
     }
   }
 
   /**
-   * NEIS 세특용 관찰 기록 CSV Export
-   * [지시사항 5 반영]: '홍길동/10101' 하드코딩 완전 제거!
-   * 로그인된 사용자의 실제 학번, 이름, 반, 학년을 동적 바인딩.
+   * 단어 암기 여부 토글
    */
-  static exportNeisObservationsToCSV(user: UserProfile | null, lessonNumber: number): string {
+  static toggleMemorized(word: string): void {
+    const words = this.getVocabulary();
+    const target = words.find(w => w.word.toLowerCase() === word.toLowerCase());
+    if (target) {
+      target.memorized = !target.memorized;
+      localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(words));
+    }
+  }
+
+  /**
+   * 단어 삭제
+   */
+  static removeWord(word: string): void {
+    const words = this.getVocabulary().filter(w => w.word.toLowerCase() !== word.toLowerCase());
+    localStorage.setItem(STORAGE_KEYS.VOCAB, JSON.stringify(words));
+  }
+
+  /**
+   * NEIS 세특 관찰 기록 CSV Export
+   */
+  static exportObservationsCSV(user: UserProfile | null, lessonNumber: number): void {
     const progress = this.getProgress(lessonNumber);
-    const studentName = user?.name || '심인고 학생';
-    // 동적 학번 생성 (예: 1학년 3반 15번 -> 10315)
-    const studentIdNumber = user 
-      ? `${user.grade}${user.classNumber.toString().padStart(2, '0')}${user.studentNumber.toString().padStart(2, '0')}`
-      : '10101';
+    const logs = progress.observedLogs;
 
-    const headers = ['일시', '학번', '이름', '학교', '단원', '활동구분', '세부관찰내용(NEIS 세특 근거)'];
-    const rows = progress.observedLogs.map(log => [
-      log.timestamp.split('T')[0],
-      studentIdNumber,
-      `"${studentName}"`,
-      '"심인고등학교"',
-      `"Lesson ${lessonNumber}"`,
-      `"${log.action.replace(/"/g, '""')}"`,
-      `"${log.detail.replace(/"/g, '""')}"`,
-    ]);
+    const studentName = user?.name || '심인고학생';
+    const studentNumber = user?.studentNumber || 1;
+    const grade = user?.grade || 1;
+    const classNumber = user?.classNumber || 1;
 
-    return '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    let csvContent = '\uFEFF'; // UTF-8 BOM
+    csvContent += '일시,학년,반,번호,이름,활동유형,관찰내용(NEIS 참고용)\n';
+
+    logs.forEach(log => {
+      const dateStr = new Date(log.timestamp).toLocaleString('ko-KR');
+      const safeAction = `"${log.action.replace(/"/g, '""')}"`;
+      const safeDetail = `"${log.detail.replace(/"/g, '""')}"`;
+      csvContent += `${dateStr},${grade},${classNumber},${studentNumber},${studentName},${safeAction},${safeDetail}\n`;
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `심인고_세특관찰기록_${grade}학년${classNumber}반_${studentNumber}번_${studentName}_Lesson${lessonNumber}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 }

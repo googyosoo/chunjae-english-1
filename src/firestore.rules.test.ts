@@ -74,4 +74,27 @@ describe('Cloud Firestore Security Rules Validation for Simin High School', () =
     expect(rulesContent).toContain('data.observedLogs.size() <= 100');
     expect(rulesContent).toContain('isValidBoundedString(data.detail, 1, 2000)');
   });
+
+  // [수정 지시 02 추가 요구사항 전용 검증 테스트]
+  it('enforces email verification condition and simin.hs.kr domain matching', () => {
+    expect(rulesContent).toContain('request.auth.token.email_verified == true');
+    expect(rulesContent).toContain("request.auth.token.email.matches('.*@simin[.]hs[.]kr$')");
+  });
+
+  it('enforces class roster collection and isStudentInRoster verification', () => {
+    expect(rulesContent).toContain('match /roster/{rosterEmail}');
+    expect(rulesContent).toContain('function isStudentInRoster(classId)');
+    expect(rulesContent).toContain('exists(/databases/$(database)/documents/classes/$(classId)/roster/$(request.auth.token.email))');
+    expect(rulesContent).toContain('isValidRosterEntry(');
+  });
+
+  it('enforces complete cross-student isolation', () => {
+    expect(rulesContent).toContain('isStudent(studentId)');
+    expect(rulesContent).toContain('request.auth.uid == studentId');
+  });
+
+  it('enforces teacherApproved tampering prevention on observations', () => {
+    expect(rulesContent).toContain('request.resource.data.teacherApproved == false');
+    expect(rulesContent).toContain('request.resource.data.teacherApproved == resource.data.teacherApproved');
+  });
 });

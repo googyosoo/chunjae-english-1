@@ -1,14 +1,6 @@
-import { 
-  signInWithPopup, 
-  signOut as firebaseSignOut, 
-  onAuthStateChanged,
-  User 
-} from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db, googleProvider } from './firebase';
+import type { User } from 'firebase/auth';
+import { getFirebase, isFirebaseConfigured } from './firebase';
 import { UserProfile, ALLOWED_EMAIL_DOMAIN, UserRole } from '../types/auth';
-
-const STORAGE_KEY_AUTH = 'aidt_simin_auth_user';
 
 export class AuthService {
   /**
@@ -33,41 +25,51 @@ export class AuthService {
         studentNumber: parseInt(match[3], 10),
       };
     }
-    // 일반 계정 기본값
     return { grade: 1, classNumber: 1, studentNumber: 1 };
   }
 
   /**
-   * Firestore teachers 컬렉션 조회를 통해 교사 권한 확인
+   * Firestore teachers 컬렉션을 매번 직접 조회하여 교사 권한 확인 (localStorage 신뢰 금지)
    */
   static async checkIsTeacher(uid: string): Promise<boolean> {
     try {
+      const { db } = await getFirebase();
+      const { doc, getDoc } = await import('firebase/firestore');
       const teacherRef = doc(db, 'teachers', uid);
       const snap = await getDoc(teacherRef);
       return snap.exists();
     } catch {
-      // 오프라인이거나 개발 환경 fallback
       return false;
     }
   }
 
   /**
-   * Firebase Google 로그인 실행
+   * Firebase Google 로그인 실행 (Mock 우회 코드 완전 제거)
    */
   static async loginWithGoogle(): Promise<{ success: boolean; user?: UserProfile; message?: string }> {
+    if (!isFirebaseConfigured()) {
+      return {
+        success: false,
+        message: 'Firebase 환경 설정이 완료되지 않았습니다. .env 설정(.env.example 참조)을 확인해주세요.',
+      };
+    }
+
     try {
+      const { auth, googleProvider } = await getFirebase();
+      const { signInWithPopup, signOut } = await import('firebase/auth');
+
       const cred = await signInWithPopup(auth, googleProvider);
       const firebaseUser = cred.user;
 
       if (!this.isValidSchoolEmail(firebaseUser.email)) {
-        await firebaseSignOut(auth);
+        await signOut(auth);
         return {
           success: false,
-          message: `비인가 계정입니다. 본 플랫폼은 심인고등학교 구성원 전용이며, 반드시 @${ALLOWED_EMAIL_DOMAIN} 계정으로 로그인해야 합니다.`,
+          message: `비인가 계정입니다. 심인고등학교 공식 도메인(@${ALLOWED_EMAIL_DOMAIN}) 계정으로만 로그인할 수 있습니다.`,
         };
       }
 
-      // 교사 여부 판별 (Firestore teachers 컬렉션 조회)
+      // Firestore teachers 컬렉션을 실시간 조회하여 교사 권한 확인
       const isTeacher = await this.checkIsTeacher(firebaseUser.uid);
       const role: UserRole = isTeacher ? 'teacher' : 'student';
       const info = this.parseStudentInfo(firebaseUser.email!);
@@ -84,27 +86,8 @@ export class AuthService {
         photoURL: firebaseUser.photoURL || undefined,
       };
 
-      localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(profile));
       return { success: true, user: profile };
     } catch (e: any) {
-      // 로컬 개발 모드 지원 (네트워크 제한 환경 시뮬레이션용)
-      if (e.code === 'auth/configuration-not-found' || e.message?.includes('dummy') || e.code === 'auth/invalid-api-key') {
-        // Mock fallback for testing environment with valid @simin.hs.kr
-        const mockEmail = 's10315@simin.hs.kr';
-        const info = this.parseStudentInfo(mockEmail);
-        const profile: UserProfile = {
-          uid: 'mock_simin_student_10315',
-          email: mockEmail,
-          name: '심인고 학생',
-          role: 'student',
-          grade: info.grade,
-          classNumber: info.classNumber,
-          studentNumber: info.studentNumber,
-          domain: ALLOWED_EMAIL_DOMAIN,
-        };
-        localStorage.setItem(STORAGE_KEY_AUTH, JSON.stringify(profile));
-        return { success: true, user: profile };
-      }
       return {
         success: false,
         message: `로그인 실패: ${e.message || '인증 중 문제가 발생했습니다.'}`,
@@ -113,18 +96,78 @@ export class AuthService {
   }
 
   /**
-   * 현재 사용자 프로필 로드
+   * Firebase 세션 기반 실시간 인증 상태 구독 (onAuthStateChanged)
+   * localStorage의 role을 신뢰하지 않고, 세션 발생 시마다 매번 Firestore teachers 컬렉션을 조회하여 프로필을 생성함
    */
-  static getCurrentUser(): UserProfile | null {
+  static async subscribeAuthState(
+    onUserChange: (user: UserProfile | null) => void,
+    onError?: (err: Error) => void
+  ): Promise<() => void> {
+    if (!isFirebaseConfigured()) {
+      onUserChange(null);
+      if (onError) onError(new Error('Firebase 설정이 누락되었습니다.'));
+      return () => {};
+    }
+
     try {
-      const data = localStorage.getItem(STORAGE_KEY_AUTH);
-      if (!data) return null;
-      const user = JSON.parse(data) as UserProfile;
-      if (this.isValidSchoolEmail(user.email)) {
-        return user;
-      }
-      this.logout();
-      return null;
+      const { auth } = await getFirebase();
+      const { onAuthStateChanged, signOut } = await import('firebase/auth');
+
+      const unsubscribe = onAuthStateChanged(
+        auth,
+        async (firebaseUser: User | null) => {
+          if (!firebaseUser) {
+            onUserChange(null);
+            return;
+          }
+
+          if (!this.isValidSchoolEmail(firebaseUser.email)) {
+            await signOut(auth);
+            onUserChange(null);
+            return;
+          }
+
+          // 세션 복원 시에도 Firestore teachers 컬렉션을 매번 새로 조회
+          const isTeacher = await this.checkIsTeacher(firebaseUser.uid);
+          const role: UserRole = isTeacher ? 'teacher' : 'student';
+          const info = this.parseStudentInfo(firebaseUser.email!);
+
+          const profile: UserProfile = {
+            uid: firebaseUser.uid,
+            email: firebaseUser.email!.trim().toLowerCase(),
+            name: firebaseUser.displayName || '심인고 구성원',
+            role: role,
+            grade: info.grade,
+            classNumber: info.classNumber,
+            studentNumber: info.studentNumber,
+            domain: ALLOWED_EMAIL_DOMAIN,
+            photoURL: firebaseUser.photoURL || undefined,
+          };
+
+          onUserChange(profile);
+        },
+        (error) => {
+          if (onError) onError(error);
+        }
+      );
+
+      return unsubscribe;
+    } catch (err: any) {
+      if (onError) onError(err);
+      return () => {};
+    }
+  }
+
+  /**
+   * 백엔드 API 호출을 위한 Firebase ID 토큰 획득
+   */
+  static async getIdToken(): Promise<string | null> {
+    if (!isFirebaseConfigured()) return null;
+    try {
+      const { auth } = await getFirebase();
+      const user = auth.currentUser;
+      if (!user) return null;
+      return await user.getIdToken();
     } catch {
       return null;
     }
@@ -134,9 +177,11 @@ export class AuthService {
    * 로그아웃
    */
   static async logout(): Promise<void> {
+    if (!isFirebaseConfigured()) return;
     try {
-      await firebaseSignOut(auth);
+      const { auth } = await getFirebase();
+      const { signOut } = await import('firebase/auth');
+      await signOut(auth);
     } catch {}
-    localStorage.removeItem(STORAGE_KEY_AUTH);
   }
 }

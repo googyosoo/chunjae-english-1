@@ -13,4 +13,8 @@ export default defineConfig({
       '@': '/src',
     },
   },
+  test: {
+    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    exclude: ['tests/**', 'node_modules/**', 'dist/**'],
+  },
 });

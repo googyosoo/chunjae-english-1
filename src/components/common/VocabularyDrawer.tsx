@@ -3,15 +3,18 @@ import { StorageService, SavedWord } from '../../services/storageService';
 import { TTSService } from '../../services/ttsService';
 import { X, Volume2, CheckCircle2, Circle, Trash2, Bookmark } from 'lucide-react';
 
+import { VocabularyItem } from '../../types/lesson';
+
 interface VocabularyDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  vocabulary?: VocabularyItem[];
 }
 
-export const VocabularyDrawer: React.FC<VocabularyDrawerProps> = ({ isOpen, onClose }) => {
+export const VocabularyDrawer: React.FC<VocabularyDrawerProps> = ({ isOpen, onClose, vocabulary = [] }) => {
   if (!isOpen) return null;
 
-  const [words, setWords] = useState<SavedWord[]>(StorageService.getSavedWords());
+  const [words, setWords] = useState<SavedWord[]>(StorageService.getVocabulary());
 
   const handleToggleMemorized = (wordStr: string) => {
     const updated = words.map(w => w.word === wordStr ? { ...w, memorized: !w.memorized } : w);

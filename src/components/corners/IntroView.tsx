@@ -3,12 +3,15 @@ import { LessonData } from '../../types/lesson';
 import { StorageService } from '../../services/storageService';
 import { Sparkles, MessageSquare, ArrowRight, CheckCircle2 } from 'lucide-react';
 
+import { UserProfile } from '../../types/auth';
+
 interface IntroViewProps {
   lesson: LessonData;
   showTeacherAnswers: boolean;
+  user?: UserProfile | null;
 }
 
-export const IntroView: React.FC<IntroViewProps> = ({ lesson, showTeacherAnswers }) => {
+export const IntroView: React.FC<IntroViewProps> = ({ lesson, showTeacherAnswers, user = null }) => {
   const introData = lesson.corners.find(c => c.id === 'introduction')?.activities[0].data;
   const progress = StorageService.getProgress(lesson.lessonNumber);
 
@@ -18,7 +21,7 @@ export const IntroView: React.FC<IntroViewProps> = ({ lesson, showTeacherAnswers
   const handleSaveAnswer = () => {
     progress.topicAnswers.preAnswer = preAnswer;
     StorageService.saveProgress(progress);
-    StorageService.logObservation(lesson.lessonNumber, '도입 질문 답변', `토픽 질문 사전 답변 작성: "${preAnswer}"`);
+    StorageService.logObservation(user, lesson.lessonNumber, '도입 질문 답변', `토픽 질문 사전 답변 작성: "${preAnswer}"`);
     setIsSaved(true);
   };
 

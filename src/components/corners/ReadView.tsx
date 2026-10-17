@@ -16,9 +16,9 @@ export const ReadView: React.FC<ReadViewProps> = ({
   onSelectSentence,
 }) => {
   const readCorner = lesson.corners.find(c => c.id === 'read');
-  const activityData = readCorner?.activities[0].data;
-  const beforeData = activityData?.beforeYouRead;
-  const readingData = activityData?.reading;
+  const beforeData = readCorner?.activities.find(a => a.activityId === 'read_before')?.data.beforeYouRead;
+  const readingData = readCorner?.activities.find(a => a.activityId === 'read_interactive_viewer')?.data.reading;
+  const readFurtherData = readCorner?.activities.find(a => a.activityId === 'read_further')?.data.readFurther;
 
   // Before you read 어휘 퀴즈 상태
   const [vocabAnswers, setVocabAnswers] = useState<{ [idx: number]: string }>({});
@@ -118,7 +118,7 @@ export const ReadView: React.FC<ReadViewProps> = ({
 
           {/* Quick Filter Tabs */}
           <div className="flex flex-wrap gap-1.5">
-            {['all', 'Part 1', 'Day 1', 'Day 4', 'Day 7', 'Day 14', 'Read Further'].map(tab => (
+            {['all', 'Part 1', 'Day 1', 'Day 4', 'Day 7', 'Day 11', 'Day 14', 'Read Further'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -136,43 +136,32 @@ export const ReadView: React.FC<ReadViewProps> = ({
         </div>
 
         {/* Read Further Special Tab */}
-        {activeTab === 'Read Further' && (
+        {activeTab === 'Read Further' && readFurtherData && (
           <div className="p-6 space-y-6">
             <div className="bg-indigo-50/70 p-5 rounded-2xl border border-indigo-200 space-y-4">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-xs font-bold">Read Further (p. 21)</span>
-                <h3 className="font-bold text-slate-900 text-base">Volunteering Online</h3>
+                <h3 className="font-bold text-slate-900 text-base">{readFurtherData.title}</h3>
               </div>
-              <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">
-                Volunteering has a great deal of benefits. Not only do you make a positive impact on someone’s life, but you gain valuable skills for your career. It even reduces stress and anxiety. With busy schedules, it can be hard to find the time to commit to volunteer work. These days, however, you can make a huge difference in the lives of others from your own home by virtually volunteering. Here are a few ways to virtually volunteer.
-              </p>
+              {readFurtherData.source && (
+                <p className="text-[11px] text-slate-500 italic">
+                  출처: {readFurtherData.source}
+                </p>
+              )}
 
-              <div className="space-y-3 pt-2">
-                <div className="bg-white p-3.5 rounded-xl border border-indigo-100">
-                  <h4 className="font-bold text-xs text-indigo-700 mb-1">1. Phone Friends for Senior Citizens</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    First, you could be a part of the effort to lend support to senior citizens who struggle with loneliness. Typically, volunteer “phone friends” make regular calls to chat and check in with these people.
+              <div className="space-y-3 pt-2 text-xs sm:text-sm text-slate-800 leading-relaxed">
+                {readFurtherData.paragraphs?.map((p) => (
+                  <p key={p.paragraphNumber} className="p-3 bg-white rounded-xl border border-indigo-100">
+                    {p.text}
                   </p>
-                </div>
-                <div className="bg-white p-3.5 rounded-xl border border-indigo-100">
-                  <h4 className="font-bold text-xs text-indigo-700 mb-1">2. Visual Assistance via Live Video Call</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Second, you can help people with low or no vision with their everyday tasks. Through a live video call, you can offer visual assistance to those who need it with tasks such as reading “use by” dates and instructions on food packages.
-                  </p>
-                </div>
-                <div className="bg-white p-3.5 rounded-xl border border-indigo-100">
-                  <h4 className="font-bold text-xs text-indigo-700 mb-1">3. Wildlife Monitoring and Conservation</h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Finally, if you have an interest in wildlife and its conservation, you can help with animal monitoring work by watching live videos of animal habitats around the world. Monitoring these animals helps protect wildlife and develop methods of conserving them.
-                  </p>
-                </div>
+                ))}
               </div>
 
               <div className="pt-2 border-t border-indigo-200 text-xs">
-                <p className="font-bold text-slate-900 mb-1">Q. Among the three ways of volunteering online, which would you like to try and why?</p>
+                <p className="font-bold text-slate-900 mb-1">{readFurtherData.question}</p>
                 {showTeacherAnswers && (
                   <p className="text-emerald-800 bg-emerald-50 p-2.5 rounded-lg">
-                    🔑 [교과서 예시답안 (p.152)]: I would like to become a phone friend for senior citizens because I like chatting with others and meeting new people.
+                    🔑 [교과서 예시답안 (p.152)]: {readFurtherData.sampleAnswer}
                   </p>
                 )}
               </div>

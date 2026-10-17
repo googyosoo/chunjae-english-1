@@ -59,7 +59,8 @@ describe('교과서 PDF 원문 100% 대조 무결성 테스트 (Content Integrit
     const rf = readCorner.activities.find((a: any) => a.activityId === 'read_further');
     expect(rf).toBeDefined();
     expect(rf.data.readFurther.title).toBe('Volunteering Online');
-    expect(rf.data.readFurther.ways.length).toBe(3);
+    expect(rf.data.readFurther.paragraphs.length).toBe(3);
+    expect(rf.data.readFurther.paragraphs[0].text).toContain('Volunteering has a great deal of benefits');
   });
 
   it('7. Details T/F(p.19) 4문항과 정답이 T, F, F, T로 원문과 일치해야 한다', () => {

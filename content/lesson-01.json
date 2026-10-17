@@ -662,7 +662,7 @@
                   "id": "p_15",
                   "part": "Part 2",
                   "day": "Day 1",
-                  "heading": "Part 2   My Two-week Detox - Day 1",
+                  "heading": "Part 2   My Two-week Detox",
                   "sentences": [
                     {
                       "id": "s_15_1",
@@ -742,7 +742,7 @@
                   "id": "p_16",
                   "part": "Part 2",
                   "day": "Day 4",
-                  "heading": "Day 4: Rediscovering the World and the Old Guitar",
+                  "heading": "Day 4",
                   "sentences": [
                     {
                       "id": "s_16_1",
@@ -824,10 +824,10 @@
                   ]
                 },
                 {
-                  "id": "p_17",
+                  "id": "p_17_7",
                   "part": "Part 2",
                   "day": "Day 7",
-                  "heading": "Day 7 & Day 11: A Momentary Slip and True Freedom",
+                  "heading": "Day 7",
                   "sentences": [
                     {
                       "id": "s_17_1",
@@ -848,7 +848,22 @@
                       "id": "s_17_4",
                       "en": "I really shouldn’t have gone back to a social media site in the middle of my detox.",
                       "ko": "디톡스 중간에 결코 SNS 사이트에 다시 들어가지 말았어야 했다."
-                    },
+                    }
+                  ],
+                  "marginalQuestions": [
+                    {
+                      "qNumber": "Q8",
+                      "question": "When Selena visited a social media site, how did she feel?",
+                      "sampleAnswer": "She had a weird feeling of being at a place where she didn’t belong, and then she felt a sense of guilt."
+                    }
+                  ]
+                },
+                {
+                  "id": "p_17_11",
+                  "part": "Part 2",
+                  "day": "Day 11",
+                  "heading": "Day 11",
+                  "sentences": [
                     {
                       "id": "s_17_5",
                       "en": "This was the first day my phone felt more like a brick in my pocket than a digital device.",
@@ -877,11 +892,6 @@
                   ],
                   "marginalQuestions": [
                     {
-                      "qNumber": "Q8",
-                      "question": "When Selena visited a social media site, how did she feel?",
-                      "sampleAnswer": "She had a weird feeling of being at a place where she didn’t belong, and then she felt a sense of guilt."
-                    },
-                    {
                       "qNumber": "Q9",
                       "question": "At the gathering with friends, what was Selena repeatedly asked about?",
                       "sampleAnswer": "She was asked about how she was surviving without social media."
@@ -892,7 +902,7 @@
                   "id": "p_18",
                   "part": "Part 2",
                   "day": "Day 14",
-                  "heading": "Day 14: Being in Control of My Own Life",
+                  "heading": "Day 14",
                   "sentences": [
                     {
                       "id": "s_18_1",
@@ -950,25 +960,21 @@
           "data": {
             "readFurther": {
               "title": "Volunteering Online",
-              "intro": "Volunteering has a great deal of benefits. Not only do you make a positive impact on someone’s life, but you gain valuable skills for your career. It even reduces stress and anxiety. With busy schedules, it can be hard to find the time to commit to volunteer work. These days, however, you can make a huge difference in the lives of others from your own home by virtually volunteering. Here are a few ways to virtually volunteer.",
-              "ways": [
+              "source": "Give a grad a go, Virtual volunteering ideas for students",
+              "paragraphs": [
                 {
-                  "step": 1,
-                  "title": "Phone Friends for Senior Citizens",
-                  "desc": "First, you could be a part of the effort to lend support to senior citizens who struggle with loneliness. Typically, volunteer “phone friends” make regular calls to chat and check in with these people."
+                  "paragraphNumber": 1,
+                  "text": "Volunteering has a great deal of benefits. Not only do you make a positive impact on someone’s life, but you gain valuable skills for your career. It even reduces stress and anxiety. With busy schedules, it can be hard to find the time to commit to volunteer work. These days, however, you can make a huge difference in the lives of others from your own home by virtually volunteering. Here are a few ways to virtually volunteer."
                 },
                 {
-                  "step": 2,
-                  "title": "Visual Assistance via Live Video Call",
-                  "desc": "Second, you can help people with low or no vision with their everyday tasks. Through a live video call, you can offer visual assistance to those who need it with tasks such as reading “use by” dates and instructions on food packages, which helps them to lead more independent lives."
+                  "paragraphNumber": 2,
+                  "text": "First, you could be a part of the effort to lend support to senior citizens who struggle with loneliness. Typically, volunteer “phone friends” make regular calls to chat and check in with these people. Second, you can help people with low or no vision with their everyday tasks. Through a live video call, you can offer visual assistance to those who need it with tasks such as reading “use by” dates and instructions on food packages, which helps them to lead more independent lives. Finally, if you have an interest in wildlife and its conservation, you can help with animal monitoring work by watching live videos of animal habitats around the world. Monitoring these animals helps protect wildlife and develop methods of conserving them."
                 },
                 {
-                  "step": 3,
-                  "title": "Wildlife Monitoring and Conservation",
-                  "desc": "Finally, if you have an interest in wildlife and its conservation, you can help with animal monitoring work by watching live videos of animal habitats around the world. Monitoring these animals helps protect wildlife and develop methods of conserving them."
+                  "paragraphNumber": 3,
+                  "text": "Helping others and giving back to the community can be very rewarding. It can make your day more meaningful and productive. It is also a great way to connect with new people and cultures. For those who believe in karma, if you do good things for others, good things will happen to you!"
                 }
               ],
-              "conclusion": "Helping others and giving back to the community can be very rewarding. It can make your day more meaningful and productive. It is also a great way to connect with new people and cultures. For those who believe in karma, if you do good things for others, good things will happen to you!",
               "question": "Among the three ways of volunteering online, which would you like to try and why?",
               "sampleAnswer": "I would like to become a phone friend for senior citizens because I like chatting with others and meeting new people."
             }
@@ -1395,7 +1401,7 @@
               "modelWriting": {
                 "clubName": "Six Strings",
                 "title": "Six Strings",
-                "text": "Six Strings is a cool place where students can learn to play the guitar, discuss music, show their skills, and teach others. The club performs at school events at least twice a year, so you could get a chance to play on stage. How exciting is that? The club also sometimes participates in community events. You don’t have to bring a guitar; all you need is the willingness to interact with others. Don’t you want to make new friends while having fun playing the guitar and singing along? Come on and sign up now! You won’t regret it. #Six_Strings #school_club #fun_club #guitar #best_club For more information, contact 6strings@simin.hs.kr.",
+                "text": "Six Strings is a cool place where students can learn to play the guitar, discuss music, show their skills, and teach others. The club performs at school events at least twice a year, so you could get a chance to play on stage. How exciting is that? The club also sometimes participates in community events. You don’t have to bring a guitar; all you need is the willingness to interact with others. Don’t you want to make new friends while having fun playing the guitar and singing along? Come on and sign up now! You won’t regret it. #Six_Strings #school_club #fun_club #guitar #best_club For more information, contact 6strings@◯◯◯.hs.kr.",
                 "sections": [
                   {
                     "label": "Club information",
@@ -1415,7 +1421,7 @@
                   },
                   {
                     "label": "Contact information",
-                    "text": "For more information, contact 6strings@simin.hs.kr."
+                    "text": "For more information, contact 6strings@◯◯◯.hs.kr."
                   }
                 ],
                 "headingsBox": [
@@ -1438,7 +1444,7 @@
                   "mainActivities": "• performs at school events at least twice a year\n• participates in community events",
                   "requirements": "the willingness to interact with others",
                   "invitingRemarks": "Come on and sign up now! You won’t regret it.",
-                  "contactInformation": "6strings@simin.hs.kr"
+                  "contactInformation": "6strings@◯◯◯.hs.kr"
                 },
                 "writingTip": "소개하는 동아리의 활동과 목적, 자격 요건과 같은 정보를 넣고, 학생들의 흥미를 끌 효과적인 홍보 문구를 활용합니다."
               },

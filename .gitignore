@@ -22,3 +22,8 @@ Thumbs.db
 
 # Copyrighted Textbooks & PDFs
 *.pdf
+
+# Test Artifacts & Cache
+test-results/
+playwright-report/
+__pycache__/

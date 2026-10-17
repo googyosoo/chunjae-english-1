@@ -6,14 +6,14 @@ import { Users, Play, CheckCircle2, XCircle, Sparkles, HelpCircle } from 'lucide
 
 interface ShareThoughtsViewProps {
   lesson: LessonData;
-  user: UserProfile | null;
-  showTeacherAnswers: boolean;
+  user?: UserProfile | null;
+  showTeacherAnswers?: boolean;
 }
 
 export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
   lesson,
-  user,
-  showTeacherAnswers,
+  user = null,
+  showTeacherAnswers = false,
 }) => {
   const shareCorner = lesson.corners.find(c => c.id === 'share_thoughts');
   const activityData = shareCorner?.activities[0].data;
