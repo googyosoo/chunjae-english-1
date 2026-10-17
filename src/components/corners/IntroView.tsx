@@ -41,7 +41,7 @@ export const IntroView: React.FC<IntroViewProps> = ({ lesson, showTeacherAnswers
             {lesson.title}
           </h1>
           <p className="text-indigo-200 text-sm sm:text-base font-medium max-w-xl mb-6">
-            {lesson.topic} · 디지털 중독과 불안에서 벗어나 나만의 주도권을 되찾는 여정
+            {lesson.topic}
           </p>
 
           {/* Hashtags */}

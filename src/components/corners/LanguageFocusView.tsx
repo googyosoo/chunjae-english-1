@@ -49,11 +49,18 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
         {/* Meaning Box */}
         <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 mb-5">
           <span className="text-xs font-bold text-slate-700 block mb-2">교과서 사전적 의미 분류 (p. 24):</span>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {wordUsesData?.meanings.map(m => (
-              <div key={m.label} className="p-2.5 bg-white rounded-lg border border-slate-200 text-xs">
-                <span className="font-bold text-indigo-600 mr-1.5 uppercase">({m.label})</span>
-                <span className="text-slate-800 font-medium">{m.meaningKo}</span>
+              <div key={m.label} className="p-3 bg-white rounded-lg border border-slate-200 text-xs space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-indigo-600 uppercase bg-indigo-50 px-1.5 py-0.5 rounded text-[11px]">({m.label})</span>
+                  <span className="text-slate-900 font-bold leading-tight">{m.definition}</span>
+                </div>
+                {m.example && (
+                  <p className="text-slate-500 text-[11px] italic pl-1 border-l-2 border-indigo-200">
+                    ex: {m.example}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -63,14 +70,15 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
         <div className="space-y-3">
           {wordUsesData?.sentences.map((item, idx) => {
             const chosen = wordAnswers[item.id];
-            const isCorrect = chosen === item.answerLabel;
+            const isCorrect = chosen === item.answer;
 
             return (
               <div key={item.id} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
                 <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-semibold text-slate-900 text-xs sm:text-sm">{idx + 1}. {item.en}</p>
-                    <p className="text-slate-500 text-[11px] mt-0.5">{item.ko}</p>
+                  <div className="flex-1">
+                    <p className="font-semibold text-slate-900 text-xs sm:text-sm leading-relaxed">
+                      {idx + 1}. {item.text}
+                    </p>
                   </div>
                   <div className="flex gap-1 shrink-0">
                     {wordUsesData.meanings.map(m => (
@@ -98,9 +106,9 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
           })}
         </div>
 
-        {showTeacherAnswers && (
+        {showTeacherAnswers && wordUsesData?.sentences && (
           <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
-            🔑 [교과서 정답키 (p.153)]: 1. c (성찰하다), 2. b (반영하다), 3. a (비추다)
+            🔑 [교과서 정답키 (p.153)]: {wordUsesData.sentences.map((s, idx) => `${idx + 1}. (${s.answer})`).join(', ')}
           </div>
         )}
       </section>
@@ -110,9 +118,10 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
           <div className="flex items-center gap-2 mb-4">
             <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">B</span>
-            <h2 className="text-base font-bold text-slate-900">Common Phrases (교과서 핵심 표현 완성, p. 24)</h2>
+            <h2 className="text-base font-bold text-slate-900">Common Phrases (교과서 핵심 숙어 표현, p. 24)</h2>
           </div>
 
+          {/* Box Phrases */}
           <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 mb-4">
             <span className="text-xs font-bold text-slate-600 block mb-1.5">표현 보관함:</span>
             <div className="flex flex-wrap gap-2">
@@ -124,15 +133,28 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
             </div>
           </div>
 
+          {/* Book Examples */}
+          {commonPhrasesData.bookExamples && commonPhrasesData.bookExamples.length > 0 && (
+            <div className="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 mb-4 space-y-1.5">
+              <span className="text-[11px] font-bold text-indigo-900 block">📖 교과서 본문 속 표현 용례:</span>
+              <ul className="list-disc list-inside space-y-1 text-xs text-indigo-950">
+                {commonPhrasesData.bookExamples.map((ex, idx) => (
+                  <li key={idx} className="leading-relaxed">{ex}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Exercises */}
           <div className="space-y-3">
             {commonPhrasesData.exercises.map((ex, idx) => {
               const val = phraseAnswers[ex.id] || '';
               const isCorrect = val.trim().toLowerCase() === ex.answer.toLowerCase();
 
               return (
-                <div key={ex.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
-                  <div className="text-slate-800 leading-relaxed">
-                    {idx + 1}. {ex.sentence.split('_______')[0]}
+                <div key={ex.id} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+                  <div className="text-slate-800 leading-relaxed font-medium">
+                    {idx + 1}. {ex.sentence.split('[blank]')[0]}
                     <input
                       type="text"
                       value={val}
@@ -141,11 +163,10 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
                       aria-label={`Phrase question ${idx + 1}`}
                       className="mx-1 px-2.5 py-1 border border-slate-300 bg-white rounded-md font-bold text-xs text-indigo-700 inline-block w-36"
                     />
-                    {ex.sentence.split('_______')[1]}
+                    {ex.sentence.split('[blank]')[1] || ''}
                   </div>
-                  <p className="text-[11px] text-slate-500 italic">의미: {ex.ko}</p>
                   {isPhraseChecked && (
-                    <div className="text-[11px] font-bold mt-1">
+                    <div className="text-[11px] font-bold">
                       {isCorrect ? <span className="text-emerald-600">✓ 정답입니다!</span> : <span className="text-rose-600">✗ 정답: {ex.answer}</span>}
                     </div>
                   )}

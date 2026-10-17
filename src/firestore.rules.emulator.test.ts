@@ -53,11 +53,10 @@ describe('Firebase Emulator 기반 Firestore Security Rules 단위 테스트 (@f
     expect(rules).toContain('request.resource.data.teacherApproved == resource.data.teacherApproved');
   });
 
-  describe('Emulator Live Tests (에뮬레이터 구동 시 자동 실행)', () => {
-    it('1. 학생(student_A)은 다른 학생(student_B)의 데이터를 읽거나 쓸 수 없음 (완벽한 격리)', async () => {
+  describe('Emulator Live Tests (에뮬레이터 구동 시 자동 실행, 미구동 시 건너뜀)', () => {
+    it('1. 학생(student_A)은 다른 학생(student_B)의 데이터를 읽거나 쓸 수 없음 (완벽한 격리)', async (ctx) => {
       if (!emulatorRunning || !testEnv) {
-        console.warn('⚠️ Firestore Emulator가 실행 중이지 않아 Live Simulation 검증으로 통과합니다.');
-        expect(rules).toMatch(/match\s+\/students\/\{studentId\}[\s\S]*?allow\s+read:\s*if[\s\S]*?isStudent\(studentId\)/);
+        ctx.skip();
         return;
       }
 
@@ -84,10 +83,9 @@ describe('Firebase Emulator 기반 Firestore Security Rules 단위 테스트 (@f
       }));
     });
 
-    it('2. 학생은 세특 관찰기록의 teacherApproved를 true로 생성하거나 수정할 수 없음', async () => {
+    it('2. 학생은 세특 관찰기록의 teacherApproved를 true로 생성하거나 수정할 수 없음', async (ctx) => {
       if (!emulatorRunning || !testEnv) {
-        console.warn('⚠️ Firestore Emulator가 실행 중이지 않아 Live Simulation 검증으로 통과합니다.');
-        expect(rules).toMatch(/request\.resource\.data\.teacherApproved\s*==\s*false/);
+        ctx.skip();
         return;
       }
 
@@ -110,10 +108,9 @@ describe('Firebase Emulator 기반 Firestore Security Rules 단위 테스트 (@f
       }));
     });
 
-    it('3. 교사(teacher_1)만 teacherApproved를 true로 승인할 수 있음', async () => {
+    it('3. 교사(teacher_1)만 teacherApproved를 true로 승인할 수 있음', async (ctx) => {
       if (!emulatorRunning || !testEnv) {
-        console.warn('⚠️ Firestore Emulator가 실행 중이지 않아 Live Simulation 검증으로 통과합니다.');
-        expect(rules).toContain('isTeacher()');
+        ctx.skip();
         return;
       }
 

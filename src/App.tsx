@@ -22,6 +22,8 @@ import { WritingView } from './components/corners/WritingView';
 import { WrapUpView } from './components/corners/WrapUpView';
 import { Loader2, AlertCircle, ShieldAlert } from 'lucide-react';
 
+import { LessonDataSchema } from './schemas/lessonSchema';
+
 export const App: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [authChecked, setAuthChecked] = useState<boolean>(false);
@@ -40,11 +42,13 @@ export const App: React.FC = () => {
 
   // 1. Firebase 실시간 세션 구독 (onAuthStateChanged)
   useEffect(() => {
-    // E2E 테스트 환경: window.__E2E_USER__ 가 주입된 경우 학생/교사 세션 즉시 설정
-    if (typeof window !== 'undefined' && (window as any).__E2E_USER__) {
-      setUser((window as any).__E2E_USER__);
-      setAuthChecked(true);
-      return;
+    // E2E 테스트/개발 환경: __E2E_USER__ 주입 확인 (프로덕션 빌드 시 조건문 DCE 제거됨)
+    if (import.meta.env.DEV || import.meta.env.MODE === 'test') {
+      if (typeof window !== 'undefined' && (window as any).__E2E_USER__) {
+        setUser((window as any).__E2E_USER__);
+        setAuthChecked(true);
+        return;
+      }
     }
 
     if (!isFirebaseConfigured()) {
@@ -92,17 +96,18 @@ export const App: React.FC = () => {
 
         const res = await fetch('/api/lesson?id=lesson-01', { headers });
         if (!res.ok) {
-          // 로컬 dev 환경 등 서버리스 API 미기동 시 fallback fetch
-          const localRes = await fetch('/content/lesson-01.json');
-          if (localRes.ok) {
-            const data: LessonData = await localRes.json();
-            setLessonData(data);
-            return;
-          }
           throw new Error(`교과서 로드 실패 (${res.status})`);
         }
-        const data: LessonData = await res.json();
-        setLessonData(data);
+        const rawJson = await res.json();
+        
+        // Zod 스키마 런타임 데이터 검증 (데이터 형식 불일치 시 차단)
+        const validated = LessonDataSchema.safeParse(rawJson);
+        if (!validated.success) {
+          console.error('교과서 데이터 Zod 검증 오류:', validated.error.issues);
+          throw new Error('교과서 데이터 규격(Zod Schema) 검증에 실패했습니다.');
+        }
+
+        setLessonData(validated.data);
       } catch (e: any) {
         setLessonLoadError(e.message || '교과서 데이터를 불러오는 중 오류가 발생했습니다.');
       } finally {
@@ -146,7 +151,8 @@ export const App: React.FC = () => {
   };
 
   // Firebase 설정 미비 시 오류 화면 (가짜 더미값 사용 금지, E2E 테스트 모드 제외)
-  if (!isFirebaseConfigured() && authChecked && !(typeof window !== 'undefined' && (window as any).__E2E_USER__)) {
+  const isE2EMode = (import.meta.env.DEV || import.meta.env.MODE === 'test') && typeof window !== 'undefined' && (window as any).__E2E_USER__;
+  if (!isFirebaseConfigured() && authChecked && !isE2EMode) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-3xl p-8 shadow-2xl text-center space-y-5">

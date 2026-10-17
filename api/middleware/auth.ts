@@ -63,18 +63,47 @@ export async function verifyAuthToken(req: any): Promise<AuthenticatedUser> {
     // Default to student if firestore lookup fails
   }
 
-  // 4. Rate Limiting for students (Daily limit)
+  // 4. Rate Limiting for students (Firestore usage/{uid}_{date} 영구 이전)
   if (role === 'student') {
     const today = new Date().toISOString().split('T')[0];
-    const userLimit = dailyCallLimits.get(decodedToken.uid);
+    const usageDocId = `${decodedToken.uid}_${today}`;
+    const usageRef = admin.firestore().collection('usage').doc(usageDocId);
 
-    if (userLimit && userLimit.date === today) {
-      if (userLimit.count >= MAX_CALLS_PER_DAY) {
-        throw new Error(`일일 AI 호출 한도(${MAX_CALLS_PER_DAY}회)를 초과했습니다. 내일 다시 이용해주세요.`);
+    try {
+      await admin.firestore().runTransaction(async (transaction) => {
+        const doc = await transaction.get(usageRef);
+        if (doc.exists) {
+          const currentCount = doc.data()?.count || 0;
+          if (currentCount >= MAX_CALLS_PER_DAY) {
+            throw new Error(`일일 AI 호출 한도(${MAX_CALLS_PER_DAY}회)를 초과했습니다. 내일 다시 이용해주세요.`);
+          }
+          transaction.update(usageRef, {
+            count: admin.firestore.FieldValue.increment(1),
+            lastCallAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+        } else {
+          transaction.set(usageRef, {
+            uid: decodedToken.uid,
+            date: today,
+            count: 1,
+            lastCallAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+        }
+      });
+    } catch (err: any) {
+      if (err.message?.includes('일일 AI 호출 한도')) {
+        throw err;
       }
-      userLimit.count += 1;
-    } else {
-      dailyCallLimits.set(decodedToken.uid, { count: 1, date: today });
+      // Firestore 에뮬레이터 또는 네트워크 불가 시 인메모리 fallback
+      const userLimit = dailyCallLimits.get(decodedToken.uid);
+      if (userLimit && userLimit.date === today) {
+        if (userLimit.count >= MAX_CALLS_PER_DAY) {
+          throw new Error(`일일 AI 호출 한도(${MAX_CALLS_PER_DAY}회)를 초과했습니다. 내일 다시 이용해주세요.`);
+        }
+        userLimit.count += 1;
+      } else {
+        dailyCallLimits.set(decodedToken.uid, { count: 1, date: today });
+      }
     }
   }
 

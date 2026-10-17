@@ -105,25 +105,11 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
               );
             })}
           </div>
-        ) : (
-          <div className="p-4 bg-indigo-50/40 rounded-xl border border-indigo-100 text-sm leading-loose text-slate-800">
-            Selena realized that she suffered from{' '}
-            <select
-              value={selectedWords['blank_1'] || ''}
-              onChange={e => handleSelectWord('blank_1', e.target.value)}
-              aria-label="Summary 빈칸 1"
-              className="px-2 py-0.5 border border-slate-300 bg-white rounded-md font-bold text-indigo-700"
-            >
-              <option value="">(1) 선택</option>
-              {(summaryData?.wordBox || summaryData?.options || []).map(w => <option key={w} value={w}>{w}</option>)}
-            </select>{' '}
-            and decided to take a two-week break from social media.
-          </div>
-        )}
+        ) : null}
 
-        {showTeacherAnswers && (
+        {showTeacherAnswers && summaryData?.items && (
           <div className="mt-3 p-3 bg-emerald-50 rounded-lg text-xs text-emerald-800 font-medium">
-            🔑 [교과서 정답키 (p.152)]: (1) FOMO, (2) out of, (3) guitar, (4) social media site, (5) free, (6) control
+            🔑 [교과서 정답키 (p.152)]: {summaryData.items.map((it, idx) => `(${idx + 1}) ${it.answer}`).join(', ')}
           </div>
         )}
       </section>
@@ -209,7 +195,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
 
           {/* Questions */}
           <div className="space-y-4">
-            {skillData.questions.map((q, idx) => {
+            {skillData.questions?.map((q, idx) => {
               const chosen = skillAnswers[q.id];
               const isCorrect = chosen === q.answer;
 
@@ -221,7 +207,7 @@ export const AfterReadView: React.FC<AfterReadViewProps> = ({ lesson, showTeache
                     </div>
                   )}
                   <p className="font-bold text-slate-900">
-                    {idx + 1}. 밑줄 친 {q.target || q.question}의 문맥적 의미는?
+                    {idx + 1}. 밑줄 친 {q.target || '표현'}의 문맥적 의미는?
                   </p>
                   <div className="grid grid-cols-1 gap-2">
                     {q.options.map(opt => (

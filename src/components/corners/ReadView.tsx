@@ -16,9 +16,19 @@ export const ReadView: React.FC<ReadViewProps> = ({
   onSelectSentence,
 }) => {
   const readCorner = lesson.corners.find(c => c.id === 'read');
-  const beforeData = readCorner?.activities.find(a => a.activityId === 'read_before')?.data.beforeYouRead;
-  const readingData = readCorner?.activities.find(a => a.activityId === 'read_interactive_viewer')?.data.reading;
-  const readFurtherData = readCorner?.activities.find(a => a.activityId === 'read_further')?.data.readFurther;
+  const beforeAct = readCorner?.activities.find(a => a.type === 'before_you_read' || a.activityId === 'read_before');
+  const beforeData = beforeAct?.data;
+  const backgroundCheck = beforeData?.backgroundCheck || [];
+  const vocabularyCheck = beforeData?.vocabularyCheck || [];
+
+  const readingAct = readCorner?.activities.find(a => a.type === 'interactive_reader' || a.activityId === 'read_interactive_viewer');
+  const readingData = readingAct?.data?.reading;
+
+  const readFurtherAct = readCorner?.activities.find(a => a.type === 'read_further' || a.activityId === 'read_further');
+  const readFurtherData = readFurtherAct?.data?.readFurther;
+
+  // Background Check 진단 답변 상태
+  const [bgAnswers, setBgAnswers] = useState<{ [id: string]: string }>({});
 
   // Before you read 어휘 퀴즈 상태
   const [vocabAnswers, setVocabAnswers] = useState<{ [idx: number]: string }>({});
@@ -41,55 +51,96 @@ export const ReadView: React.FC<ReadViewProps> = ({
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Before You Read: 어휘 및 사전 점검 */}
-      <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
-        <div className="flex items-center gap-2 mb-4">
+      <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-6">
+        <div className="flex items-center gap-2">
           <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">A</span>
-          <h2 className="text-base font-bold text-slate-900">Before You Read: Background & Vocabulary Check</h2>
+          <h2 className="text-base font-bold text-slate-900">Before You Read (p. 12)</h2>
         </div>
 
-        {/* Vocabulary Check Interactive Cards */}
-        <div className="space-y-3">
-          <p className="text-xs text-slate-500 font-medium">💡 본문 등장 핵심 어휘를 빈칸에 맞춰보세요 (p.12):</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {beforeData?.vocabularyCheck.map((item, idx) => {
-              const isSelected = vocabAnswers[idx];
-              const isCorrect = isSelected === item.answer;
-              return (
-                <div key={idx} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
-                  <p className="font-medium text-slate-800 leading-snug">
-                    {item.sentence.replace('[blank]', '_______')}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {item.options.map(opt => (
-                      <button
-                        key={opt}
-                        onClick={() => setVocabAnswers(prev => ({ ...prev, [idx]: opt }))}
-                        className={`px-2.5 py-1 rounded-md font-semibold transition-all ${
-                          isSelected === opt
-                            ? isCorrect
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-rose-600 text-white'
-                            : 'bg-white text-slate-700 border border-slate-300 hover:border-indigo-400'
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  {isSelected && (
-                    <div className="text-[11px] font-bold">
-                      {isCorrect ? (
-                        <span className="text-emerald-600">✓ 정답입니다!</span>
-                      ) : (
-                        <span className="text-rose-600">✗ 다시 풀어보세요.</span>
-                      )}
+        {/* 1. Background Check (6문항: rarely / often / always) */}
+        {backgroundCheck.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-slate-700">📋 Background Check: How often do you do the following?</h3>
+              <span className="text-[11px] text-slate-400 font-medium">자신의 스마트폰 사용 습관을 점검해보세요</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+              {backgroundCheck.map((item, idx) => {
+                const selectedOpt = bgAnswers[item.id];
+                return (
+                  <div key={item.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
+                    <p className="font-semibold text-slate-800 leading-snug">
+                      {idx + 1}. {item.statement}
+                    </p>
+                    <div className="flex gap-1.5">
+                      {item.options.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setBgAnswers(prev => ({ ...prev, [item.id]: opt }))}
+                          aria-label={`Background check ${idx + 1} ${opt}`}
+                          className={`flex-1 py-1 px-2 rounded-lg font-bold text-center text-[11px] transition-all capitalize ${
+                            selectedOpt === opt
+                              ? 'bg-indigo-600 text-white shadow-xs'
+                              : 'bg-white text-slate-600 border border-slate-200 hover:border-indigo-300'
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* 2. Vocabulary Check (4문항 어휘 빈칸 채우기) */}
+        {vocabularyCheck.length > 0 && (
+          <div className="space-y-3 pt-4 border-t border-slate-100">
+            <h3 className="text-xs font-bold text-slate-700">💡 Vocabulary Check: 본문 핵심 어휘를 빈칸에 맞춰보세요 (p. 12)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {vocabularyCheck.map((item, idx) => {
+                const isSelected = vocabAnswers[idx];
+                const isCorrect = isSelected === item.answer;
+                return (
+                  <div key={item.id || idx} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2">
+                    <p className="font-medium text-slate-800 leading-snug">
+                      {item.sentence.replace('[blank]', '_______')}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {item.options.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setVocabAnswers(prev => ({ ...prev, [idx]: opt }))}
+                          aria-label={`Vocabulary check ${idx + 1} ${opt}`}
+                          className={`px-2.5 py-1 rounded-md font-semibold transition-all ${
+                            isSelected === opt
+                              ? isCorrect
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-rose-600 text-white'
+                              : 'bg-white text-slate-700 border border-slate-300 hover:border-indigo-400'
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                    {isSelected && (
+                      <div className="text-[11px] font-bold">
+                        {isCorrect ? (
+                          <span className="text-emerald-600">✓ 정답입니다!</span>
+                        ) : (
+                          <span className="text-rose-600">✗ 다시 풀어보세요.</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Reading Tip Banner */}

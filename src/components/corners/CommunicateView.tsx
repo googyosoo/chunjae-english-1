@@ -42,11 +42,12 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
 
   const handleCheckChart = () => {
     setChartChecked(true);
+    const correctAnswers = listenWriteData?.chartData.filter(d => d.hasBlank).map(d => d.correctWord).join(', ') || '';
     StorageService.logObservation(
       null,
       lesson.lessonNumber,
       '듣기 차트 빈칸 제출',
-      `입력값: ${JSON.stringify(chartInputs)}, 정답: connections, information, positive`
+      `입력값: ${JSON.stringify(chartInputs)}, 정답: ${correctAnswers}`
     );
   };
 
@@ -56,22 +57,26 @@ export const CommunicateView: React.FC<CommunicateViewProps> = ({ lesson, showTe
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200 space-y-5">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
           <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">A</span>
-          <h2 className="text-base font-bold text-slate-900">Watch and Think: Separation Anxiety from Phones</h2>
+          <h2 className="text-base font-bold text-slate-900">Watch and Think: {watchData?.videoTitle}</h2>
         </div>
 
         {/* Real YouTube Video Embed */}
-        <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-video bg-black">
-          <iframe
-            src={watchData?.youtubeUrl || 'https://www.youtube.com/embed/-YXK2vy8Y90'}
-            title={watchData?.videoTitle || 'Kids on the pressures of having a cell phone'}
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-        <p className="text-[11px] text-slate-500 italic">
-          출처: {watchData?.sourceCitation || 'CBS, Kids on the pressures of having a cell phone, social media at an early age, 2022'}
-        </p>
+        {watchData?.youtubeUrl && (
+          <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-video bg-black">
+            <iframe
+              src={watchData.youtubeUrl}
+              title={watchData.videoTitle || 'Video player'}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        )}
+        {watchData?.sourceCitation && (
+          <p className="text-[11px] text-slate-500 italic">
+            출처: {watchData.sourceCitation}
+          </p>
+        )}
 
         {/* Script & TTS Player (Scripts p.142 원문 그대로) */}
         <div className="space-y-2">

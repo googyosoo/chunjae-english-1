@@ -72,7 +72,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
       <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
         <div className="flex items-center gap-2 mb-3">
           <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">M</span>
-          <h2 className="text-base font-bold text-slate-900">Model Writing: Six Strings 기타 동아리 홍보글 (p. 26)</h2>
+          <h2 className="text-base font-bold text-slate-900">Model Writing: {workspace?.modelWriting.title} (p. 26)</h2>
         </div>
         <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
           <h3 className="font-bold text-indigo-900 text-sm">{workspace?.modelWriting.title}</h3>
@@ -81,7 +81,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
           </p>
 
           <div className="pt-2 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            {workspace?.modelWriting.sections.map((sec, idx) => (
+            {workspace?.modelWriting.sections?.map((sec, idx) => (
               <div key={idx} className="bg-white p-2.5 rounded-lg border border-slate-200/80">
                 <span className="font-bold text-indigo-600 block mb-0.5">{sec.label || sec.name}</span>
                 <span className="text-slate-600 leading-snug">{sec.text}</span>
@@ -136,7 +136,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
           홍보할 동아리의 핵심 정보를 입력하세요. 교과서 모범 예시를 참고하여 작성할 수 있습니다.
         </p>
 
-        {workspace?.step2Outline.writingTip && (
+        {workspace?.step2Outline?.writingTip && (
           <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 mb-4">
             💡 <span className="font-bold">Writing Tip:</span> {workspace.step2Outline.writingTip}
           </div>
@@ -149,7 +149,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.clubInformation}
               onChange={e => setOutline(prev => ({ ...prev, clubInformation: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline.example?.clubInformation || 'a place where students learn...'}`}
+              placeholder={`예: ${workspace?.step2Outline?.example?.['clubInformation'] || 'a place where students learn...'}`}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -171,7 +171,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.requirements}
               onChange={e => setOutline(prev => ({ ...prev, requirements: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline.example?.requirements || 'willingness to interact with others'}`}
+              placeholder={`예: ${workspace?.step2Outline?.example?.['requirements'] || 'willingness to interact with others'}`}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -182,7 +182,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.invitingRemarks}
               onChange={e => setOutline(prev => ({ ...prev, invitingRemarks: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline.example?.invitingRemarks || 'Come on and sign up now!'}`}
+              placeholder={`예: ${workspace?.step2Outline?.example?.['invitingRemarks'] || 'Come on and sign up now!'}`}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -193,7 +193,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
               type="text"
               value={outline.contactInformation}
               onChange={e => setOutline(prev => ({ ...prev, contactInformation: e.target.value }))}
-              placeholder={`예: ${workspace?.step2Outline.example?.contactInformation || '6strings@◯◯◯.hs.kr'}`}
+              placeholder={`예: ${workspace?.step2Outline?.example?.['contactInformation'] || '6strings@◯◯◯.hs.kr'}`}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
@@ -285,7 +285,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
         </p>
 
         <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 text-xs leading-relaxed text-slate-800 font-mono">
-          <p>{workspace?.step4Revise.editingPractice.textWithErrors}</p>
+          <p>{workspace?.step4Revise?.editingPractice?.textWithErrors}</p>
         </div>
 
         <div className="mt-4 flex justify-between items-center">
@@ -302,7 +302,7 @@ export const WritingView: React.FC<WritingViewProps> = ({ lesson, showTeacherAns
           <div className="mt-3 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 space-y-2">
             <span className="font-bold block">교과서 오류 정정 내역 (p. 28):</span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {workspace?.step4Revise.editingPractice.corrections.map((c, idx) => (
+              {workspace?.step4Revise?.editingPractice?.corrections.map((c, idx) => (
                 <div key={idx} className="bg-white p-2 rounded-lg border border-emerald-100 flex items-center justify-between">
                   <span className="text-rose-600 line-through font-mono">{c.original}</span>
                   <span className="text-slate-400">➔</span>

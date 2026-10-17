@@ -64,18 +64,22 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
         </div>
 
         {/* Real YouTube Video Embed */}
-        <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-video bg-black">
-          <iframe
-            src={shareData?.youtubeUrl || 'https://www.youtube.com/embed/ybCoDEZ8sP8'}
-            title={shareData?.videoTitle || 'Being a good digital citizen'}
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-        <p className="text-[11px] text-slate-500 italic">
-          출처: {shareData?.sourceCitation || 'CGFGlobal, Being a good digital citizen, 2023 (교과서 p.169 Sources)'}
-        </p>
+        {shareData?.youtubeUrl && (
+          <div className="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-video bg-black">
+            <iframe
+              src={shareData.youtubeUrl}
+              title={shareData.videoTitle || 'Video player'}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        )}
+        {shareData?.sourceCitation && (
+          <p className="text-[11px] text-slate-500 italic">
+            출처: {shareData.sourceCitation}
+          </p>
+        )}
 
         {/* 1. Multiple Choice Quiz */}
         <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
@@ -164,9 +168,9 @@ export const ShareThoughtsView: React.FC<ShareThoughtsViewProps> = ({
             </p>
           </div>
 
-          {showTeacherAnswers && (
+          {showTeacherAnswers && shareData?.step1?.quiz2?.answers && (
             <div className="p-2.5 bg-emerald-50 text-emerald-800 rounded text-xs font-semibold">
-              🔑 정답: (1) digital citizen, (2) real people, (3) arguing
+              🔑 정답: {Object.entries(shareData.step1.quiz2.answers).map(([k, v], idx) => `(${idx + 1}) ${v}`).join(', ')}
             </div>
           )}
         </div>
