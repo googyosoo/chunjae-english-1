@@ -11,6 +11,7 @@ import { ProjectorToolbar } from './components/common/ProjectorToolbar';
 import { SentenceModal } from './components/common/SentenceModal';
 import { VocabularyDrawer } from './components/common/VocabularyDrawer';
 import { LoginModal } from './components/common/LoginModal';
+import { GrammarPictureBookModal } from './components/common/GrammarPictureBookModal';
 
 import { IntroView } from './components/corners/IntroView';
 import { CommunicateView } from './components/corners/CommunicateView';
@@ -60,6 +61,7 @@ export const App: React.FC = () => {
   const [activeCornerId, setActiveCornerId] = useState<CornerId>('introduction');
   const [selectedSentence, setSelectedSentence] = useState<SentenceItem | null>(null);
   const [isVocabOpen, setIsVocabOpen] = useState<boolean>(false);
+  const [isGrammarBookOpen, setIsGrammarBookOpen] = useState<boolean>(false);
   const [showTeacherAnswers, setShowTeacherAnswers] = useState<boolean>(false);
   const [completedCorners, setCompletedCorners] = useState<string[]>([]);
   const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState<boolean>(false);
@@ -320,6 +322,7 @@ export const App: React.FC = () => {
           setShowTeacherAnswers(m === 'teacher');
         }}
         onOpenVocab={() => setIsVocabOpen(true)}
+        onOpenGrammarBook={() => setIsGrammarBookOpen(true)}
         onSelectLessonList={() => setIsHubOpen(true)}
         onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
         onLogout={handleLogout}
@@ -442,7 +445,12 @@ export const App: React.FC = () => {
                     <ShareThoughtsView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
                   )}
                   {activeCornerId === 'language_focus' && (
-                    <LanguageFocusView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
+                    <LanguageFocusView
+                      lesson={lessonData}
+                      showTeacherAnswers={showTeacherAnswers}
+                      user={user}
+                      onOpenGrammarBook={() => setIsGrammarBookOpen(true)}
+                    />
                   )}
                   {activeCornerId === 'write_present' && (
                     <WritingView lesson={lessonData} showTeacherAnswers={showTeacherAnswers} user={user} />
@@ -480,6 +488,12 @@ export const App: React.FC = () => {
           lessonContextText=""
         />
       )}
+
+      {/* Grammar Picture Book Library Modal */}
+      <GrammarPictureBookModal
+        isOpen={isGrammarBookOpen}
+        onClose={() => setIsGrammarBookOpen(false)}
+      />
 
       {/* Teacher Dashboard Modal (교사용 학급 운영 스튜디오) */}
       {user && user.role === 'teacher' && (

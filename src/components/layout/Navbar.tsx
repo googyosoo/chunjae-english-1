@@ -10,6 +10,7 @@ interface NavbarProps {
   lessonTitle?: string;
   onModeChange: (mode: 'student' | 'teacher') => void;
   onOpenVocab: () => void;
+  onOpenGrammarBook?: () => void;
   onSelectLessonList?: () => void;
   onOpenTeacherDashboard?: () => void;
   onLogout: () => void;
@@ -22,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   lessonTitle = 'Digital Well-being',
   onModeChange,
   onOpenVocab,
+  onOpenGrammarBook,
   onSelectLessonList,
   onOpenTeacherDashboard,
   onLogout,
@@ -129,6 +131,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
               )}
             </div>
+          )}
+
+          {/* Grammar Book Button */}
+          {onOpenGrammarBook && (
+            <button
+              onClick={onOpenGrammarBook}
+              aria-label="영문법 그림책 열기"
+              title="笑える英文法 絵本 (Illustrated Grammar Book)"
+              className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all shadow-2xs"
+            >
+              <span className="text-sm">🎨</span>
+              <span className="hidden lg:inline">Grammar Book</span>
+            </button>
           )}
 
           {/* My Vocab Button */}

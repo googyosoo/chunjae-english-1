@@ -9,9 +9,15 @@ interface LanguageFocusViewProps {
   lesson: LessonData;
   showTeacherAnswers: boolean;
   user?: UserProfile | null;
+  onOpenGrammarBook?: () => void;
 }
 
-export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, showTeacherAnswers, user = null }) => {
+export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({
+  lesson,
+  showTeacherAnswers,
+  user = null,
+  onOpenGrammarBook,
+}) => {
   const [isVariantModalOpen, setIsVariantModalOpen] = useState<boolean>(false);
   const langCorner = lesson.corners.find(c => c.id === 'language_focus');
   const activities = langCorner?.activities || [];
@@ -56,6 +62,36 @@ export const LanguageFocusView: React.FC<LanguageFocusViewProps> = ({ lesson, sh
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+      {/* Grammar Picture Book Library Banner */}
+      {onOpenGrammarBook && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-200 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-900 flex items-center justify-center text-lg font-black shadow-sm shrink-0">
+              🎨
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-bold text-slate-900 text-sm sm:text-base">
+                  Illustrated English Grammar Library
+                </h3>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-200 text-amber-900">
+                  笑える英文法 絵本
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5">
+                15개 챕터 122페이지 영문법 그림책 (호버 인라인 사전 · 실시간 단어 추적 음성 탑재)
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onOpenGrammarBook}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs shadow-sm hover:shadow transition-all shrink-0 cursor-pointer"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>그림책으로 문법 보기</span>
+          </button>
+        </div>
+      )}
       {/* A. Word Uses */}
       {wordUsesData && (
         <section className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200">
